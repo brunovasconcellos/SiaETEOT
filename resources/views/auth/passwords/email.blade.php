@@ -22,9 +22,9 @@
 
                                 @error('email')
 
-                                <span class="invalid-feedback" role="alert">
-                                <strong>Não encontramos este endereço de e-mail.</strong>
-                            </span>
+                                <span class="invalid-feedback mb-4 text-center" role="alert">
+                                    <strong>Não encontramos este endereço de e-mail.</strong>
+                                </span>
 
                                 @enderror
 

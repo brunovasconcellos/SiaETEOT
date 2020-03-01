@@ -1,5 +1,7 @@
 @extends("auth.layout_auth.layoutAuth")
+
 @section("body")
+
 <body class="bg-light login-body">
 
 <section class="login-container">
@@ -28,7 +30,7 @@
 
                                         @error('email')
 
-                                        <span class="invalid-feedback" role="alert">
+                                        <span class="invalid-feedback text-center" role="alert">
                                                     <strong>E-mail ou senha invalidos.</strong>
                                                 </span>
 
@@ -67,4 +69,5 @@
 </section>
 
 </body>
+
 @endsection
