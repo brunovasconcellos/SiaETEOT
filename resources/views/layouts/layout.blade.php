@@ -12,7 +12,7 @@
 </head>
 
 <body>
-@
+
 
 @hassection("body")
 @yield("body")

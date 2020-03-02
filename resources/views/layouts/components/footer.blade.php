@@ -24,4 +24,9 @@
                   </ul>
             </div>
       </div>
+
+      <div class="baixo-rodape">
+            <p>Todos direitos reservados à equipe do <span class="negrito"> Sia ETEOT</span></p>
+      </div>
+
 </footer>

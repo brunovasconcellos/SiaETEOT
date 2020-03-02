@@ -1,0 +1,38 @@
+$bg-footer: rgb(24, 25, 26);
+$txt-color: white;
+
+.footer{
+      background: $bg-footer;
+      color: $txt-color;
+}
+
+.footer .row{
+      margin: 0 auto;
+      text-align: center;
+}
+
+.footer .row ul{
+      list-style: none;
+}
+
+.footer .row ul li{
+      padding: 10px;
+      padding-top: 15px;
+      padding-bottom: 15px;
+}
+
+.baixo-rodape{
+      border-top: 1px solid rgba(255, 255, 255, 0.4);
+      background: #000;
+      text-align: center;
+      
+}
+
+.baixo-rodape::before{
+      content: '';
+      background: linear-gradient(90deg, blue, purple);
+      width: 40px;
+      height: 2px;
+      display: block;
+      margin: 0 auto;
+}
