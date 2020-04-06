@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateParentStudentsTable extends Migration
+class CreateStudentComplementsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,15 @@ class CreateParentStudentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('parent_students', function (Blueprint $table) {
-            $table->bigIncrements('paren_stud_id');
-            $table->string("kinship");
-            $table->bigInteger("user_id")->unsigned();
-            $table->bigInteger("student_registration")->unsigned();
+        Schema::create('student_complements', function (Blueprint $table) {
+            $table->bigIncrements('student_registration');
+            $table->string("ingress_type");
+            $table->string("ingress_form");
+            $table->string("vagacy_type");
+            $table->string("last_school");
+            $table->string("ident_educacenso");
+            $table->year("year_last_grade");
             $table->timestamps();
-            $table->foreign("user_id")->references("user_id")->on("users");
             $table->foreign("student_registration")->references("student_registration")->on("students");
         });
     }
@@ -31,6 +33,6 @@ class CreateParentStudentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('parent_students');
+        Schema::dropIfExists('student_complements');
     }
 }

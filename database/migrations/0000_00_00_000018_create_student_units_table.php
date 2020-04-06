@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateParentsTable extends Migration
+class CreateStudentUnitsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateParentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('parents', function (Blueprint $table) {
-            $table->bigIncrements('parent_id');
-            $table->bigInteger("user_id")->unsigned();
+        Schema::create('student_units', function (Blueprint $table) {
+            $table->bigIncrements('su_id');
+            $table->text("su_name");
+            $table->integer("su_phone");
             $table->timestamps();
-            $table->foreign("user_id")->references("user_id")->on("users");
         });
     }
 
@@ -28,6 +28,6 @@ class CreateParentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('parents');
+        Schema::dropIfExists('student_units');
     }
 }

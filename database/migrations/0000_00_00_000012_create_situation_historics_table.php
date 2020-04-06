@@ -17,9 +17,9 @@ class CreateSituationHistoricsTable extends Migration
             $table->bigIncrements('situat_hist_id');
             $table->string("situation");
             $table->date("dt_situation");
-            $table->bigInteger("student_id")->unsigned();
+            $table->bigInteger("student_registration")->unsigned();
             $table->timestamps();
-            $table->foreign("student_id")->references("student_id")->on("students");
+            $table->foreign("student_registration")->references("student_registration")->on("students");
         });
     }
 

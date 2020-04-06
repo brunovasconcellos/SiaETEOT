@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateParentStudentsTable extends Migration
+class CreateTransferSusTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,16 @@ class CreateParentStudentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('parent_students', function (Blueprint $table) {
-            $table->bigIncrements('paren_stud_id');
-            $table->string("kinship");
-            $table->bigInteger("user_id")->unsigned();
+        Schema::create('transfer_sus', function (Blueprint $table) {
+            $table->bigIncrements('trans_id');
+            $table->integer("process_number");
+            $table->timestamp("transfer_date");
+            $table->string("transfer_type");
             $table->bigInteger("student_registration")->unsigned();
+            $table->bigInteger("su_id")->unsigned();
             $table->timestamps();
-            $table->foreign("user_id")->references("user_id")->on("users");
             $table->foreign("student_registration")->references("student_registration")->on("students");
+            $table->foreign("su_id")->references("su_id")->on("student_units");
         });
     }
 
@@ -31,6 +33,6 @@ class CreateParentStudentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('parent_students');
+        Schema::dropIfExists('transfer_sus');
     }
 }
