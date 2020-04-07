@@ -14,7 +14,7 @@ class CreateStudentComplementsTable extends Migration
     public function up()
     {
         Schema::create('student_complements', function (Blueprint $table) {
-            $table->bigIncrements('student_registration');
+            $table->bigIncrements('student_registration')->unsigned();
             $table->string("ingress_type");
             $table->string("ingress_form");
             $table->string("vagacy_type");

@@ -25,7 +25,9 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->integer("cell_phone");
             $table->boolean("active");
-            $table->integer("rg");
+            $table->string("identity_rg");
+            $table->date("identity_em_dt");
+            $table->string("identity_issuing_authority");
             $table->integer("cpf");
             $table->bigInteger("cep_user")->unsigned();
             $table->bigInteger("contact_id")->unsigned();
