@@ -1,17 +1,14 @@
-@extends('layouts.app')
+@extends('auth.layout_auth.layoutAuth')
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+@section('body')
+<div class="bg-resetsenha">
+    <div class="resetsenha-geral">
+        <div class="resetsenha-div">
+            <div class="row">
+                <div class="    ">{{ __('Reset Password') }}</div>
 
-                <div class="card-body">
+                <div class="col-md-4 inputs-resetsenha">
                     <form method="POST" action="{{ route('password.update') }}">
-                        @csrf
-
-                        <input type="hidden" name="token" value="{{ $token }}">
 
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>

@@ -1,0 +1,102 @@
+
+
+.bg-resetsenha{
+    /*background: linear-gradient(to top, #f9fafb, #e2f4ff);*/
+    /*background: linear-gradient(45deg, #fff, #00cae0);*/
+    /*background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,1)), url("content/fundo-login.jpg");*/
+    /*background: #f9fafb;*/
+    background: url("content/bg-reset2.jpg");
+    background-size: cover;
+}
+
+.imagem-resetsenha{
+    background: url("content/bg-reset.jpg");
+    background-size: cover ;
+    box-shadow: 5px 0px 20px 0px #c5e6f56b;
+    height: 65vh;
+    z-index: 1;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+
+}
+
+.inputs-resetsenha{
+    background: #fff;
+    /*border-left: 2px solid #00a3e0;*/
+    /*box-shadow: inset 15px 0px 20px 0px #00a3e0;*/
+}
+
+.resetsenha{
+    /*background: url('content/senhavetor.png');*/
+}
+
+.resetsenha-geral{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.resetsenha-div{
+    min-width: 80%;
+    box-shadow: 0px 10px 40px 0px #e4f1ff;
+}
+
+.inputs-resetsenha input{
+    border: none;
+    border-radius: 40px;
+    padding: 20px;
+    border: 1px solid gray;
+    margin: 0 auto;
+    display: flex;
+}
+
+.inputs-resetsenha p{
+    text-align: center;
+    margin-top: 20px;
+    color: #abacaf;
+}
+
+.btn-resetsenha{
+    background: #00a3e0;
+    color: white;
+    margin: 0 auto;
+    display: flex;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    border-radius: 30px;
+    padding: 10px;
+    padding-right: 80px;
+    padding-left: 80px;
+    /*border: 2px solid #00a3e0;*/
+    border-image: linear-gradient(to top,#00a3e0, rgba(0,0,0,0) );
+    border: 2px solid;
+}
+
+.btn-resetsenha:hover{
+    color: #00a3e0;
+    background: transparent;
+    border-image: linear-gradient(to top,#00a3e0, rgba(0,0,0,0) );
+    border: 2px solid;
+    transform: scale(1.02);
+    transition: .5s ease;
+    box-shadow: 12px 12px 15px 0px #c5e6f5;
+
+}
+@media (max-width: 1200px) {
+
+    .resetsenha-div{
+        min-width: 100%;
+        box-shadow: 0px 10px 40px 0px #e4f1ff;
+    }
+    .imagem-resetsenha{
+        background: url("content/bg-reset-mobile.jpg");
+        background-size: 100%;
+        background-repeat: no-repeat;
+    }
+
+    .bg-resetsenha{
+        background: #fff;
+    }
+
+}

@@ -22,3 +22,17 @@ Route::get("/index", function() {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get("/viewspassword", function () {
+
+   return view("auth.passwords.reset");
+
+});
+
+Route::get("/students/list", "StudentController@index");
+
+Route::post("/psot", function () {
+
+   return response("ok", 200);
+
+});

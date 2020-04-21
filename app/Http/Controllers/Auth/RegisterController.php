@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Locality;
 use App\Providers\RouteServiceProvider;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -64,10 +65,37 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+
+        $user = new User;
+
+        $locality = new Locality();
+
+        $localityId = $locality->insertLocality($data);
+
+        if ($localityId) {
+
+
+            return User::create([
+                'name' => $data['name'],
+                "last_name" => $data["last_name"],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                "date_of_birth" => $data["date_of_birth"],
+                "gender" => $data["gender"],
+                "cell_phone" => $data["cell_phone"],
+                "identity_rg" => $data["identity_rg"],
+                "identity_em_dt" => $data["identity_em_dt"],
+                "identity_issuing_authority" => $data["identity_issuing_authority"],
+                "cpf" => $data["cpf"],
+                "user_name" => $data["user_name"],
+                "cep_user" => $localityId,
+            ]);
+
+
+        }else {
+
+            return response("Error", 500);
+
+        }
     }
 }
