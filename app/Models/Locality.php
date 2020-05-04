@@ -10,7 +10,7 @@ class Locality extends Model
 
     protected $primaryKey = "cep";
 
-    public function insertLocality ($data) {
+    static function insertLocality ($data) {
 
         if ($data) {
 
@@ -25,11 +25,9 @@ class Locality extends Model
 
         }else {
 
-            $localityId = false;
+            return false;
 
         }
-
-        $localityId;
 
         return $localityId;
 

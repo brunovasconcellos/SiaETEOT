@@ -30,9 +30,3 @@ Route::get("/viewspassword", function () {
 });
 
 Route::get("/students/list", "StudentController@index");
-
-Route::post("/psot", function () {
-
-   return response("ok", 200);
-
-});

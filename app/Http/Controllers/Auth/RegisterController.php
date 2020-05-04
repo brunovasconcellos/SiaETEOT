@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Contact;
 use App\Http\Controllers\Controller;
 use App\Locality;
 use App\Providers\RouteServiceProvider;
@@ -51,11 +52,31 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
+
             'name' => ['required', 'string', 'max:255'],
+            'lastName' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            "dateOfBirth" => ["required", "date", "size:10"],
+            "gender" => ["required", "string", "size:1"],
+            "cellPhone" => ["required", "size:9"],
+            "identityRg" => ["required", "size:9"],
+            "identityEmDt" => ["required", "date", "size:10"],
+            "identityAuthority" => ["required", "string", "min:4", "max:20"],
+            "cpf" => ["required", "string", "size:11"],
+            "userName" => ["required", "string", "min:2", "max:255"],
+            "cep" => ["required", "size:8"],
+            "tpPublicPlace" => ["required", "string", "max:255"],
+            "publicPlace" => ["required", "string", "max:255"],
+            "neighborhood" => ["required", "string", "max:255"],
+            "city" => ["required", "string", "max:255"],
+            "neighborhood" => ["required", "string", "max:255"],
+            "type" => ["required", "string", "max:255"],
+            "contact" => ["required", "string", "max:255"]
+
         ]);
     }
+
 
     /**
      * Create a new user instance after a valid registration.
@@ -66,36 +87,51 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
 
-        $user = new User;
+        $contact = new Contact();
 
-        $locality = new Locality();
+        $localityCep = $this->validateLocality($data);
 
-        $localityId = $locality->insertLocality($data);
+            if ($data) {
 
-        if ($localityId) {
+               $user = User::create([
+                    'name' => $data['name'],
+                    "last_name" => $data["lastName"],
+                    'email' => $data['email'],
+                    'password' => Hash::make($data['password']),
+                    "date_of_birth" => $data["dateOfBirth"],
+                    "gender" => $data["gender"],
+                    "cell_phone" => $data["cellPhone"],
+                    "identity_rg" => $data["identityRg"],
+                    "identity_em_dt" => $data["identityEmDt"],
+                    "identity_issuing_authority" => $data["identityAuthority"],
+                    "cpf" => $data["cpf"],
+                    "user_name" => $data["userName"],
+                    "cep_user" => $localityCep,
+                ]);
+            }
 
+            $contact::insertContact($data, $user->user_id);
 
-            return User::create([
-                'name' => $data['name'],
-                "last_name" => $data["last_name"],
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
-                "date_of_birth" => $data["date_of_birth"],
-                "gender" => $data["gender"],
-                "cell_phone" => $data["cell_phone"],
-                "identity_rg" => $data["identity_rg"],
-                "identity_em_dt" => $data["identity_em_dt"],
-                "identity_issuing_authority" => $data["identity_issuing_authority"],
-                "cpf" => $data["cpf"],
-                "user_name" => $data["user_name"],
-                "cep_user" => $localityId,
-            ]);
+            return $user;
 
+    }
+
+    public function validateLocality ($data) {
+
+        $locality = Locality::where("cep", "=", $data["cep"])->get();
+
+        if (!isset($locality[0]->cep)) {
+
+            $locality = Locality::insertLocality($data);
+
+            return $locality;
 
         }else {
 
-            return response("Error", 500);
+            return $locality[0]->cep;
 
         }
+
     }
+
 }

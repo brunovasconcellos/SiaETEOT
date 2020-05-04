@@ -19,12 +19,12 @@ class AddNewFieldsToUsersTable extends Migration
             $table->timestamp("date_of_birth")->after("password")->nullable();
             $table->char("gender", 1)->after("date_of_birth");
             $table->string("user_name")->after("gender");
-            $table->integer("cell_phone")->after("user_name");
+            $table->bigInteger("cell_phone")->after("user_name");
             $table->boolean("active")->nullable()->after("cell_phone");
-            $table->string("identity_rg")->after("active");
+            $table->bigInteger("identity_rg")->after("active");
             $table->date("identity_em_dt")->after("identity_rg");
             $table->string("identity_issuing_authority")->after("identity_em_dt");
-            $table->integer("cpf")->after("identity_issuing_authority");
+            $table->bigInteger("cpf")->after("identity_issuing_authority");
             $table->bigInteger("cep_user")->unsigned()->after("cpf");
             $table->foreign("cep_user")->references("cep")->on("localities");
 
