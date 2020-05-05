@@ -65,6 +65,7 @@ class RegisterController extends Controller
             "identityAuthority" => ["required", "string", "min:4", "max:20"],
             "cpf" => ["required", "string", "size:11"],
             "userName" => ["required", "string", "min:2", "max:255"],
+            "level" => ["required", "size:1"],
             "cep" => ["required", "size:8"],
             "tpPublicPlace" => ["required", "string", "max:255"],
             "publicPlace" => ["required", "string", "max:255"],
@@ -106,6 +107,7 @@ class RegisterController extends Controller
                     "identity_issuing_authority" => $data["identityAuthority"],
                     "cpf" => $data["cpf"],
                     "user_name" => $data["userName"],
+                    "level" => $data["level"],
                     "cep_user" => $localityCep,
                 ]);
             }
