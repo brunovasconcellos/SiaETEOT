@@ -17,8 +17,3 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::name("employee")->prefix("employee")->middleware(["employee"])->group(function () {
-
-    Route::resource("inspectorate", "Employee\InspectorController");
-
-});

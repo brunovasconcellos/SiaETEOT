@@ -4,8 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use NunoMaduro\Collision\Provider;
+
 
 class EmployeeMiddleware
 {
@@ -19,9 +20,13 @@ class EmployeeMiddleware
     public function handle($request, Closure $next)
     {
 
-        var_dump(Auth::user());
+        if (Auth::user()->level >= 2) {
 
-        return $next($request);
+            return $next($request);
+
+        }
+
+        abort(401);
 
     }
 }

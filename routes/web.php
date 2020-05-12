@@ -23,10 +23,20 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::middleware(["auth"])->prefix("dashboard")->group(function () {
+
+    Route::middleware(["employee"])->prefix("employee")->group(function () {
+
+        Route::resource("inspectorate", "Employee\InspectorController");
+
+    });
+
+});
+
+//vew retorna password reset para mexer css dela
 Route::get("/viewspassword", function () {
 
    return view("auth.passwords.reset");
 
 });
 
-Route::get("/students/list", "StudentController@index");
