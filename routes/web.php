@@ -20,7 +20,7 @@ Route::get("/index", function() {
 });
 
 //Routes referencess auth
-Route::middleware(["guest"])->get("/login", "Auth\LoginController@login")->name("login");
+Route::middleware(["guest"])->get("/login", "Auth\LoginController@showLoginForm")->name("login");
 
 Route::middleware(["guest"])->post("/login", "Auth\LoginController@login");
 
@@ -55,3 +55,5 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
 
 
 Route::post("/user", "UserController@store");
+
+Route::post("/student", "Student\StudentController@store");

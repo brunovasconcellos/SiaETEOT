@@ -27,6 +27,8 @@ class AddNewFieldsToUsersTable extends Migration
             $table->bigInteger("cpf")->after("identity_issuing_authority");
             $table->bigInteger("cep_user")->unsigned()->after("cpf");
             $table->tinyInteger("level")->default(1)->after("cep_user");
+            $table->string("num_residence")->after("level");
+            $table->string("complement_residence")->after("num_residence");
             $table->foreign("cep_user")->references("cep")->on("localities");
 
         });

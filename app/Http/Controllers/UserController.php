@@ -35,13 +35,15 @@ class UserController extends Controller
             "cpf" => ["required", "string", "size:11"],
             "userName" => ["required", "string", "min:2", "max:255"],
             "level" => ["required", "size:1"],
+            "numResidence" => ["required", "string", "max:255"],
+            "complementResidence" => ["required", "string", "max:255"],
             "cep" => ["required", "size:8"],
             "tpPublicPlace" => ["required", "string", "max:255"],
             "publicPlace" => ["required", "string", "max:255"],
             "city" => ["required", "string", "max:255"],
             "neighborhood" => ["required", "string", "max:255"],
             "type" => ["required", "string", "max:255"],
-            "contact" => ["required", "string", "max:255"]
+            "contact" => ["required ", "string", "max:255"]
 
         ]);
     }
@@ -60,49 +62,48 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($data)
     {
 
-        $error = $this->validator($request);
+        $error = $this->validator($data);
 
         if ($error->fails()) {
 
-            return response()->json([
+            return [
                 "error" => true,
                 "message" => $error->errors()->all()
-                ], 400);
+                ];
 
         }
 
-        $localityCep = Locality::validateLocality($request);
+        $localityCep = Locality::validateLocality($data);
 
         $contact = new Contact();
 
         $user = User::create([
 
-            'name' => $request->name,
-            "last_name" => $request["lastName"],
-            'email' => $request['email'],
-            'password' => Hash::make($request['password']),
-            "date_of_birth" => $request["dateOfBirth"],
-            "gender" => $request["gender"],
-            "cell_phone" => $request["cellPhone"],
-            "identity_rg" => $request["identityRg"],
-            "identity_em_dt" => $request["identityEmDt"],
-            "identity_issuing_authority" => $request["identityAuthority"],
-            "cpf" => $request["cpf"],
-            "user_name" => $request["userName"],
-            "level" => $request["level"],
+            'name' => $data->name,
+            "last_name" => $data["lastName"],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            "date_of_birth" => $data["dateOfBirth"],
+            "gender" => $data["gender"],
+            "cell_phone" => $data["cellPhone"],
+            "identity_rg" => $data["identityRg"],
+            "identity_em_dt" => $data["identityEmDt"],
+            "identity_issuing_authority" => $data["identityAuthority"],
+            "cpf" => $data["cpf"],
+            "user_name" => $data["userName"],
+            "level" => $data["level"],
+            "num_residence" => $data["numResidence"],
+            "complement_residence" => $data["complementResidence"],
             "cep_user" => $localityCep,
 
         ]);
 
-        $contact::insertContact($request, $user->user_id);
+        $contact::insertContact($data, $user->user_id);
 
-        return response()->json([
-            "error" => false,
-            "response" => "User is successfully created",
-        ], 201);
+        return $user->user_id;
 
     }
 
