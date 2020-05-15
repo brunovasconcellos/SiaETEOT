@@ -138,9 +138,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-
-
-
+        $user = User::find($id);
+        if (isset($user)){
+            $user->delete();
+        }
     }
 
 }
