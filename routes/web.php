@@ -57,3 +57,5 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
 Route::post("/user", "UserController@store");
 
 Route::post("/student", "Student\StudentController@store");
+
+Route::resource("/employee", "Employee\EmployeeController");

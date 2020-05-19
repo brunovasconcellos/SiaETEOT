@@ -7,6 +7,7 @@ use App\Employee;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class EmployeeController extends Controller
 {
@@ -18,7 +19,7 @@ class EmployeeController extends Controller
 
     protected function validator(Request $request){
         return Validator::make($request->all(), [
-            
+            "sectorId" => ["required", "numeric", "lte:8", "gt:0"]
         ]);
     }
 
@@ -39,31 +40,38 @@ class EmployeeController extends Controller
 
         $user = new UserController;
 
-        if ($error->fails){
+        $userId = $user->store($request);
+
+        if ($error->fails()) {
+
             return response()->json([
                 "error" => true,
                 "message" => $error->errors()->all()
-            ], 400);
-        }
-        
-        $userId = $user->store($request);
+            ]);
 
-        if($userId["error"]){
+        }elseif ($userId["error"] == true) {
+
             return response()->json([
                 "error" => $userId["error"],
                 "message" => $userId["message"]
-            ], 400);
+            ]);
+
+        }elseif ($userId["error"] == true && $error->fails()) {
+
+            return response()->json([
+                "error" => true,
+                "message" => [$userId["message"], $error->errors()->message()]
+            ]);
+
         }
 
         Employee::create([
+
             "user_id" => $userId,
-            "sector_id" =>  //Fazer o setor 
+            "sector_id" => $request->sectorId
+
         ]);
 
-        return response()->json([
-            "error" => false,
-            "message" => "Employee is successfuly created"
-        ]);
     }
 
     /**
