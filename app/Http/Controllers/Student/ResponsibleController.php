@@ -37,41 +37,39 @@ class ResponsibleController extends Controller
     {
         $error = $this->validator($request);
 
-        var_dump($request);
-
-        $user = new UserController;
+        $user = new UserController();
 
         $userId = $user->store($request);
 
         if($error->fails()){
             return response()->json([
-                "error" => true,
-                "message" => $error->errors()->all()
-            ]);
-        }else if($userId["error"] == true){
+            "error" => true,
+            "message" => $error->errors()->all()
+            ], 400);
+
+        }
+        else if($userId["error"]){
+            return response()->json([
+            "error" => $userId["error"],
+            "message" => $userId["message"]
+        ], 400);
+        }
+        elseif ($userId["error"] && $error->fails()) {
 
             return response()->json([
-                "error" => $userId["error"],
-                "message" => $userId["message"]
-            ]);
-        }else if ($userId["error"] == true && $error->fails()) {
-
-            return response()->json([
                 "error" => true,
-                "message" => $userId["message"]
-            ]);
+                "message" => [$userId["message"], $error->errors()->message()]
+            ], 400);
 
         }
 
         Responsible::create([
-
             "user_id" => $userId
-
         ]);
 
         return response()->json([
             "error" => false,
-            "message" => "Responsible is successfully created"
+            "message" => "Responsável foi criado com sucesso"
         ], 201);
     }
 
