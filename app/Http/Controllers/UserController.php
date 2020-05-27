@@ -18,7 +18,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    protected function validator(Request $request)
+    protected function validator($request)
     {
         return Validator::make($request->all(), [
 
@@ -127,7 +127,52 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
+        $error = $this->validator($request);
+
+        $user = User::findOrFail($id);
+
+        if ($error->fails()) {
+
+            return [
+                "error" => true,
+                "message" => $error->errors()->all()
+            ];
+
+        }elseif (!$user) {
+
+            return [
+                "error" => true,
+                "message" => ["User not exist"]
+            ];
+
+        }
+
+        $localityCep = Locality::validateLocality($request);
+
+        $user->user_id = $id;
+        $user->name = $request->name;
+        $user->last_name = $request->lastName;
+        $user->email = $request->email;
+        $user->password = $request->password;
+        $user->date_of_birth = $request->dateOfBirth;
+        $user->cell_phone = $request->cellPhone;
+        $user->identity_rg = $request->identityRg;
+        $user->identity_em_dt = $request->identityEmDt;
+        $user->identity_issuing_authority = $request->identityAuthority;
+        $user->user_name = $request->userName;
+        $user->level = $request->level;
+        $user->num_residence = $request->numResidence;
+        $user->complement_residence = $request->complementResidence;
+        $user->cep_user = $localityCep;
+
+        $user->save();
+
+        return [
+            "error" => false,
+            "userId" => $id
+        ];
+
     }
 
     /**
@@ -138,10 +183,24 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
+
         if (isset($user)){
+
+            $contact = Contact::where("user_id", "=", $id)->delete();
+         
             $user->delete();
+
+            return [
+                "error" => false
+            ];
+
         }
+
+        return [
+            "error" => true
+        ];
+
     }
 
 }

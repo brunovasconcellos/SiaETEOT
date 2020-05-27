@@ -22,6 +22,7 @@ class CreateStudentComplementsTable extends Migration
             $table->string("ident_educacenso");
             $table->year("year_last_grade");
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign("student_registration")->references("student_registration")->on("students");
         });
     }
