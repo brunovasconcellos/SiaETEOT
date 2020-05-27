@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UserController;
-use App\Student;
+use App\Responsible;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class StudentController extends Controller
+class ResponsibleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,19 +16,12 @@ class StudentController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function validator (Request $request) {
-
-        return  Validator::make($request->all(), [
-
-            "fatherName" => ["required", "string", "max:255"],
-            "matherName" => ["required", "string", "max:255"],
-            "studentType" => ["required", "string", "max:255"],
-            "actualSituation" => ["required", "string", "max:255"],
-
+    protected function validator(Request $request){
+        return Validator::make($request->all(), [
+            "userId" => ["required", "numeric"]
         ]);
-
     }
-
+    
     public function index()
     {
         //
@@ -42,54 +35,42 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-
         $error = $this->validator($request);
 
         $user = new UserController();
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 4305339193d201f9b47dc9277902165abb6f8e44
         $userId = $user->store($request);
 
-        if ($error->fails()) {
+        if($error->fails()){
+            return response()->json([
+            "error" => true,
+            "message" => $error->errors()->all()
+            ], 400);
+
+        }
+        else if($userId["error"]){
+            return response()->json([
+            "error" => $userId["error"],
+            "message" => $userId["message"]
+        ], 400);
+        }
+        elseif ($userId["error"] && $error->fails()) {
 
             return response()->json([
                 "error" => true,
-                "message" => $error->errors()->all()
-                ], 400);
-
-<<<<<<< HEAD
-        }elseif ($userId["error"] == true) {
-=======
-        }
-
-        elseif ($userId["error"] == true) {
->>>>>>> 4305339193d201f9b47dc9277902165abb6f8e44
-
-            return response()->json([
-                "error" => $userId["error"],
-                "message" => $userId["message"]
-
+                "message" => [$userId["message"], $error->errors()->message()]
             ], 400);
 
         }
 
-        Student::create([
-
-            "father_name" => $request->fatherName,
-            "mather_name" => $request->matherName,
-            "student_type" => $request->studentType,
-            "actual_situation" => $request->actualSituation,
+        Responsible::create([
             "user_id" => $userId
         ]);
 
         return response()->json([
             "error" => false,
-            "message" => "Student is successfully created"
+            "message" => "Responsável foi criado com sucesso"
         ], 201);
-
     }
 
     /**
