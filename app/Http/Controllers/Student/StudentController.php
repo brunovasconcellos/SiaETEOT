@@ -47,10 +47,6 @@ class StudentController extends Controller
 
         $user = new UserController();
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 4305339193d201f9b47dc9277902165abb6f8e44
         $userId = $user->store($request);
 
         if ($error->fails()) {
@@ -60,13 +56,7 @@ class StudentController extends Controller
                 "message" => $error->errors()->all()
                 ], 400);
 
-<<<<<<< HEAD
         }elseif ($userId["error"] == true) {
-=======
-        }
-
-        elseif ($userId["error"] == true) {
->>>>>>> 4305339193d201f9b47dc9277902165abb6f8e44
 
             return response()->json([
                 "error" => $userId["error"],

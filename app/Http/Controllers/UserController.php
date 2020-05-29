@@ -130,8 +130,6 @@ class UserController extends Controller
         
         $error = $this->validator($request);
 
-        $user = User::findOrFail($id);
-
         if ($error->fails()) {
 
             return [
@@ -139,39 +137,37 @@ class UserController extends Controller
                 "message" => $error->errors()->all()
             ];
 
-        }elseif (!$user) {
-
-            return [
-                "error" => true,
-                "message" => ["User not exist"]
-            ];
-
         }
 
         $localityCep = Locality::validateLocality($request);
 
-        $user->user_id = $id;
-        $user->name = $request->name;
-        $user->last_name = $request->lastName;
-        $user->email = $request->email;
-        $user->password = $request->password;
-        $user->date_of_birth = $request->dateOfBirth;
-        $user->cell_phone = $request->cellPhone;
-        $user->identity_rg = $request->identityRg;
-        $user->identity_em_dt = $request->identityEmDt;
-        $user->identity_issuing_authority = $request->identityAuthority;
-        $user->user_name = $request->userName;
-        $user->level = $request->level;
-        $user->num_residence = $request->numResidence;
-        $user->complement_residence = $request->complementResidence;
-        $user->cep_user = $localityCep;
+        $user = [
+            "name" => $request->name,
+            "last_name" => $request->lastName,
+            "email" => $request->email,
+            "password" => $request->password,
+            "date_of_birth" => $request->dateOfBirth,
+            "cell_phone" => $request->cellPhone,
+            "identity_rg" => $request->identityRg,
+            "identity_em_dt" => $request->identityEmDt,
+            "identity_authority" => $request->identityAuthority,
+            "cpf" => $request->cpf,
+            "user_name" => $request->userName,
+            "level" => $request->level,
+            "num_residence" => $request->numResidence,
+            "complement_residence" => $request->complementResidence,
+            "cep" => $localityCep,
 
-        $user->save();
+        ];
+
+        User::findOrFail($id)->update($user);
 
         return [
             "error" => false,
             "userId" => $id
+
         ];
+
 
     }
 

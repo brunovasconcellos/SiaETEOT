@@ -45,9 +45,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware(["auth"])->prefix("dashboard")->group(function () {
 
-    Route::middleware(["employee"])->prefix("employee")->group(function () {
+    Route::middleware(["employee"])->group(function () {
 
-        Route::resource("inspectorate", "Employee\InspectorController");
+        Route::resource('/employee', 'Employee\EmployeeController');
+
+        Route::resource("/inspectorate", "Employee\InspectorController");
 
     });
 
@@ -58,13 +60,6 @@ Route::post("/user", "UserController@store");
 
 Route::post("/student", "Student\StudentController@store");
 
-<<<<<<< HEAD
-Route::resource('/employee', 'Employee\EmployeeController');
-
-Route::resource("/user", "UserController");
-=======
-Route::resource("/employee", "Employee\EmployeeController");
 
 // Route::resource("/parent", "Student\ResponsibleController");
 Route::post("/parent", "Student\ResponsibleController@store");
->>>>>>> 4305339193d201f9b47dc9277902165abb6f8e44

@@ -23,7 +23,7 @@ class EmployeeController extends Controller
     protected function validator(Request $request){
 
         return Validator::make($request->all(), [
-            "sectorId" => ["numeric"]
+            "sectorId" => ["required", "numeric"]
         ]);
 
     }
@@ -94,7 +94,8 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        //
+        
+
     }
 
     /**
@@ -134,21 +135,21 @@ class EmployeeController extends Controller
 
             ], 400);
 
-        }elseif ($user["error"] == true) {
+        }elseif ($userId["error"] == true) {
 
             return response()->json([
                 
                 "error" => true,
-                "message" => $user["message"]
+                "message" => $userId["message"]
     
             ], 400);
     
-        }elseif ($error->fails() && $user["error"]) {
+        }elseif ($error->fails() && $userId["error"]) {
     
             return response()->json([
                 
                 "error" => true,
-                "message" => [$error->errors()->all(), $user["message"]]
+                "message" => [$error->errors()->all(), $userId["message"]]
     
             ], 400);
     
@@ -197,7 +198,7 @@ class EmployeeController extends Controller
         return response()->json([
             "error" => true,
             "message" => ["Error when deleting employee"]
-        ]);
+        ], 400);
 
 
     }
