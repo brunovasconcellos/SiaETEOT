@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Employee;
 use App\Employee;
 use App\User;
 use App\Locality;
-use App\Contact;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller
 {
@@ -30,7 +31,31 @@ class EmployeeController extends Controller
 
     public function index()
     {
-        //
+        
+        $employees = DB::table('employees')->join("users", "employees.user_id", "=", "users.user_id")->get();
+
+        if (!Auth::user() || Auth::user()->level <= 7) {
+
+            return response()->json([
+                "error" => true,
+                "message" => "Unauthorized"
+            ], 401);
+
+        }elseif (!$employees) {
+
+            return response()->json([
+                "error" => false,
+                "message" => "No students registred.",
+                "response" => null
+            ]);
+
+        }
+
+        return response()->json([
+            "error" => false,
+            "response" => $employees
+        ], 200);
+
     }
 
     /**
@@ -72,7 +97,7 @@ class EmployeeController extends Controller
 
         Employee::create([
 
-            "user_id" => $userId,
+            "user_id" => $userId["userId"],
             "sector_id" => $request->sectorId
 
         ]);

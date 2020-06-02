@@ -64,7 +64,7 @@ class ResponsibleController extends Controller
         }
 
         Responsible::create([
-            "user_id" => $userId
+            "user_id" => $userId["userId"]
         ]);
 
         return response()->json([

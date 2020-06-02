@@ -103,7 +103,11 @@ class UserController extends Controller
 
         $contact::insertContact($data, $user->user_id);
 
-        return $user->user_id;
+        return [
+            "error" => false,
+            "message" => "User created successfully",
+            "userId" => $user->user_id
+        ];
 
     }
 
@@ -165,9 +169,7 @@ class UserController extends Controller
         return [
             "error" => false,
             "userId" => $id
-
         ];
-
 
     }
 

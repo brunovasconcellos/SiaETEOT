@@ -47,7 +47,6 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
 
     Route::middleware(["employee"])->group(function () {
 
-        Route::resource('/employee', 'Employee\EmployeeController');
 
         Route::resource("/inspectorate", "Employee\InspectorController");
 
@@ -55,11 +54,9 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
 
 });
 
+Route::resource('/employee', 'Employee\EmployeeController');
 
-Route::post("/user", "UserController@store");
-
-Route::post("/student", "Student\StudentController@store");
-
+Route::resource("/student", "Student\StudentController");
 
 // Route::resource("/parent", "Student\ResponsibleController");
 Route::post("/parent", "Student\ResponsibleController@store");

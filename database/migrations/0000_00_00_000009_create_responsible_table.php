@@ -13,8 +13,8 @@ class CreateResponsibleTable extends Migration
      */
     public function up()
     {
-        Schema::create('responsible', function (Blueprint $table) {
-            $table->bigIncrements('responsible-id');
+        Schema::create('responsibles', function (Blueprint $table) {
+            $table->bigIncrements('responsible_id');
             $table->bigInteger("user_id")->unsigned();
             $table->timestamps();
             $table->foreign("user_id")->references("user_id")->on("users");
@@ -28,6 +28,6 @@ class CreateResponsibleTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('parents');
+        Schema::dropIfExists('responsibles');
     }
 }
