@@ -58,5 +58,4 @@ Route::resource('/employee', 'Employee\EmployeeController');
 
 Route::resource("/student", "Student\StudentController");
 
-// Route::resource("/parent", "Student\ResponsibleController");
-Route::post("/parent", "Student\ResponsibleController@store");
+Route::resource("/responsible", "Student\ResponsibleController");

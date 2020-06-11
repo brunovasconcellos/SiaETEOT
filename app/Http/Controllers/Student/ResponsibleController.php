@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\UserController;
 use App\Responsible;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class ResponsibleController extends Controller
 {
@@ -24,7 +26,26 @@ class ResponsibleController extends Controller
     
     public function index()
     {
-        //
+        $responsible = DB::table('responsibles')->join("users", "responsibles.user_id", "=", "users.user_id")->get();
+
+        if(!Auth::user() || Auth::user()->level <= 7){
+            return response()->json([
+                "error" => true,
+                "message" => "Unauthorized"
+            ], 401);
+
+        }else if(!$responsible){
+            return response()->json([
+                "error" => false,
+                "message" => "No responsible registred.",
+                "response" => null
+            ]);
+        }
+
+        return response()->json([
+            "error" => false,
+            "response" => $responsible
+        ], 200);
     }
 
     /**
@@ -69,7 +90,7 @@ class ResponsibleController extends Controller
 
         return response()->json([
             "error" => false,
-            "message" => "Responsável foi criado com sucesso"
+            "message" => "Student is successfully created"
         ], 201);
     }
 
@@ -81,7 +102,20 @@ class ResponsibleController extends Controller
      */
     public function show($id)
     {
-        //
+        if(!Auth::user() || Auth::user()->level > 7){
+            return response()->json([
+                "error" => true,
+                "message" => "Unauthorized"
+            ], 401);
+        }
+        
+        return response()->json([
+            "error" => false,
+            "response" => Responsible::where('responsible_id', $id)->join("users", "responsibles.user_id", "=", "users.user_id")->get()
+        ]);
+        
+        
+
     }
 
     /**
@@ -93,8 +127,39 @@ class ResponsibleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $error = $this->validator($request);
+
+        $responsible = Responsible::findOrFail($id);
+
+        $user = new UserController();
+
+        $userId = $user->update($request, $responsible->user_id);
+
+        if ($error->fails()) {
+            return response()->json([
+                "error" => true,
+                "message" => $error->errors()->all()
+            ], 400);
+
+        }
+        elseif ($userId["error"] == true) {
+            return response()->json([
+                "error" => true,
+                "message" =>$userId["message"]
+            ], 400);
+
+        }
+
+        $responsible->update([
+            "user_id" => $request->userId
+        ]);
+
+        return response()->json([
+            "error" => false,
+            "message" => "Responsible successfully updated."
+        ], 200);
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -104,6 +169,23 @@ class ResponsibleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(!Auth::user() || Auth::user()->level <= 7){
+            return response()->json([
+                "error" => true,
+                "message" => "Unauthorized"
+            ], 401);
+        }
+
+        $user = new UserController();
+        $responsible = Responsible::findorFail($id);
+        $responsibleId = $responsible->user_id;
+
+        $responsible->delete();
+        $user->destroy($responsibleId);
+
+        return response()->json([
+            "error" => false,
+            "message" => "Responsible successfully deleted."
+        ], 200);
     }
 }
