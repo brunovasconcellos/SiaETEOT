@@ -59,3 +59,9 @@ Route::resource('/employee', 'Employee\EmployeeController');
 Route::resource("/student", "Student\StudentController");
 
 Route::resource("/responsible", "Student\ResponsibleController");
+
+Route::resource('/studentunit', 'StudentUnitController');
+
+Route::resource('/transfersu', 'TransferSusController');
+
+Route::resource('/course', 'Courses\CourseController');
