@@ -18,6 +18,7 @@ class CreateStudentUnitsTable extends Migration
             $table->text("su_name");
             $table->integer("su_phone");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

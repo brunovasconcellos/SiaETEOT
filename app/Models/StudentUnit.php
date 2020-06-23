@@ -5,14 +5,14 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Responsible extends Model
+class StudentUnit extends Model
 {
 
     use SoftDeletes;
 
-    protected $primaryKey = "responsible_id";
+    protected $primaryKey = "su_id";
 
     protected $fillable = [
-        "user_id"
+        "su_name", "su_phone"
     ];
 }

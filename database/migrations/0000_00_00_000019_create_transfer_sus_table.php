@@ -21,6 +21,7 @@ class CreateTransferSusTable extends Migration
             $table->bigInteger("student_registration")->unsigned();
             $table->bigInteger("su_id")->unsigned();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign("student_registration")->references("student_registration")->on("students");
             $table->foreign("su_id")->references("su_id")->on("student_units");
         });
