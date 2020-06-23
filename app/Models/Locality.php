@@ -20,7 +20,7 @@ class Locality extends Model
                 "public_place" => $data->publicPlace,
                 "neighborhood" => $data->neighborhood,
                 "city" => $data->city,
-                "federation_unit" => $data->federationUnity
+                "federation_unit" => $data->federationUnit
             ]);
 
 

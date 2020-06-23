@@ -72,14 +72,14 @@ class EmployeeController extends Controller
 
         $userId = $user->store($request);
 
-        if ($error->fails()) {
+        if ($error->fails() && $userId["error"] == false) {
 
             return response()->json([
                 "error" => true,
                 "message" => $error->errors()->all()
             ], 400);
 
-        }elseif ($userId["error"] == true) {
+        }elseif ($userId["error"] == true && count($error->errors()) == 0) {
 
             return response()->json([
                 "error" => $userId["error"],

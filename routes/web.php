@@ -36,7 +36,7 @@ Route::post("/password/reset", "Auth\ResetPasswordController@reset")->name("pass
 
 Route::get("/password/reset", "Auth\ForgotPasswordController@showLinkRequestForm")->name("password.request");
 
-Route::get("/password/reset/{token}", "Auth\ResetPasswordController@showResetForm")->name("password.reset ");
+Route::get("/password/reset/{token}", "Auth\ResetPasswordController@showResetForm")->name("password.reset");
 
 
 Route::get('/home', 'HomeController@index')->name('home');
