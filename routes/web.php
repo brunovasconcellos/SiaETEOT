@@ -48,8 +48,6 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
     Route::middleware(["employee"])->group(function () {
 
 
-        Route::resource("/inspectorate", "Employee\InspectorController");
-
     });
 
 });

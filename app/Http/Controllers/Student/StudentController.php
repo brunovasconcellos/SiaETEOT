@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Student;
 use App\Student;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\Student\StudentComplementController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\Student\StudentComplementController;
 
 class StudentController extends Controller
 {
@@ -37,16 +38,13 @@ class StudentController extends Controller
     public function index()
     {
         
-        $students = DB::table('students')->join("users", "students.user_id", "=", "users.user_id")->get();
-
-        if (!Auth::user() || Auth::user()->level <= 7) {
-
-            return response()->json([
-                "error" => true,
-                "message" => "Unauthorized"
-            ], 401);
-
-        }
+        $students = DB::table('students')
+        ->select("students.student_registration", "users.name", "users.last_name", "users.email",
+         "users.gender", "students.student_type", "contacts.contact",)
+        ->join("users", "students.user_id", "=", "users.user_id")
+        ->join("contacts", "students.user_id", "=", "contacts.user_id")
+        ->where("students.deleted_at", "=", null)
+        ->paginate(5);
 
         if (!$students) {
 
@@ -76,8 +74,6 @@ class StudentController extends Controller
 
         $error = $this->validator($request);
 
-        $user = new UserController();
-
         if ($error->fails()) {
 
             return response()->json([
@@ -86,6 +82,19 @@ class StudentController extends Controller
                 ], 400);
 
         }
+
+        $studentComplementError = StudentComplementController::validator($request);
+
+        if ($studentComplementError->fails()) {
+
+            return response()->json([
+                "error" => true,
+                "message" => $studentComplementError->errors()->all()
+            ]);
+
+        }
+
+        $user = new UserController();
 
         $userId = $user->store($request);
 
@@ -132,7 +141,7 @@ class StudentController extends Controller
                 $fixedNumber .= 44;
                 break;
         
-            case "health management":
+            case "health_management":
                 $fixedNumber .= 39;
                 break;
 
@@ -140,7 +149,7 @@ class StudentController extends Controller
                 $fixedNumber .= 01;
                 break;
 
-            case "clinical analysis":
+            case "clinical_analysis":
                 $fixedNumber .= 04;
                 break;
 
@@ -184,9 +193,13 @@ class StudentController extends Controller
             "user_id" => $userId["userId"]
         ]);
 
+        $studentComplement = new StudentComplementController();
+
+        $studentComplement->store($request, $studentRegistration);
+
         return response()->json([
             "error" => false,
-            "message" => "Student is successfully created."
+            "message" => "Student is successfully created.",
         ], 201);
 
     }
@@ -199,7 +212,28 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        //
+
+        $student = DB::table('students')
+        ->select("students.student_registration", "users.name", "users.last_name", "users.email",
+         "users.gender", "users.date_of_birth", "users.identity_rg", "users.identity_em_dt",
+         "users.identity_issuing_authority", "users.cpf", "students.student_type", "students.mather_name",
+         "students.father_name", "students.actual_situation", "student_complements.ingress_type", "student_complements.ingress_form",
+         "student_complements.vagacy_type", "student_complements.last_school",  "student_complements.ident_educacenso",  "student_complements.year_last_grade",
+         "localities.cep", "localities.public_place", "localities.neighborhood", "users.num_residence",
+         "users.complement_residence", "localities.cep", "localities.city", "localities.federation_unit",
+         "contacts.type", "contacts.contact", "students.created_at")
+        ->join("users", "students.user_id", "=", "users.user_id")
+        ->join("student_complements","students.student_registration", "=", "student_complements.student_registration")
+        ->join("localities", "users.cep_user", "=", "localities.cep")
+        ->join("contacts", "students.user_id", "=", "contacts.user_id")
+        ->where("students.deleted_at", "=", null)
+        ->paginate(5);
+
+        return response()->json([
+            "error" => false,
+            "response" => $student 
+        ]);
+
     }
 
     /**
@@ -227,6 +261,17 @@ class StudentController extends Controller
 
         }
 
+        $studentComplementError = StudentComplementController::validator($request);
+
+        if ($studentComplementError -> fails()) {
+
+            return response()->json([
+                "error" => true,
+                "message" => $studentComplementError->errors()->message()
+            ]);
+
+        }
+
         $userId = $user->update($request, $student->user_id);
 
         if ($userId["error"] == true) {
@@ -239,12 +284,15 @@ class StudentController extends Controller
         }
 
         $student->update([
-            "student_registration" => $request->studentRegistration,
             "father_name" => $request->fatherName,
             "mather_name" => $request->matherName,
             "student_type" => $request->studentType,
             "actual_situation" => $request->actualSituation,
         ]);
+
+        $studentComplement = new StudentComplementController();
+
+        $studentComplement->update($request, $id);
 
         return response()->json([
             "error" => false,
@@ -272,6 +320,10 @@ class StudentController extends Controller
         }
 
         $student = Student::findOrFail($id);
+
+        $studentComplement = new StudentComplementController();
+
+        $studentComplement->destroy($id);
 
         $studentId = $student->user_id;
 

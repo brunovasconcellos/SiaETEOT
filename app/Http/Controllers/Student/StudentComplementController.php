@@ -20,7 +20,7 @@ class StudentComplementController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function validator (Request $request) {
+     static function validator (Request $request) {
 
         return Validator::make($request->all(), [
 
@@ -61,36 +61,10 @@ class StudentComplementController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($id, Request $request)
+    public function store(Request $request, $id)
     {
-        
-        $error = $this->validator($request);
 
-        Student::findOrFail($id);
-
-        if ($error->fails()) {
-
-            return [
-
-                "error" => true,
-                "message" => $error->errors()->all()
-
-            ];
-
-        }
-        
-        if (StudentComplement::where("student_registration", "=", $id)) {
-
-            return [
-                
-                "error" => true,
-                "message" => "Student has already been registered."
-
-            ];
-
-        }
-
-        StudentComplement::create([
+        $studentComplements = StudentComplement::create([
             
             "student_registration" => $id,
             "ingress_type" => $request->ingressType,
@@ -144,15 +118,12 @@ class StudentComplementController extends Controller
         }
         
         $studentComplement->update([
-
-            "student_registration" => $id,
             "ingress_type" => $request->ingressType,
             "ingress_form" => $request->ingressForm,
             "last_school" => $request->lastSchool,
             "vagacy_type" => $request->vagacyType,
             "ident_educacenso" => $request->identEducacenso,
             "year_last_grade" => $request->yearLastGrade,
-
         ]);
 
             return [
