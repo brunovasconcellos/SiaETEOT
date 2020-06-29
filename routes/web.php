@@ -47,14 +47,13 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
 
     Route::middleware(["employee"])->group(function () {
 
+        Route::resource('/employee', 'Employee\EmployeeController');
+
+        Route::resource("/student", "Student\StudentController");
 
     });
 
 });
-
-Route::resource('/employee', 'Employee\EmployeeController');
-
-Route::resource("/student", "Student\StudentController");
 
 Route::resource("/responsible", "Student\ResponsibleController");
 

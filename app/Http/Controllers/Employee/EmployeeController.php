@@ -32,22 +32,22 @@ class EmployeeController extends Controller
     public function index()
     {
         
-        $employees = DB::table('employees')->join("users", "employees.user_id", "=", "users.user_id")->get();
+        $employees = DB::table('employees')
+        ->select("employees.employee_id", "users.name", "users.last_name", "users.email",
+         "users.gender", "contacts.contact", "sectors.sector_name")
+        ->join("users", "employees.user_id", "=", "users.user_id")
+        ->join("contacts", "employees.user_id", "=", "contacts.user_id")
+        ->join("sectors", "employees.sector_id", "=", "sectors.sector_id")
+        ->where("employees.deleted_at", "=", null)
+        ->paginate(5);
 
-        if (!Auth::user() || Auth::user()->level <= 7) {
-
-            return response()->json([
-                "error" => true,
-                "message" => "Unauthorized"
-            ], 401);
-
-        }elseif (!$employees) {
+        if (!$employees) {
 
             return response()->json([
                 "error" => false,
                 "message" => "No students registred.",
                 "response" => null
-            ]);
+            ], 200);
 
         }
 
@@ -79,14 +79,18 @@ class EmployeeController extends Controller
                 "message" => $error->errors()->all()
             ], 400);
 
-        }elseif ($userId["error"] == true && count($error->errors()) == 0) {
+        }
+
+        if ($userId["error"] == true && count($error->errors()) == 0) {
 
             return response()->json([
                 "error" => $userId["error"],
                 "message" => $userId["message"]
             ], 400);
 
-        }elseif ($userId["error"] == true && $error->fails()) {
+        }
+
+        if ($userId["error"] == true && $error->fails()) {
 
             return response()->json([
                 "error" => true,
@@ -120,6 +124,27 @@ class EmployeeController extends Controller
     public function show($id)
     {
         
+        Employee::findOrFail($id);
+
+        $employee = DB::table("employees")
+        ->select("employees.employee_id", "users.name", "users.last_name", "users.email",
+        "users.gender", "users.date_of_birth", "users.identity_rg", "users.identity_em_dt",
+        "users.identity_issuing_authority", "users.cpf","sectors.sector_name", "localities.cep",
+        "localities.public_place", "localities.neighborhood", "users.num_residence","users.complement_residence",
+        "localities.cep", "localities.city", "localities.federation_unit","contacts.type",
+        "contacts.contact")
+        ->join("users", "employees.user_id", "=", "users.user_id")
+        ->join("sectors", "employees.sector_id", "=", "sectors.sector_id")
+        ->join("localities", "users.cep_user", "=", "localities.cep")
+        ->join("contacts", "employees.user_id", "=", "contacts.user_id")
+        ->where("employees.deleted_at", "=", null)
+        ->where("employees.employee_id", "=", $id)
+        ->get();
+
+        return response()->json([
+            "error" => false,
+            "response" => $employee
+        ]);
 
     }
 
@@ -151,7 +176,9 @@ class EmployeeController extends Controller
 
             ], 400);
 
-        }elseif (!$employee) {
+        }
+        
+        if (!$employee) {
 
             return response()->json([
                 
@@ -160,7 +187,9 @@ class EmployeeController extends Controller
 
             ], 400);
 
-        }elseif ($userId["error"] == true) {
+        }
+        
+        if ($userId["error"] == true) {
 
             return response()->json([
                 
@@ -169,7 +198,9 @@ class EmployeeController extends Controller
     
             ], 400);
     
-        }elseif ($error->fails() && $userId["error"]) {
+        }
+        
+        if ($error->fails() && $userId["error"]) {
     
             return response()->json([
                 
@@ -216,7 +247,7 @@ class EmployeeController extends Controller
             return response()->json([
                 "error" => false,
                 "message" => ["Employee deleted"]
-            ],200);
+            ], 200);
 
         }
 

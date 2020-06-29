@@ -40,7 +40,7 @@ class StudentController extends Controller
         
         $students = DB::table('students')
         ->select("students.student_registration", "users.name", "users.last_name", "users.email",
-         "users.gender", "students.student_type", "contacts.contact",)
+         "users.gender", "students.student_type", "contacts.contact")
         ->join("users", "students.user_id", "=", "users.user_id")
         ->join("contacts", "students.user_id", "=", "contacts.user_id")
         ->where("students.deleted_at", "=", null)
@@ -227,7 +227,8 @@ class StudentController extends Controller
         ->join("localities", "users.cep_user", "=", "localities.cep")
         ->join("contacts", "students.user_id", "=", "contacts.user_id")
         ->where("students.deleted_at", "=", null)
-        ->paginate(5);
+        ->where("students.student_registration", "=", $id)
+        ->get();
 
         return response()->json([
             "error" => false,
@@ -309,15 +310,6 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        
-        if (!Auth::user() || Auth::user()->level <= 7) {
-
-            return response()->json([
-                "error" => true,
-                "message" => "Unauthorized"
-            ], 401);
-
-        }
 
         $student = Student::findOrFail($id);
 
@@ -339,4 +331,5 @@ class StudentController extends Controller
         ], 200);
 
     }
+    
 }
