@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\StudentUnit;
 
 use App\StudentUnit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 
 class StudentUnitController extends Controller
@@ -38,7 +39,7 @@ class StudentUnitController extends Controller
 
         }else if(!$studentUnit){
             return response()->json([
-                "error" => false,
+                "error" => true,
                 "message" => "No Student Unit registred.",
                 "response" => null
             ]);
@@ -94,12 +95,12 @@ class StudentUnitController extends Controller
             ], 401);
         }
 
-        StudentUnit::findorFail($id);
+        StudentUnit::findOrFail($id);
 
         return response()->json([
             "error" => false,
             "response" => StudentUnit::where('su_id', $id)->select('su_name', 'su_phone')->get()
-        ]);
+        ], 200);
     }
 
     /**

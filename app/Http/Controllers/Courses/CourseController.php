@@ -33,7 +33,20 @@ class CourseController extends Controller
 
     public function index()
     {
-        
+        $course = DB::table('courses')->select('course_id', 'course_name', 'course_workload')->where('deleted_at', null)->get();
+
+        if(!$course){
+            return response()->json([
+                "error" => true,
+                "message" => "No Course registred",
+                "response" => null
+            ]);
+        }
+
+        return response()->json([
+            "error" => false,
+            "response" => $course
+        ]);
     }
 
     /**
@@ -64,10 +77,8 @@ class CourseController extends Controller
     ]);
 
     return response()->json([
-
         "error" => false,
-        "message" => ["Course Created"]
-
+        "message" => "Course Created"
     ], 201);
 
 }
@@ -80,7 +91,12 @@ class CourseController extends Controller
      */
     public function show($id)
     {
-        //
+        Course::findOrFail($id);
+
+        return response()->json([
+            "error" => false,
+            "response" => Course::where('course_id', $id)->select('course_id','course_name', 'course_workload')->get()
+        ], 200);
     }
 
     /**
@@ -112,11 +128,11 @@ class CourseController extends Controller
             "course_workload" => $request->courseWorkload
         ]);
 
-        return [
-            "error" => false,
-            "userId" => $id
-        ];
 
+        return response()->json([
+            "error" => false,
+            "message" => "Course successfully updated."
+        ], 200);
     }
         
 
@@ -138,14 +154,14 @@ class CourseController extends Controller
 
             return response()->json([
                 "error" => false,
-                "message" => ["Course deleted"]
+                "message" => "Course deleted"
             ],200);
 
         }
 
         return response()->json([
             "error" => true,
-            "message" => ["Error when deleting Course"]
+            "message" => "Error when deleting Course"
         ], 400);
 
     }
