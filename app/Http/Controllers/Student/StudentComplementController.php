@@ -8,9 +8,7 @@ use App\Student;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class StudentComplementController extends Controller
 {
@@ -37,22 +35,7 @@ class StudentComplementController extends Controller
 
     public function index()
     {
-        $lastRegistration = DB::table("students")->select("student_registration")->orderByDesc("created_at")->first();
-        
-        $registrationYear = Str::substr((string) $lastRegistration->student_registration, 8, 4) + 1;
-        
-        var_dump((string)$registrationYear);
-
-        $registrationNumber = str_pad($registrationYear, 4, 0, STR_PAD_LEFT);
-
-        $date = date("y");
-
-        return response()->json([
-
-            "Registration" => [$registrationYear, $date, $registrationNumber],
-            
-        ]);
-
+        //
     }
 
     /**
@@ -141,15 +124,6 @@ class StudentComplementController extends Controller
      */
     public function destroy($id)
     {
-        
-        if (Auth::user()->level <= 7 || !Auth::user()) {
-
-            return [
-                "error" => true,
-                'message' => "Unauthorized."
-            ];
-
-        }
 
         StudentComplement::findOrFail($id)->delete();
 
@@ -159,4 +133,5 @@ class StudentComplementController extends Controller
         ];
 
     }
+    
 }

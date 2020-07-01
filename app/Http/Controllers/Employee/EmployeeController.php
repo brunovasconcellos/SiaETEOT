@@ -10,7 +10,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller
@@ -33,8 +32,10 @@ class EmployeeController extends Controller
     {
         
         $employees = DB::table('employees')
-        ->select("employees.employee_id", "users.name", "users.last_name", "users.email",
-         "users.gender", "contacts.contact", "sectors.sector_name")
+        ->select(
+            "employees.employee_id", "users.name", "users.last_name", "users.email",
+            "users.gender", "contacts.contact", "sectors.sector_name"
+         )
         ->join("users", "employees.user_id", "=", "users.user_id")
         ->join("contacts", "employees.user_id", "=", "contacts.user_id")
         ->join("sectors", "employees.sector_id", "=", "sectors.sector_id")

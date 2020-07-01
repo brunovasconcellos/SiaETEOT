@@ -47,18 +47,20 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
 
     Route::middleware(["employee"])->group(function () {
 
-        Route::resource('/employee', 'Employee\EmployeeController');
+        Route::resource('/employee', 'Employee\EmployeeController');     
 
         Route::resource("/student", "Student\StudentController");
+
+        Route::resource("/responsible", "Student\ResponsibleController");
+
+        Route::resource('/studentunit', 'StudentUnitController');
+        
+        Route::resource('/transfersu', 'TransferSusController');
+        
+        Route::resource('/course', 'Courses\CourseController');
+
+        Route::resource('/schoolclass', 'Course\SchoolClassController');
 
     });
 
 });
-
-Route::resource("/responsible", "Student\ResponsibleController");
-
-Route::resource('/studentunit', 'StudentUnitController');
-
-Route::resource('/transfersu', 'TransferSusController');
-
-Route::resource('/course', 'Courses\CourseController');
