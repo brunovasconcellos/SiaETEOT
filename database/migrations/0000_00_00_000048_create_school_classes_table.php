@@ -25,6 +25,7 @@ class CreateSchoolClassesTable extends Migration
             $table->string("modality");
             $table->bigInteger("course_id")->unsigned();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign("course_id")->references("course_id")->on("courses");
         });
     }

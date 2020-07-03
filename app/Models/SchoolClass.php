@@ -4,8 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class SchoolClass extends Model
 {
+
+    use SoftDeletes;
     
     protected $primaryKey = "school_class_id";
 

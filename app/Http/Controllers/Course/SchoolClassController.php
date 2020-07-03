@@ -45,6 +45,7 @@ class SchoolClassController extends Controller
             "school_classes.situation", "school_classes.shift", "courses.course_name"
             )
         ->join("courses", "school_classes.course_id", "=", "courses.course_id")
+        ->where("school_classes.deleted_at", "=", null)
         ->paginate(5);
 
         return response()->json([
@@ -112,6 +113,7 @@ class SchoolClassController extends Controller
             )
         ->join("courses", "school_classes.course_id", "=", "courses.course_id")
         ->where("school_classes.school_class_id", "=", $id)
+        ->where("school_classes.deleted_at", "=", null)
         ->get();
 
         return response()->json([
@@ -175,5 +177,10 @@ class SchoolClassController extends Controller
     {
         $schoolClass = SchoolClass::findOrFail($id)->delete();
         
+        return response()->json([
+            "error" => false,
+            "School Class successfully deleted."
+        ]);
+
     }
 }
