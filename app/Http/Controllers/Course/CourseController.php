@@ -33,20 +33,26 @@ class CourseController extends Controller
 
     public function index()
     {
-        $course = DB::table('courses')->select('course_id', 'course_name', 'course_workload')->where('deleted_at', null)->get();
+        $course = DB::table('courses')
+        ->select('course_id', 'course_name', 'course_workload')
+        ->where('deleted_at', null)
+        ->paginate(5);
 
-        if(!$course){
+        if (empty($course["data"] == false)) {
+
             return response()->json([
-                "error" => true,
-                "message" => "No Course registred",
+                "error" => false,
+                "message" => "no registered discipline.",
                 "response" => null
             ]);
+
         }
 
         return response()->json([
             "error" => false,
             "response" => $course
         ]);
+        
     }
 
     /**

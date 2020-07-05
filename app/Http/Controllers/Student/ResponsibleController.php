@@ -26,20 +26,18 @@ class ResponsibleController extends Controller
     
     public function index()
     {
-        $responsible = DB::table('responsibles')->join("users", "responsibles.user_id", "=", "users.user_id")->get();
+        $responsible = DB::table('responsibles')
+        ->join("users", "responsibles.user_id", "=", "users.user_id")
+        ->paginate(5);
 
-        if(!Auth::user() || Auth::user()->level <= 7){
-            return response()->json([
-                "error" => true,
-                "message" => "Unauthorized"
-            ], 401);
+        if (empty($responsible["data"] == false)) {
 
-        }else if(!$responsible){
             return response()->json([
-                "error" => true,
-                "message" => "No responsible registred.",
+                "error" => false,
+                "message" => "no registered discipline.",
                 "response" => null
             ]);
+
         }
 
         return response()->json([
@@ -102,13 +100,7 @@ class ResponsibleController extends Controller
      */
     public function show($id)
     {
-        if(!Auth::user() || Auth::user()->level > 7){
-            return response()->json([
-                "error" => true,
-                "message" => "Unauthorized"
-            ], 401);
-        }
-        
+
         Responsible::findOrFail($id);
 
         return response()->json([

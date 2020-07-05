@@ -39,7 +39,7 @@ class SchoolClassController extends Controller
     public function index()
     {
         
-        $students = DB::table("school_classes")
+        $schoolClasses = DB::table("school_classes")
         ->select(
             "school_classes.school_class_id", "school_classes.school_class_name", "school_classes.school_class_type", "school_classes.school_year",
             "school_classes.situation", "school_classes.shift", "courses.course_name"
@@ -48,9 +48,19 @@ class SchoolClassController extends Controller
         ->where("school_classes.deleted_at", "=", null)
         ->paginate(5);
 
+        if (empty($schoolClasses["data"] == false)) {
+
+            return response()->json([
+                "error" => false,
+                "message" => "no registered discipline.",
+                "response" => null
+            ]);
+
+        }
+
         return response()->json([
             "error" => false,
-            "response" => $students
+            "response" => $schoolClasses
         ]);
         
     }
@@ -105,11 +115,13 @@ class SchoolClassController extends Controller
     public function show($id)
     {
         
-        $student = DB::table("school_classes")
+        SchoolClass::findOrFail($id);
+
+        $schoolClass = DB::table("school_classes")
         ->select(
             "school_classes.school_class_id", "school_classes.school_class_name", "school_classes.school_class_type", "school_classes.school_year",
             "school_classes.situation", "school_classes.shift", "school_classes.start_date", "school_classes.end_date",
-            "school_classes.modality", "courses.course_name", "courses.course_workload",
+            "school_classes.modality", "courses.course_name", "courses.course_workload"
             )
         ->join("courses", "school_classes.course_id", "=", "courses.course_id")
         ->where("school_classes.school_class_id", "=", $id)
@@ -118,7 +130,7 @@ class SchoolClassController extends Controller
 
         return response()->json([
             "error" => false,
-            "response" => $student
+            "response" => $schoolClass
         ]);
 
     }

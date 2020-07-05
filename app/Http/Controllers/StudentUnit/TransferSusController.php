@@ -40,18 +40,14 @@ class TransferSusController extends Controller
         ->where('transfer_sus.deleted_at', null)
         ->select('transfer_sus.trans_id', 'transfer_sus.process_number', 'transfer_sus.transfer_date', 'transfer_sus.transfer_type', 'transfer_sus.student_registration', 'transfer_sus.su_id', 'student_units.su_name', 'users.name', 'users.last_name')->get();
 
-        if(!Auth::user() || Auth::user()->level <= 7){
-            return response()->json([
-                "error" => true,
-                "message" => "Unauthorized"
-            ], 401);
+        if (empty($transferSus["data"] == false)) {
 
-        }else if(!$transferSus){
             return response()->json([
                 "error" => false,
-                "message" => "No transfer sus Unit registred.",
+                "message" => "no registered discipline.",
                 "response" => null
             ]);
+
         }
 
         return response()->json([

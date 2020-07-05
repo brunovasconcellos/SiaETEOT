@@ -18,6 +18,7 @@ class CreateDisciplineSchoolClassesTable extends Migration
             $table->bigInteger("school_class_id")->unsigned();
             $table->bigInteger("discipline_id")->unsigned();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign("school_class_id")->references("school_class_id")->on("school_classes");
             $table->foreign("discipline_id")->references("discipline_id")->on("disciplines");
         });

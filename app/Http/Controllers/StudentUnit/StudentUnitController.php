@@ -29,20 +29,19 @@ class StudentUnitController extends Controller
     
     public function index()
     {
-        $studentUnit = DB::table('student_units')->select('su_id', 'su_name', 'su_phone')->where('deleted_at', null)->get();
+        $studentUnit = DB::table('student_units')
+        ->select('su_id', 'su_name', 'su_phone')
+        ->where('deleted_at', null)
+        ->paginate(5);
     
-        if(!Auth::user() || Auth::user()->level <= 7){
-            return response()->json([
-                "error" => true,
-                "message" => "Unauthorized"
-            ], 401);
+        if (empty($studentUnit["data"] == false)) {
 
-        }else if(!$studentUnit){
             return response()->json([
-                "error" => true,
-                "message" => "No Student Unit registred.",
+                "error" => false,
+                "message" => "no registered discipline.",
                 "response" => null
             ]);
+
         }
 
         return response()->json([

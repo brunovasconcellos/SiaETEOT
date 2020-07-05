@@ -62,6 +62,8 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
         Route::resource('/schoolclass', 'Course\SchoolClassController');
     
         Route::resource("/discipline", "Course\DisciplineController");
+   
+        Route::resource("/disciplineschoolclass", "Course\DisciplineSchoolClassController");
         
     });
 

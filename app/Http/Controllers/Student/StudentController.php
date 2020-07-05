@@ -48,11 +48,11 @@ class StudentController extends Controller
         ->where("students.deleted_at", "=", null)
         ->paginate(5);
 
-        if (!$students) {
+        if (empty($students["data"] == false)) {
 
             return response()->json([
                 "error" => false,
-                "message" => "No students registred.",
+                "message" => "no registered discipline.",
                 "response" => null
             ]);
 
@@ -214,6 +214,8 @@ class StudentController extends Controller
      */
     public function show($id)
     {
+
+        Student::findOrFail($id);
 
         $student = DB::table('students')
         ->select(

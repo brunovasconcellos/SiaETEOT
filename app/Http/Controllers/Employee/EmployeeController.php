@@ -42,13 +42,13 @@ class EmployeeController extends Controller
         ->where("employees.deleted_at", "=", null)
         ->paginate(5);
 
-        if (!$employees) {
+        if (empty($employees["data"] == false)) {
 
             return response()->json([
                 "error" => false,
-                "message" => "No students registred.",
+                "message" => "no registered discipline.",
                 "response" => null
-            ], 200);
+            ]);
 
         }
 
