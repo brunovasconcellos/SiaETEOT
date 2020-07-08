@@ -19,6 +19,7 @@ class CreateResponsibleStudentsTable extends Migration
             $table->bigInteger("responsible_id")->unsigned();
             $table->bigInteger("student_registration")->unsigned();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign("responsible_id")->references("responsible_id")->on("responsibles");
             $table->foreign("student_registration")->references("student_registration")->on("students");
         });

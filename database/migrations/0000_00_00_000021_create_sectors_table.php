@@ -17,6 +17,7 @@ class CreateSectorsTable extends Migration
             $table->bigIncrements('sector_id');
             $table->string("sector_name");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

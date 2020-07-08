@@ -19,7 +19,8 @@ class CreateExertsTable extends Migration
             $table->bigInteger("employee_id")->unsigned();
             $table->bigInteger("position_id")->unsigned();
             $table->timestamps();
-           $table->foreign("employee_id")->references("employee_id")->on("employees");
+            $table->softDeletes();
+            $table->foreign("employee_id")->references("employee_id")->on("employees");
             $table->foreign("position_id")->references("position_id")->on("positions");
         });
     }

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class DisciplineSchoolClass extends Model
 {
     
-    use softDeletes;
+    use SoftDeletes;
 
     protected $primaryKey = "discipline_schoolClass_id";
 

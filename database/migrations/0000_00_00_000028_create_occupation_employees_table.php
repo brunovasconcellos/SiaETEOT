@@ -20,6 +20,7 @@ class CreateOccupationEmployeesTable extends Migration
             $table->bigInteger("employee_id")->unsigned();
             $table->bigInteger("occupation_id")->unsigned();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign("employee_id")->references("employee_id")->on("employees");
             $table->foreign("occupation_id")->references("occupation_id")->on("occupations");
         });

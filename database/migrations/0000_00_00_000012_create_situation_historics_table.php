@@ -19,6 +19,7 @@ class CreateSituationHistoricsTable extends Migration
             $table->date("dt_situation");
             $table->bigInteger("student_registration")->unsigned();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign("student_registration")->references("student_registration")->on("students");
         });
     }

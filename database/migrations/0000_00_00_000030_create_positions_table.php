@@ -19,6 +19,7 @@ class CreatePositionsTable extends Migration
             $table->string("workload");
             $table->string("type");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

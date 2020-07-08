@@ -28,6 +28,7 @@ class CreateStudentDocumentsTable extends Migration
             $table->boolean("delivered_rg");
             $table->boolean("delivered_historic");
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign("student_registration")->references("student_registration")->on("students");
         });
     }

@@ -22,6 +22,7 @@ class CreateCalendarRegistersTable extends Migration
             $table->bigInteger("event_id")->unsigned();
             $table->bigInteger("user_id")->unsigned();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign("calendar_id")->references("calendar_id")->on("calendars");
             $table->foreign("event_id")->references("event_id")->on("events");
             $table->foreign("user_id")->references("user_id")->on("users");

@@ -17,6 +17,7 @@ class CreateOccupationsTable extends Migration
             $table->bigIncrements('occupation_id');
             $table->string("occupation_name");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

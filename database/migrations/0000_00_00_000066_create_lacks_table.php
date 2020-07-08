@@ -19,6 +19,7 @@ class CreateLacksTable extends Migration
             $table->bigInteger("matriculated_id")->unsigned();
             $table->bigInteger("leson_status_id")->unsigned();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign("matriculated_id")->references("matriculated_id")->on("matriculateds");
             $table->foreign("leson_status_id")->references("leson_status_id")->on("leson_statuses");
         });
