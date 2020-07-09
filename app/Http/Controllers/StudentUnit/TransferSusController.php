@@ -38,13 +38,13 @@ class TransferSusController extends Controller
         ->join("student_units", "transfer_sus.su_id", "=", "student_units.su_id")
         ->join('users', "students.user_id", "=", "users.user_id")
         ->where('transfer_sus.deleted_at', null)
-        ->select('transfer_sus.trans_id', 'transfer_sus.process_number', 'transfer_sus.transfer_date', 'transfer_sus.transfer_type', 'transfer_sus.student_registration', 'transfer_sus.su_id', 'student_units.su_name', 'users.name', 'users.last_name')->get();
+        ->select('transfer_sus.trans_id', 'transfer_sus.process_number', 'transfer_sus.transfer_date', 'transfer_sus.transfer_type', 'transfer_sus.student_registration', 'transfer_sus.su_id', 'student_units.su_name', 'users.name', 'users.last_name')->paginate(5);
 
         if (empty($transferSus["data"] == false)) {
 
             return response()->json([
-                "error" => false,
-                "message" => "no registered discipline.",
+                "error" => true,
+                "message" => "No registered Transfer Sus.",
                 "response" => null
             ]);
 
@@ -169,7 +169,7 @@ class TransferSusController extends Controller
 
         return response()->json([
             "error" => false,
-            "message" => "Student Unit successfully deleted."
+            "message" => "Transfer Sus successfully deleted."
         ], 200);
     }
 }
