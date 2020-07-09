@@ -24,7 +24,6 @@ class DisciplineController extends Controller
             
             "disciplineName" => ["required", "string", "max:255"],
             "disciplineAbbreviation" => ["required", "string", "max:255"],
-            "courseId" => ["required", "max:255"]
 
         ]);
 
@@ -34,8 +33,7 @@ class DisciplineController extends Controller
     {
         
         $disciplines = DB::table("disciplines")
-        ->select("disciplines.discipline_id", "disciplines.discipline_name", "disciplines.discipline_abbreviation", "courses.course_name")
-        ->join("courses", "disciplines.course_id", "=", "courses.course_id")
+        ->select("disciplines.discipline_id", "disciplines.discipline_name", "disciplines.discipline_abbreviation")
         ->where("disciplines.deleted_at", "=", null)
         ->paginate(5);
 
@@ -46,14 +44,14 @@ class DisciplineController extends Controller
                 "error" => false,
                 "message" => "no registered discipline.",
                 "response" => null
-            ]);
+            ], 400);
 
         }
 
         return response()->json([
             "error" => false,
             "response" => $disciplines
-        ]);
+        ], 200);
         
     }
 
@@ -66,8 +64,6 @@ class DisciplineController extends Controller
     public function store(Request $request)
     {
 
-        Course::findOrFail($request->courseId);
-
         $error = $this->validation($request);
 
         if ($error->fails()) {
@@ -75,20 +71,19 @@ class DisciplineController extends Controller
             return response()->json([
                 "error" => true,
                 "message" => $error->errors()->all()
-            ]);
+            ], 400);
 
         }
 
         Discipline::create([
             "discipline_name" => $request->disciplineName,
             "discipline_abbreviation" => $request->disciplineAbbreviation,
-            "course_id" => $request->courseId
         ]);
 
         return response()->json([
             "error" => false,
             "message" => "Discipline successfully created."
-        ]);
+        ], 201);
 
     }
 
@@ -105,10 +100,8 @@ class DisciplineController extends Controller
 
         $discipline = DB::table("disciplines")
         ->select(
-            "disciplines.discipline_id", "disciplines.discipline_name", "disciplines.discipline_abbreviation", "courses.course_name",
-            "courses.course_workload"
+            "disciplines.discipline_id", "disciplines.discipline_name", "disciplines.discipline_abbreviation"
             )
-        ->join("courses", "disciplines.course_id", "=", "courses.course_id")
         ->where("disciplines.discipline_id", "=", $id)
         ->where("disciplines.deleted_at", "=", null)
         ->get();
@@ -116,7 +109,7 @@ class DisciplineController extends Controller
         return response()->json([
             "error" => false,
             "response" => $discipline
-        ]);
+        ], 200);
 
     }
 
@@ -129,8 +122,6 @@ class DisciplineController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
-        Course::findOrFail($request->courseId);
 
         $discipline = Discipline::findOrFail($id);
 
@@ -141,20 +132,19 @@ class DisciplineController extends Controller
             return response()->json([
                 "error" => true,
                 "message" => $error->errors()->all()
-            ]);
+            ], 400);
 
         }
 
         $discipline->update([
             "discipline_name" => $request->disciplineName,
             "discipline_abbreviation" => $request->disciplineAbbreviation,
-            "course_id" => $request->courseId
         ]);
 
         return response()->json([
             "error" => false,
             "message" => "Discipline successfully updated."
-        ]);
+        ], 200);
         
     }
 
@@ -172,7 +162,7 @@ class DisciplineController extends Controller
         return response()->json([
             "error" => false,
             "Discipline successfully deleted."
-        ]);
+        ], 200);
         
     }
 }

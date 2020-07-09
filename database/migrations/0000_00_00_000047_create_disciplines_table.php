@@ -17,10 +17,8 @@ class CreateDisciplinesTable extends Migration
             $table->bigIncrements('discipline_id');
             $table->string("discipline_name");
             $table->string("discipline_abbreviation");
-            $table->bigInteger("course_id")->unsigned();
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign("course_id")->references("course_id")->on("courses");
         });
     }
 

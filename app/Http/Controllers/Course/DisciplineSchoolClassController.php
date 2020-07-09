@@ -48,7 +48,7 @@ class DisciplineSchoolClassController extends Controller
         return response()->json([
             "error" => false,
             "message" => $disciplineSchoolClasses
-        ]);
+        ], 200);
 
     }
 
@@ -72,7 +72,7 @@ class DisciplineSchoolClassController extends Controller
             return response()->json([
                 "error" => true,
                 "message" => $error->errors()->all()
-            ]);
+            ], 400);
 
         }
 
@@ -84,7 +84,7 @@ class DisciplineSchoolClassController extends Controller
         return response()->json([
             "error" => false,
             "message" => "Discipline School Class successfully."
-        ]);
+        ], 201);
         
     }
 
@@ -113,7 +113,7 @@ class DisciplineSchoolClassController extends Controller
         return response()->json([
             "error" => false,
             "message" => $disciplineSchoolClasses
-        ]);
+        ], 200);
 
     }
 
@@ -140,7 +140,7 @@ class DisciplineSchoolClassController extends Controller
             return response()->json([
                 "error" => true,
                 "message" => $error->errors()->all()
-            ]);
+            ], 400);
 
         }
 
@@ -152,7 +152,7 @@ class DisciplineSchoolClassController extends Controller
         return response()->json([
             "error" => false,
             "message" => "Discipline School Class successfully."
-        ]);
+        ], 200);
 
     }
 
@@ -170,7 +170,7 @@ class DisciplineSchoolClassController extends Controller
         return response()->json([
             "error" => false,
             "message" => "Discipline school class delete."
-        ]);
+        ], 200);
 
     }
 }

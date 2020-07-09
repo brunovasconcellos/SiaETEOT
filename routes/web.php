@@ -50,8 +50,7 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
         Route::resource("/student", "Student\StudentController");
 
         Route::resource("/responsible", "Student\ResponsibleController");
-
-        Route::resource('/employee', 'Employee\EmployeeController');          
+    
 
         Route::resource('/studentunit', 'StudentUnit\StudentUnitController');
         
@@ -69,4 +68,8 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
 
 });
 
+Route::resource('/employee', 'Employee\EmployeeController');      
+
 Route::resource('/occupation', 'Employee\OccupationsController');
+
+Route::resource('/coursediscipline', 'Course\CourseDisciplineController');
