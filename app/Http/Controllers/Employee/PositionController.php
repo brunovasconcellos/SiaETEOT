@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\StudentUnit;
+namespace App\Http\Controllers\Employee;
 
-use App\StudentUnit;
+use App\Http\Controllers\Controller;
+use App\Position;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
 
-
-class StudentUnitController extends Controller
+class PositionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,36 +18,32 @@ class StudentUnitController extends Controller
      */
 
     protected function validator(Request $request){
-
         return Validator::make($request->all(), [
-            "suName" => ["required", "string", "max:255"],
-            "suPhone" => ["required", "size:9"]
+            "positionName" => ["required", "string", "max:255"],
+            "workload" => ["required", "size:4"],
+            "type" => ["required", "string", "max:255"]
         ]);
-
     }
-    
+
     public function index()
     {
-        $studentUnit = DB::table('student_units')
-        ->select('su_id', 'su_name', 'su_phone')
+        $position = DB::table('positions')
+        ->select('position_id', 'position_name', 'workload', 'type')
         ->where('deleted_at', null)
         ->paginate(5);
-    
-        if (empty($studentUnit["data"] == false)) {
 
+        if(empty($position["data"] == false)){
             return response()->json([
                 "error" => true,
-                "message" => "no registered Student Units.",
+                "message" => "No registered positions",
                 "response" => null
             ]);
-
         }
 
         return response()->json([
             "error" => false,
-            "response" => $studentUnit
+            "response" => $position
         ], 200);
-
     }
 
     /**
@@ -60,7 +55,7 @@ class StudentUnitController extends Controller
     public function store(Request $request)
     {
         $error = $this->validator($request);
-        
+
         if($error->fails()){
             return response()->json([
                 "error" => true,
@@ -68,14 +63,15 @@ class StudentUnitController extends Controller
             ], 400);
         }
 
-        StudentUnit::create([
-            "su_name" => $request->suName,
-            "su_phone" => $request->suPhone
+        Position::create([
+            "position_name" => $request->positionName,
+            "workload" => $request->workload,
+            "type" => $request->type
         ]);
 
         return response()->json([
             "error" => false,
-            "message" => "Student Unit is successfully created"
+            "message" => "Position is successfully created"
         ], 201);
     }
 
@@ -89,16 +85,17 @@ class StudentUnitController extends Controller
     {
         if(!Auth::user() || Auth::user()->level < 7){
             return response()->json([
-                "error"=> true,
+                "error" => true,
                 "message" => "Unauthorized"
             ], 401);
         }
 
-        StudentUnit::findOrFail($id);
+        Position::findOrFail($id);
 
         return response()->json([
             "error" => false,
-            "response" => StudentUnit::where('su_id', $id)->select('su_name', 'su_phone')->get()
+            "response" => Position::where('position_id', $id)
+            ->select('position_id', 'position_name', 'workload', 'type')->get()
         ], 200);
     }
 
@@ -112,7 +109,7 @@ class StudentUnitController extends Controller
     public function update(Request $request, $id)
     {
         $error = $this->validator($request);
-        $studentUnit = StudentUnit::findOrFail($id);
+        $position = Position::findOrFail($id);
 
         if($error->fails()){
             return response()->json([
@@ -121,14 +118,15 @@ class StudentUnitController extends Controller
             ], 400);
         }
 
-        $studentUnit->update([
-            "su_name" => $request->suName,
-            "su_phone" => $request->suPhone
+        $position->update([
+            "position_name" => $request->positionName,
+            "workload" => $request->workload,
+            "type" => $request->type
         ]);
 
         return response()->json([
             "error" => false,
-            "message" => "Student Unit successfully updated."
+            "message" => "Position successfully updated"
         ], 200);
     }
 
@@ -147,12 +145,12 @@ class StudentUnitController extends Controller
             ], 401);
         }
 
-        $studentUnit = StudentUnit::findOrFail($id);
-        $studentUnit->delete();
+        $position = Position::findOrFail($id);
+        $position->delete();
 
         return response()->json([
             "error" => false,
-            "message" => "Student Unit successfully deleted."
+            "message" => "Position successfully deleted"
         ], 200);
     }
 }

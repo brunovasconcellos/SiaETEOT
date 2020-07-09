@@ -73,3 +73,5 @@ Route::resource('/employee', 'Employee\EmployeeController');
 Route::resource('/occupation', 'Employee\OccupationsController');
 
 Route::resource('/coursediscipline', 'Course\CourseDisciplineController');
+
+Route::resource('/position', 'Employee\PositionController');
