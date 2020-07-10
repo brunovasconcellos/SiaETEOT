@@ -41,6 +41,7 @@ class CourseDisciplineController extends Controller
             )
         ->join("courses", "course_disciplines.course_id", "=", "courses.course_id")
         ->join("disciplines", "course_disciplines.discipline_id", "=", "disciplines.discipline_id")
+        ->where("course_disciplines.deleted_at", "=", null)
         ->paginate(5);
 
         return response()->json([
@@ -100,7 +101,8 @@ class CourseDisciplineController extends Controller
         )
         ->join("courses", "course_disciplines.course_id", "=", "courses.course_id")
         ->join("disciplines", "course_disciplines.discipline_id", "=", "disciplines.discipline_id")
-        ->paginate(5);
+        ->where("course_disciplines.course_discipline_id", "=", $id)
+        ->get();
 
         return response()->json([
             "error" => false,
@@ -154,6 +156,12 @@ class CourseDisciplineController extends Controller
     {
         
         CourseDiscipline::findOrFail($id)->delete();
+
+        return response()->json([
+            "error" => false,
+            "message" => "Curse discipline successfully deleted."
+
+        ]);
         
     }
 }
