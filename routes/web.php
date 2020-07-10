@@ -79,3 +79,4 @@ Route::resource('/position', 'Employee\PositionController');
 Route::resource('/exerts', 'Employee\ExertsController');
 
 Route::resource('/able', 'Employee\AbleController');
+Route::resource("/teach", "Employee\TeachController");
