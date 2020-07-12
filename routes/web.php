@@ -80,3 +80,6 @@ Route::resource('/exerts', 'Employee\ExertsController');
 
 Route::resource('/able', 'Employee\AbleController');
 Route::resource("/teach", "Employee\TeachController");
+
+Route::resource('/schedule', 'Course\SchedulesController');
+
