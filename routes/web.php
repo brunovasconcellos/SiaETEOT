@@ -83,3 +83,5 @@ Route::resource("/teach", "Employee\TeachController");
 
 Route::resource('/schedule', 'Course\SchedulesController');
 
+Route::resource('/content', 'Course\ContentController');
+
