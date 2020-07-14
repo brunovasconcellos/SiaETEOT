@@ -47,7 +47,7 @@ class TeachController extends Controller
         return response()->json([
             "error" => false,
             "response" => $teaches
-        ]);
+        ], 200);
 
     }
 
@@ -67,7 +67,7 @@ class TeachController extends Controller
             return response()->json([
                 "error" => true,
                 "message" => $error->errors()->all()
-            ]);
+            ], 400);
 
         }
 
@@ -81,7 +81,7 @@ class TeachController extends Controller
         return response()->json([
             "error" => false,
             "message" => "Teach successfully created."
-        ]);
+        ], 201);
 
     }
 
@@ -109,7 +109,7 @@ class TeachController extends Controller
         return response()->json([
             "error" => false,
             "response" => $teach
-        ]);
+        ], 200);
 
     }
 
@@ -132,7 +132,7 @@ class TeachController extends Controller
             return response()->json([
                 "error" => true,
                 "message" => $error->errors()->all()
-            ]);
+            ], 400);
 
         }
 
@@ -146,7 +146,7 @@ class TeachController extends Controller
         return response()->json([
             "error" => false,
             "message" => "Teach successfully created."
-        ]);
+        ], 200);
 
     }
 
@@ -164,7 +164,7 @@ class TeachController extends Controller
         return response()->json([
             "error" => false,
             "message" => "Teach successfully deleted."
-        ]);
+        ], 200);
 
     }
 }

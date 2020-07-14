@@ -47,7 +47,7 @@ class CourseDisciplineController extends Controller
         return response()->json([
             "error" => false,
             "response" => $courseDisciplines
-        ]);
+        ], 200);
         
     }
 
@@ -107,7 +107,7 @@ class CourseDisciplineController extends Controller
         return response()->json([
             "error" => false,
             "response" => $courseDiscipline
-        ]);
+        ], 200);
 
     }
 
@@ -142,7 +142,7 @@ class CourseDisciplineController extends Controller
         return response()->json([
             "error" => false,
             "message" => "Course discipline successfully created."
-        ], 201);
+        ], 200);
         
     }
 
@@ -161,7 +161,7 @@ class CourseDisciplineController extends Controller
             "error" => false,
             "message" => "Curse discipline successfully deleted."
 
-        ]);
+        ], 200);
         
     }
 }
