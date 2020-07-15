@@ -14,7 +14,7 @@ class CreateSchoolReportsTable extends Migration
     public function up()
     {
         Schema::create('school_reports', function (Blueprint $table) {
-            $table->bigIncrements("school_report_id")->unsigned();
+            $table->id("matriculated_id");
             $table->float("grade_first_trimester");
             $table->float("grade_first_recuperation");
             $table->integer("first_predicted_lesson");
@@ -32,6 +32,7 @@ class CreateSchoolReportsTable extends Migration
             $table->string("situation_after_final_recup");
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign("matriculated_id")->references("matriculated_id")->on("matriculateds");
         });
     }
 
