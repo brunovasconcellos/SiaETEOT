@@ -23,22 +23,22 @@ class SchoolReportController extends Controller
 
         return Validator::make($request->all(), [
 
-        "matriculatedId" => ["required", "numeric"],    
-        "gradeFirstTrimester" => ["required", "numeric"],
-        "gradeFirstRecuperation" => ["required", "numeric"],
-        "firstPredictedLesson" => ["required", "numeric", "integer"],
-        "firstPerformedLesson" => ["required", "numeric", "integer"],
-        "gradeSecondTrimester" => ["required", "numeric"],
-        "gradeSecondRecuperation" => ["required", "numeric"],
-        "secondPredictedLesson" => ["required", "numeric", "integer"],
-        "secondPerformedLesson" => ["required", "numeric", "integer"],
-        "gradeThirdTrimester" => ["required", "numeric"],
-        "gradeThirdRecuperation" => ["required", "numeric"],
-        "thirdPredictedLesson" => ["required", "numeric", "integer"],
-        "thirdPerformedLesson" => ["required", "numeric", "integer"],
-        "situationBeforeFinalRecup" => ["required", "string"],
-        "gradeFinalRecuperation" => ["required", "numeric"],
-        "situationAfterFinalRecup" => ["required", "string"]
+            "matriculatedId" => ["required", "numeric"],    
+            "gradeFirstTrimester" => ["required", "numeric"],
+            "gradeFirstRecuperation" => ["required", "numeric"],
+            "firstPredictedLesson" => ["required", "numeric", "integer"],
+            "firstPerformedLesson" => ["required", "numeric", "integer"],
+            "gradeSecondTrimester" => ["required", "numeric"],
+            "gradeSecondRecuperation" => ["required", "numeric"],
+            "secondPredictedLesson" => ["required", "numeric", "integer"],
+            "secondPerformedLesson" => ["required", "numeric", "integer"],
+            "gradeThirdTrimester" => ["required", "numeric"],
+            "gradeThirdRecuperation" => ["required", "numeric"],
+            "thirdPredictedLesson" => ["required", "numeric", "integer"],
+            "thirdPerformedLesson" => ["required", "numeric", "integer"],
+            "situationBeforeFinalRecup" => ["required", "string"],
+            "gradeFinalRecuperation" => ["required", "numeric"],
+            "situationAfterFinalRecup" => ["required", "string"]
 
         ]);
 
@@ -49,11 +49,12 @@ class SchoolReportController extends Controller
         
         $schoolReports = DB::table("school_reports")
         ->select(
-            "school_report_id", "students.student_registration", "students.name", "students.last_name", "school_classes.school_class_name",
-            "school_classes.school_class_type", "school_classes.school_year", "disciplines.discipline_name"
+            "school_reports.matriculated_id", "students.student_registration", "users.name", "users.last_name",
+            "school_classes.school_class_name", "school_classes.school_class_type", "school_classes.school_year", "disciplines.discipline_name"
             )
-        ->join("matriculateds", "schoolreport.matriculated_id", "=", "matriculateds.matriculated_id")
+        ->join("matriculateds", "school_reports.matriculated_id", "=", "matriculateds.matriculated_id")
         ->join("students", "matriculateds.student_registration", "=", "students.student_registration")
+        ->join("users", "students.user_id", "=", "users.user_id")
         ->join("disciplines", "matriculateds.discipline_id", "=", "disciplines.discipline_id")
         ->join("school_classes", "matriculateds.school_class_id", "=", "school_classes.school_class_id")
         ->where("school_reports.deleted_at", "=", null)
@@ -126,19 +127,21 @@ class SchoolReportController extends Controller
         
         $schoolReport = SchoolReport::findOrFail($id)
         ->select(
-            "school_report_id", "grade_first_trimester", "grade_first_recuperation", "first_predicted_lesson",
-            "first_performed_lesson", "grade_second_trimester", "grade_second_recuperation", "second_predicted_lesson",
-            "second_performed_lesson", "grade_third_trimester", "grade_third_recuperation", "third_predicted_lesson",
-            "third_performed_lesson", "situation_before_final_recup", "grade_final_recuperation", "situation_after_final_recup",
-            "matriculateds.school_year", "matriculateds.call_number", "students.student_name", "disciplines.discipline_name",
-            "school_classes.school_class_name", "school_classes.school_class_type", "school_classes.school_year"
+            "school_reports.matriculated_id", "school_reports.grade_first_trimester", "school_reports.grade_first_recuperation", "school_reports.first_predicted_lesson",
+            "school_reports.first_performed_lesson", "school_reports.grade_second_trimester", "school_reports.grade_second_recuperation", "school_reports.second_predicted_lesson",
+            "school_reports.second_performed_lesson", "school_reports.grade_third_trimester", "school_reports.grade_third_recuperation", "school_reports.third_predicted_lesson",
+            "school_reports.third_performed_lesson", "school_reports.situation_before_final_recup", "school_reports.grade_final_recuperation", "school_reports.situation_after_final_recup",
+            "matriculateds.school_year", "matriculateds.call_number", "users.name", "users.last_name",
+            "students.student_registration", "disciplines.discipline_name", "school_classes.school_class_name", "school_classes.school_class_type",
+            "school_classes.school_year"
         )
-    ->join("matriculateds", "schoolreport.matriculated_id", "=", "matriculateds.matriculated_id")
+    ->join("matriculateds", "school_reports.matriculated_id", "=", "matriculateds.matriculated_id")
     ->join("students", "matriculateds.student_registration", "=", "students.student_registration")
+    ->join("users", "students.user_id", "=", "users.user_id")
     ->join("disciplines", "matriculateds.discipline_id", "=", "disciplines.discipline_id")
     ->join("school_classes", "matriculateds.school_class_id", "=", "school_classes.school_class_id")
-    ->where("school_report_id", "=", $id)
-    ->where("deleted_at", "=", null)
+    ->where("school_reports.matriculated_id", "=", $id)
+    ->where("school_reports.deleted_at", "=", null)
     ->get();
 
     return response()->json([

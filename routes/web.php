@@ -89,3 +89,5 @@ Route::resource('/schoolreport', "Student\SchoolReportController");
 
 Route::resource('/lesonstatus', 'Course\LesonStatusController');
 
+Route::resource('/matriculated', "Course\MatriculatedController");
+
