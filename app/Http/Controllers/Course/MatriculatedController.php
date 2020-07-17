@@ -56,7 +56,7 @@ class MatriculatedController extends Controller
         return response()->json([
             "error" => false,
             "response" => $matriculateds
-        ]);
+        ], 200);
 
     }
 
@@ -133,7 +133,7 @@ class MatriculatedController extends Controller
         return response()->json([
             "error" => false,
             "response" => $matriculated
-        ]);
+        ], 200);
 
     }
 

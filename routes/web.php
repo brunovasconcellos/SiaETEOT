@@ -79,6 +79,7 @@ Route::resource('/position', 'Employee\PositionController');
 Route::resource('/exerts', 'Employee\ExertsController');
 
 Route::resource('/able', 'Employee\AbleController');
+
 Route::resource("/teach", "Employee\TeachController");
 
 Route::resource('/schedule', 'Course\SchedulesController');
@@ -90,4 +91,6 @@ Route::resource('/schoolreport', "Student\SchoolReportController");
 Route::resource('/lesonstatus', 'Course\LesonStatusController');
 
 Route::resource('/matriculated', "Course\MatriculatedController");
+
+Route::resource("/lack", "Course\LackController");
 

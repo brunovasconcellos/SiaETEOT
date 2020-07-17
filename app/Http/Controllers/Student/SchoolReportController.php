@@ -51,7 +51,7 @@ class SchoolReportController extends Controller
         ->select(
             "school_reports.matriculated_id", "students.student_registration", "users.name", "users.last_name",
             "school_classes.school_class_name", "school_classes.school_class_type", "school_classes.school_year", "disciplines.discipline_name"
-            )
+        )
         ->join("matriculateds", "school_reports.matriculated_id", "=", "matriculateds.matriculated_id")
         ->join("students", "matriculateds.student_registration", "=", "students.student_registration")
         ->join("users", "students.user_id", "=", "users.user_id")
@@ -131,9 +131,9 @@ class SchoolReportController extends Controller
             "school_reports.first_performed_lesson", "school_reports.grade_second_trimester", "school_reports.grade_second_recuperation", "school_reports.second_predicted_lesson",
             "school_reports.second_performed_lesson", "school_reports.grade_third_trimester", "school_reports.grade_third_recuperation", "school_reports.third_predicted_lesson",
             "school_reports.third_performed_lesson", "school_reports.situation_before_final_recup", "school_reports.grade_final_recuperation", "school_reports.situation_after_final_recup",
-            "matriculateds.school_year", "matriculateds.call_number", "users.name", "users.last_name",
+            "matriculateds.school_year as matriculated_school_year", "matriculateds.call_number", "users.name", "users.last_name",
             "students.student_registration", "disciplines.discipline_name", "school_classes.school_class_name", "school_classes.school_class_type",
-            "school_classes.school_year"
+            "school_classes.school_year as school_classes_school_year"
         )
     ->join("matriculateds", "school_reports.matriculated_id", "=", "matriculateds.matriculated_id")
     ->join("students", "matriculateds.student_registration", "=", "students.student_registration")
