@@ -125,7 +125,9 @@ class SchoolReportController extends Controller
     public function show($id)
     {
         
-        $schoolReport = SchoolReport::findOrFail($id)
+       SchoolReport::findOrFail($id);
+        
+       $schoolReport = DB::table("school_reports")
         ->select(
             "school_reports.matriculated_id", "school_reports.grade_first_trimester", "school_reports.grade_first_recuperation", "school_reports.first_predicted_lesson",
             "school_reports.first_performed_lesson", "school_reports.grade_second_trimester", "school_reports.grade_second_recuperation", "school_reports.second_predicted_lesson",

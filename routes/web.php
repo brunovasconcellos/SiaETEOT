@@ -94,3 +94,10 @@ Route::resource('/matriculated', "Course\MatriculatedController");
 
 Route::resource("/lack", "Course\LackController");
 
+Route::get("/studentexport", "Student\StudentController@export");
+
+Route::get("/lte", function () {
+
+    return view("lte");
+
+});

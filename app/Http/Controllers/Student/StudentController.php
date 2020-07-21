@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Exports\StudentExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StudentController extends Controller
 {
@@ -240,6 +242,12 @@ class StudentController extends Controller
             "error" => false,
             "response" => $student 
         ]);
+
+    }
+
+    public function export() {
+
+        return Excel::download(new StudentExport, "students.xlsx");
 
     }
 
