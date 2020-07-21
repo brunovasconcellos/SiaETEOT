@@ -25,7 +25,7 @@ class EmployeeController extends Controller
         return Validator::make($request->all(), [
             "sectorId" => ["required", "numeric"]
         ]);
-
+      
     }
 
     public function index()
@@ -84,11 +84,11 @@ class EmployeeController extends Controller
 
         if ($userId["error"] == true && count($error->errors()) == 0) {
 
-            return response()->json([
+           return response()->json([
                 "error" => $userId["error"],
                 "message" => $userId["message"]
             ], 400);
-
+          
         }
 
         if ($userId["error"] == true && $error->fails()) {
@@ -97,7 +97,7 @@ class EmployeeController extends Controller
                 "error" => true,
                 "message" => [$userId["message"], $error->errors()->all()]
             ], 400);
-
+ 
         }
 
         Employee::create([
@@ -110,10 +110,9 @@ class EmployeeController extends Controller
         return response()->json([
 
             "error" => false,
-            "message" => ["Employee Created"]
+            "message" => "Employee successfully created."
 
         ], 201);
-
     }
 
     /**
@@ -256,7 +255,6 @@ class EmployeeController extends Controller
             "error" => true,
             "message" => ["Error when deleting employee"]
         ], 400);
-
 
     }
 }

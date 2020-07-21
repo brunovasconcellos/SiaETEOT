@@ -212,6 +212,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+
         $user = User::findOrFail($id);
 
         if (isset($user)){
@@ -229,7 +230,7 @@ class UserController extends Controller
         return [
             "error" => true
         ];
-
+      
     }
 
 }

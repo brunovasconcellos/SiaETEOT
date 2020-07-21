@@ -15,4 +15,5 @@ class Employee extends Model
     protected $fillable = [
         "user_id", "sector_id"
     ];
+
 }
