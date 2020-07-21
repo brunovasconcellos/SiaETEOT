@@ -19,6 +19,7 @@ class CreateClassroomsTable extends Migration
             $table->string("classroom_name");
             $table->integer("capacity");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

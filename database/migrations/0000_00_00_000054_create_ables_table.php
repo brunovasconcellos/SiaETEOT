@@ -19,6 +19,7 @@ class CreateAblesTable extends Migration
             $table->bigInteger("employee_id")->unsigned();
             $table->bigInteger("discipline_id")->unsigned();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign("discipline_id")->references("discipline_id")->on("disciplines");
             $table->foreign("employee_id")->references("employee_id")->on("employees");
         });

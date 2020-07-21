@@ -21,6 +21,7 @@ class CreateLocalitiesTable extends Migration
             $table->string("city");
             $table->string("federation_unit");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

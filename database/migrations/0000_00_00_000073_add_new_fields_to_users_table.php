@@ -30,6 +30,7 @@ class AddNewFieldsToUsersTable extends Migration
             $table->string("num_residence")->after("level");
             $table->string("complement_residence")->after("num_residence");
             $table->foreign("cep_user")->references("cep")->on("localities");
+            $table->softDeletes()->after("updated_at");
 
         });
     }

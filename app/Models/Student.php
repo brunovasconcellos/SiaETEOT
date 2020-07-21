@@ -3,15 +3,18 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Student extends Model
 {
 
+    use SoftDeletes;
+
     protected $primaryKey = "student_registration";
 
     protected $fillable = [
-        "father_name", "mather_name", "student_type", "actual_situation",
-        "user_id"
+        "student_registration", "father_name", "mather_name", "student_type",
+        "actual_situation", "user_id"
     ];
 
 }

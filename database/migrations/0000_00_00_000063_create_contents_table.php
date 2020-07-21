@@ -21,6 +21,7 @@ class CreateContentsTable extends Migration
             $table->timestamp("content_schedule")->nullable();
             $table->bigInteger("schedule_id")->unsigned();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign("schedule_id")->references("schedule_id")->on("schedules");
         });
     }

@@ -23,6 +23,7 @@ class CreateCalendarsTable extends Migration
             $table->string("start_date");
             $table->string("final_date");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

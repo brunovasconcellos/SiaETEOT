@@ -20,6 +20,7 @@ class CreateEventsTable extends Migration
             $table->string("event_abbreviation");
             $table->string("event_symbol");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

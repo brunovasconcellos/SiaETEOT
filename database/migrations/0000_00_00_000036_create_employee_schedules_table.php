@@ -20,6 +20,7 @@ class CreateEmployeeSchedulesTable extends Migration
             $table->string("week_day");
             $table->bigInteger("employee_id")->unsigned();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign("employee_id")->references("employee_id")->on("employees");
         });
     }

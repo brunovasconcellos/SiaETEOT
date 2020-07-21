@@ -23,6 +23,7 @@ class CreateOcurrenceStudentsTable extends Migration
             $table->string("fact");
             $table->bigInteger("ocurrence_id");
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign("employee_id")->references("employee_id")->on("employees");
         });
     }

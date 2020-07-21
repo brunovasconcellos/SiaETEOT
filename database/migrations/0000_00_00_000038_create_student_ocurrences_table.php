@@ -18,6 +18,7 @@ class CreateStudentOcurrencesTable extends Migration
             $table->bigInteger("employee_id")->unsigned();
             $table->bigInteger("student_registration")->unsigned();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign("employee_id")->references("employee_id")->on("employees");
             $table->foreign("student_registration")->references("student_registration")->on("students");
         });

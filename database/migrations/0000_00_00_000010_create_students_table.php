@@ -21,6 +21,7 @@ class CreateStudentsTable extends Migration
             $table->string("actual_situation");
             $table->bigInteger("user_id")->unsigned();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign("user_id")->references("user_id")->on("users");
         });
     }

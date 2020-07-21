@@ -24,6 +24,7 @@ class CreateSchoolClassOcurrencesTable extends Migration
             $table->bigInteger("employee_id")->unsigned();
             $table->bigInteger("school_class_id")->unsigned();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign("employee_id")->references("employee_id")->on("employees");
             $table->foreign("school_class_id")->references("school_class_id")->on("school_classes");
         });

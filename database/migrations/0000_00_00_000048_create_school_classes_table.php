@@ -17,7 +17,7 @@ class CreateSchoolClassesTable extends Migration
             $table->bigIncrements('school_class_id');
             $table->string("school_class_name");
             $table->string("school_class_type");
-            $table->string("school_year");
+            $table->year("school_year");
             $table->string("situation");
             $table->string("shift");
             $table->timestamp("start_date")->nullable();
@@ -25,6 +25,7 @@ class CreateSchoolClassesTable extends Migration
             $table->string("modality");
             $table->bigInteger("course_id")->unsigned();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign("course_id")->references("course_id")->on("courses");
         });
     }

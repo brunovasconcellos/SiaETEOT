@@ -20,6 +20,7 @@ class CreateSchoolClassTransfersTable extends Migration
             $table->bigInteger("target_class")->unsigned();
             $table->bigInteger("origin_class")->unsigned();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign("target_class")->references("school_class_id")->on("school_classes");
             $table->foreign("origin_class")->references("school_class_id")->on("school_classes");
             $table->foreign("student_registration")->references("student_registration")->on("students");

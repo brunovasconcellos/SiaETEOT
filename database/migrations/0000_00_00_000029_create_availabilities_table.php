@@ -21,6 +21,7 @@ class CreateAvailabilitiesTable extends Migration
             $table->timestamp("finish_hour")->nullable();
             $table->bigInteger("employee_id")->unsigned();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign("employee_id")->references("employee_id")->on("employees");
         });
     }

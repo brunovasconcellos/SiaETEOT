@@ -36,7 +36,7 @@ Route::post("/password/reset", "Auth\ResetPasswordController@reset")->name("pass
 
 Route::get("/password/reset", "Auth\ForgotPasswordController@showLinkRequestForm")->name("password.request");
 
-Route::get("/password/reset/{token}", "Auth\ResetPasswordController@showResetForm")->name("password.reset ");
+Route::get("/password/reset/{token}", "Auth\ResetPasswordController@showResetForm")->name("password.reset");
 
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -45,15 +45,59 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware(["auth"])->prefix("dashboard")->group(function () {
 
-    Route::middleware(["employee"])->prefix("employee")->group(function () {
+    Route::middleware(["employee"])->group(function () {
 
-        Route::resource("inspectorate", "Employee\InspectorController");
+        Route::resource("/student", "Student\StudentController");
 
+        Route::resource("/responsible", "Student\ResponsibleController");
+    
+
+        Route::resource('/studentunit', 'StudentUnit\StudentUnitController');
+        
+        Route::resource('/transfersu', 'StudentUnit\TransferSusController');
+        
+        Route::resource('/course', 'Course\CourseController');
+
+        Route::resource('/schoolclass', 'Course\SchoolClassController');
+    
+        Route::resource("/discipline", "Course\DisciplineController");
+   
+        Route::resource("/disciplineschoolclass", "Course\DisciplineSchoolClassController");
+        
     });
 
 });
 
+Route::resource('/employee', 'Employee\EmployeeController');      
 
-Route::post("/user", "UserController@store");
+Route::resource('/occupation', 'Employee\OccupationsController');
 
-Route::post("/student", "Student\StudentController@store");
+Route::resource('/coursediscipline', 'Course\CourseDisciplineController');
+
+Route::resource('/position', 'Employee\PositionController');
+
+Route::resource('/exerts', 'Employee\ExertsController');
+
+Route::resource('/able', 'Employee\AbleController');
+
+Route::resource("/teach", "Employee\TeachController");
+
+Route::resource('/schedule', 'Course\SchedulesController');
+
+Route::resource('/content', 'Course\ContentController');
+
+Route::resource('/schoolreport', "Student\SchoolReportController");
+
+Route::resource('/lesonstatus', 'Course\LesonStatusController');
+
+Route::resource('/matriculated', "Course\MatriculatedController");
+
+Route::resource("/lack", "Course\LackController");
+
+Route::get("/studentexport", "Student\StudentController@export");
+
+Route::get("/lte", function () {
+
+    return view("lte");
+
+});

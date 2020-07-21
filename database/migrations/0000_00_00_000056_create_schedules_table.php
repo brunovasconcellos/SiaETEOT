@@ -22,6 +22,7 @@ class CreateSchedulesTable extends Migration
             $table->bigInteger("school_class_id")->unsigned();
             $table->bigInteger("able_id")->unsigned();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign("school_class_id")->references("school_class_id")->on("school_classes");
             $table->foreign("able_id")->references("able_id")->on("ables");
         });

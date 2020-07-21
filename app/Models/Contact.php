@@ -4,9 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Contact extends Model
 {
+
+    use SoftDeletes;
 
     static function insertContact ($data, $userId) {
 
