@@ -55,8 +55,6 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
         Route::resource('/studentunit', 'StudentUnit\StudentUnitController');
         
         Route::resource('/transfersu', 'StudentUnit\TransferSusController');
-        
-        Route::resource('/course', 'Course\CourseController');
 
         Route::resource('/schoolclass', 'Course\SchoolClassController');
     
@@ -93,6 +91,10 @@ Route::resource('/lesonstatus', 'Course\LesonStatusController');
 Route::resource('/matriculated', "Course\MatriculatedController");
 
 Route::resource("/lack", "Course\LackController");
+
+Route::resource('/course', 'Course\CourseController');
+
+Route::get("/course/all", "Course\CourseController@test");
 
 Route::get("/studentexport", "Student\StudentController@export");
 

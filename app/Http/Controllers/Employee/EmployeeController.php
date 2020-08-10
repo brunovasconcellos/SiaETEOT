@@ -28,34 +28,26 @@ class EmployeeController extends Controller
       
     }
 
-    public function index()
+    public function index(Request $request)
     {
         
         $employees = DB::table('employees')
         ->select(
-            "employees.employee_id", "users.name", "users.last_name", "users.email",
+            "employees.employee_id as id", "users.name", "users.last_name", "users.email",
             "users.gender", "contacts.contact", "sectors.sector_name"
          )
         ->join("users", "employees.user_id", "=", "users.user_id")
         ->join("contacts", "employees.user_id", "=", "contacts.user_id")
         ->join("sectors", "employees.sector_id", "=", "sectors.sector_id")
         ->where("employees.deleted_at", "=", null)
-        ->paginate(5);
+        ->get();
 
-        if (empty($employees["data"] == false)) {
-
-            return response()->json([
-                "error" => false,
-                "message" => "no registered discipline.",
-                "response" => null
-            ]);
-
+        if ($request->ajax()) // This is what i am needing.
+        {
+          return DataTables()->of($employees)->make(true);
         }
-
-        return response()->json([
-            "error" => false,
-            "response" => $employees
-        ], 200);
+        
+        return view("employee");
 
     }
 

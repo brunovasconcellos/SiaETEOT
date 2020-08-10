@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Yajra\Datatables\Datatables;
 
 class CourseController extends Controller
 {
@@ -29,29 +30,19 @@ class CourseController extends Controller
 
     }
 
-
-
-    public function index()
+    public function index(Request $request)
     {
         $course = DB::table('courses')
-        ->select('course_id', 'course_name', 'course_workload')
+        ->select('course_id as id', 'course_name', 'course_workload')
         ->where('deleted_at', null)
-        ->paginate(5);
+        ->get();
 
-        if (empty($course["data"] == false)) {
-
-            return response()->json([
-                "error" => false,
-                "message" => "no registered discipline.",
-                "response" => null
-            ]);
-
+        if ($request->ajax()) // This is what i am needing.
+        {
+          return DataTables()->of($course)->make(true);
         }
-
-        return response()->json([
-            "error" => false,
-            "response" => $course
-        ]);
+        
+        return view("lte");
         
     }
 
@@ -101,7 +92,7 @@ class CourseController extends Controller
 
         return response()->json([
             "error" => false,
-            "response" => Course::where('course_id', $id)->select('course_id','course_name', 'course_workload')->get()
+            "response" => Course::where('course_id', $id)->select('course_id as id','course_name', 'course_workload')->get()
         ], 200);
     }
 
@@ -114,6 +105,7 @@ class CourseController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $course = Course::findOrFail($id);
 
         $error = $this->validator($request);
@@ -139,10 +131,7 @@ class CourseController extends Controller
             "error" => false,
             "message" => "Course successfully updated."
         ], 200);
-    }
-        
-
-    
+    } 
 
     /**
      * Remove the specified resource from storage.
@@ -152,23 +141,13 @@ class CourseController extends Controller
      */
     public function destroy($id)
     {
-        $course = Course::findOrFail($id);
-
-        if (isset($course)) {
-
-            $course->delete();
+        $course = Course::findOrFail($id)->delete();
 
             return response()->json([
                 "error" => false,
-                "message" => "Course deleted"
+                "message" => "Course successfully deleted."
             ],200);
 
-        }
-
-        return response()->json([
-            "error" => true,
-            "message" => "Error when deleting Course"
-        ], 400);
-
     }
+
 }
