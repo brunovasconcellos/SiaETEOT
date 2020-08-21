@@ -11,6 +11,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Yajra\Datatables\Datatables;
 
 class EmployeeController extends Controller
 {
@@ -42,7 +43,7 @@ class EmployeeController extends Controller
         ->where("employees.deleted_at", "=", null)
         ->get();
 
-        if ($request->ajax()) // This is what i am needing.
+        if ($request->ajax())
         {
           return DataTables()->of($employees)->make(true);
         }
@@ -63,9 +64,9 @@ class EmployeeController extends Controller
 
         $user = new UserController;
 
-        $userId = $user->store($request);
+        $userValidation = $user->validator($request);
 
-        if ($error->fails() && $userId["error"] == false) {
+        if ($error->fails() && count($userValidation->errors()) == 0) {
 
             return response()->json([
                 "error" => true,
@@ -74,23 +75,25 @@ class EmployeeController extends Controller
 
         }
 
-        if ($userId["error"] == true && count($error->errors()) == 0) {
+        if ($userValidation->fails() && count($error->errors()) == 0) {
 
            return response()->json([
-                "error" => $userId["error"],
-                "message" => $userId["message"]
+                "error" => true,
+                "message" => $userValidation->errors()->all()
             ], 400);
           
         }
 
-        if ($userId["error"] == true && $error->fails()) {
+        if ($userValidation->fails()  && $error->fails()) {
 
             return response()->json([
                 "error" => true,
-                "message" => [$userId["message"], $error->errors()->all()]
+                "message" => [$userValidation->errors()->all(), $error->errors()->all()]
             ], 400);
  
         }
+
+        $userId = $user->store($request);
 
         Employee::create([
 
@@ -156,9 +159,8 @@ class EmployeeController extends Controller
 
         $user = new UserController();
 
-        $userId = $user->update($request, $employee->user_id);
+        $userValidation = $user->validator($request);
 
-        
         if ($error->fails()) {
 
             return response()->json([
@@ -181,12 +183,12 @@ class EmployeeController extends Controller
 
         }
         
-        if ($userId["error"] == true) {
+        if ($userValidation->fails()) {
 
             return response()->json([
                 
                 "error" => true,
-                "message" => $userId["message"]
+                "message" => $userValidation->errors()->all()
     
             ], 400);
     
@@ -202,6 +204,8 @@ class EmployeeController extends Controller
             ], 400);
     
         }
+
+        $userId = $user->update($request, $employee->user_id);
 
         $employee->user_id = $userId["userId"];
         $employee->sector_id = $request->sectorId;

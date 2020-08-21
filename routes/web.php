@@ -50,7 +50,8 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
         Route::resource("/student", "Student\StudentController");
 
         Route::resource("/responsible", "Student\ResponsibleController");
-    
+
+        Route::resource('/employee', 'Employee\EmployeeController');      
 
         Route::resource('/studentunit', 'StudentUnit\StudentUnitController');
         
@@ -61,12 +62,12 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
         Route::resource("/discipline", "Course\DisciplineController");
    
         Route::resource("/disciplineschoolclass", "Course\DisciplineSchoolClassController");
+
+        Route::resource('/course', 'Course\CourseController');
         
     });
 
 });
-
-Route::resource('/employee', 'Employee\EmployeeController');      
 
 Route::resource('/occupation', 'Employee\OccupationsController');
 
@@ -91,8 +92,6 @@ Route::resource('/lesonstatus', 'Course\LesonStatusController');
 Route::resource('/matriculated', "Course\MatriculatedController");
 
 Route::resource("/lack", "Course\LackController");
-
-Route::resource('/course', 'Course\CourseController');
 
 Route::get("/course/all", "Course\CourseController@test");
 

@@ -231,88 +231,58 @@ return [
     */
 
     'menu' => [
+    
         [
-            'text' => 'search',
-            'search' => true,
-            'topnav' => true,
+            'header' => 'FUNCIONARIO',
+            'can'  => 'diretoria',
         ],
+
         [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
+            'text' => 'Funcionarios',
+            'url'  => 'dashboard/employee',
+            "icon" => 'fa fa-user-tie',
+            'can'  => 'diretoria',
         ],
+
         [
-            'text'        => 'pages',
-            'url'         => 'admin/pages',
-            'icon'        => 'far fa-fw fa-file',
-            'label'       => 4,
-            'label_color' => 'success',
+            'header' => 'CURSO',
+            'can'  => 'diretoria',
         ],
-        ['header' => 'account_settings'],
+
         [
-            'text' => 'profile',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
+            'text' => 'Cursos',
+            'url'  => 'dashboard/course',
+            "icon" => "fa fa-book-open",
+            'can'  => 'diretoria',
         ],
+
         [
-            'text' => 'change_password',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
-        [
-            'text'    => 'multilevel',
-            'icon'    => 'fas fa-fw fa-share',
+            'text' => 'Aluno',
+            'can'  => 'diretoria',
+            'icon' => 'fa fa-users',
             'submenu' => [
+
                 [
-                    'text' => 'level_one',
-                    'url'  => '#',
+                    'text' => 'Alunos',
+                    'url'  => 'dashboard/student',
+                    'icon' => "fa fa-user-graduate",
+
                 ],
+
                 [
-                    'text'    => 'level_one',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text'    => 'level_two',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                            ],
-                        ],
-                    ],
+                    'text' => 'Responsável',
+                    'url'  => 'dashboard/responsible',
+                    'icon' => 'fa fa-user-alt'
                 ],
+
                 [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
-            ],
+                    'text' => 'Transferência de unidade',
+                    'url'  => 'dashboard/transfersus',
+                    'icon' => 'fa fa-exchange-alt'
+                ]
+            ]
         ],
-        ['header' => 'labels'],
-        [
-            'text'       => 'important',
-            'icon_color' => 'red',
-            'url'        => '#',
-        ],
-        [
-            'text'       => 'warning',
-            'icon_color' => 'yellow',
-            'url'        => '#',
-        ],
-        [
-            'text'       => 'information',
-            'icon_color' => 'cyan',
-            'url'        => '#',
-        ],
+        
     ],
 
     /*
@@ -422,6 +392,17 @@ return [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
+                ],
+            ],
+        ],
+
+        'Validation' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.js',
                 ],
             ],
         ],

@@ -52,10 +52,27 @@
                 {data: "course_workload", name: "course_workload"},
             ];
 
-            new DataTableController("/course", columnsData, "Course");
+            let rule = {
+                courseName: {
+                    required: true,
+                    minlength: 1,
+                },
 
+                courseWorkload: {
+                    required: true,
+                }
+            }
+
+            let message = {
+                
+                courseName: "O nome do curso deve ser preenchido.",
+                courseWorkload: "A carga horaria deve ser preenchida."
+
+            }
+
+            new DataTableController("/dashboard/course", columnsData, "Course", rule, message);
+    
         });
 
     </script>
-
 @stop

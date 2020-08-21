@@ -2,13 +2,13 @@ class DataTableController {
 
     "use strict";
 
-    constructor (route, columsData, name) {
+    constructor (route, columsData, name, rule, message) {
 
         this.createDataTables(route, columsData, name);
         this.showModalCreate();
-        this.createData(route);
-       this.showModalUpdate();
-        this.updateData(route);
+        this.createData(route, rule, message)
+        this.showModalUpdate();
+        this.updateData(route, rule, message);
         this.deleteData(route);
     }
 
@@ -21,8 +21,7 @@ class DataTableController {
                     
                     return `<a href="/dashboard/course/${data.id}" title="Visualizar" class="view btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
                             <button type="button" id="${data.id}" name="edit" title="Editar" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
-                            <button type="button" id="${data.id}" name="delete" title="Excluir" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
-                            `
+                            <button type="button" id="${data.id}" name="delete" title="Excluir" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>`
                 }
             }
         );
@@ -33,7 +32,7 @@ class DataTableController {
                 processing: true,
                 serverSide: true,
                 autoWidth: false,
-                ajax: { //mudar para url:
+                ajax: {
                     url: route,
                     type: 'GET'
                 },
@@ -156,7 +155,6 @@ class DataTableController {
     
     }
 
-
     showModalCreate () {
 
         $(document).on("click", "#new", function (e) {
@@ -179,7 +177,7 @@ class DataTableController {
 
     }
 
-    createData(route) {
+    createData(route, rule, message) {
 
         let helper = new Helper();
 
@@ -187,7 +185,13 @@ class DataTableController {
 
             e.preventDefault();
 
-            $("#modal").modal("hide");
+            let form  = $(this);
+
+            helper.validationForm(rule, message, form);
+
+            if (!form.valid()) return;
+
+            $("#modal").modal('hide');
 
             $.ajax({
 
@@ -202,6 +206,8 @@ class DataTableController {
 
                     helper.alertMessage("success", response.message);
                     
+                    $("#modal").modal("hide");
+
                     $("#list").DataTable().ajax.reload();
 
                 },
@@ -216,6 +222,8 @@ class DataTableController {
                     });
 
                     helper.alertMessage("error", message);
+
+                    $("#modal").modal("hide");
                 }
 
             });
@@ -249,7 +257,7 @@ class DataTableController {
 
     }
 
-    updateData(route) {
+    updateData(route, rule, message) {
 
         let helper = new Helper();
 
@@ -265,6 +273,12 @@ class DataTableController {
         $(document).on("submit", ".edit-data", function (event) {
 
             event.preventDefault();
+
+            let form  = $(this);
+
+            helper.validationForm(rule, message, form);
+
+            if (!form.valid()) return;
 
             $("#modal").modal("hide");
 
@@ -346,7 +360,7 @@ class DataTableController {
                             
                             console.log(error)
 
-                            $.each(error.responseJSON.message, function (key, value) {
+                            $.each(error.responseJSON.response, function (key, value) {
 
                                 message += value;
 

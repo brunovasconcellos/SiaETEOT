@@ -18,7 +18,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    protected function validator ($request)
+    public function validator (Request $request)
     {
         return Validator::make($request->all(), [
 
@@ -95,18 +95,6 @@ class UserController extends Controller
     public function store(Request $request)
     {
 
-        $error = $this->validator($request);
-
-        if ($error->fails()) {
-
-            return [
-                "error" => true,
-                "message" => $error->errors()->all(),
-                "userId" => null
-                ];
-
-        }
-
         $localityCep = Locality::validateLocality($request);
 
         $contact = new Contact();
@@ -162,17 +150,6 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
-        $error = $this->validator($request);
-
-        if ($error->fails()) {
-
-            return [
-                "error" => true,
-                "message" => $error->errors()->all()
-            ];
-
-        }
 
         $localityCep = Locality::validateLocality($request);
 
@@ -180,7 +157,7 @@ class UserController extends Controller
             "name" => $request->name,
             "last_name" => $request->lastName,
             "email" => $request->email,
-            "password" => $request->password,
+            "password" => Hash::make($request->password),
             "date_of_birth" => $request->dateOfBirth,
             "cell_phone" => $request->cellPhone,
             "identity_rg" => $request->identityRg,
