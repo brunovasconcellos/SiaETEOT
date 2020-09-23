@@ -19,7 +19,7 @@
 </table>
 </div>
 
-@component("layouts.components.modal")
+@component("layouts.components.modal", ["modalId" => "modal", "formId" => "form-submit", "methodId" => "method", "buttonId" => "modal-button"])
 
     @slot("inputs")
 
@@ -27,6 +27,8 @@
 
     @endslot
 @endcomponent
+
+@yield("increaseElements")
 
 @stop
 

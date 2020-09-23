@@ -16,7 +16,7 @@ class CreateCourseDisciplinesTable extends Migration
         Schema::create('course_disciplines', function (Blueprint $table) {
             $table->bigIncrements("course_discipline_id");
             $table->bigInteger("course_id")->unsigned();
-            $table->bigInteger("discipline_id")->unsigned();;
+            $table->bigInteger("discipline_id")->unsigned();
             $table->timestamps();
             $table->softDeletes();
             $table->foreign("course_id")->references("course_id")->on("courses");

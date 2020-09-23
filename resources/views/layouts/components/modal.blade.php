@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="{{$modalId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -8,18 +8,18 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form form id="formSubmit" class="" enctype="multipart/form-data">
+      <form form id="{{$formId}}" class="" enctype="multipart/form-data">
         <div class="modal-body">
 
         @csrf
-        <input id="method" name="_method" type="hidden" value="">
+        <input id="{{$methodId}}" name="_method" type="hidden" value="">
           <div id="input-box" class="form-group">
             {{$inputs}}
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" id="modal-button" class="btn btn-primary">Save changes</button>
+          <button type="submit" id="{{$modalId}}" class="btn btn-primary">Save changes</button>
         </div>
       </form>
     </div>

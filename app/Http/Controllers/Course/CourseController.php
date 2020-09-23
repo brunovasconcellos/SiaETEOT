@@ -24,7 +24,7 @@ class CourseController extends Controller
         return Validator::make($request->all(), [
 
             'courseName' => ['required', 'string', 'max:255'],
-            'courseWorkload' => ['required', 'string', 'size:4'] 
+            'courseWorkload' => ['required', 'string', 'size:4']
 
             ]);
 

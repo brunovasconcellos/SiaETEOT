@@ -53,6 +53,8 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
 
         Route::resource('/employee', 'Employee\EmployeeController');      
 
+        Route::put("/employee/{employeeId}/{exertsId}", "Employee\EmployeeController@update");
+
         Route::resource('/studentunit', 'StudentUnit\StudentUnitController');
         
         Route::resource('/transfersu', 'StudentUnit\TransferSusController');
@@ -64,6 +66,8 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
         Route::resource("/disciplineschoolclass", "Course\DisciplineSchoolClassController");
 
         Route::resource('/course', 'Course\CourseController');
+
+        Route::post('/occupationemployee/{employeId}', 'Employee\OccupationEmployeeController@store');
         
     });
 
@@ -71,11 +75,13 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
 
 Route::resource('/occupation', 'Employee\OccupationsController');
 
+Route::resource('/occupation', 'Employee\OccupationsController');
+
 Route::resource('/coursediscipline', 'Course\CourseDisciplineController');
 
 Route::resource('/position', 'Employee\PositionController');
 
-Route::resource('/exerts', 'Employee\ExertsController');
+Route::resource('/exert', 'Employee\ExertsController');
 
 Route::resource('/able', 'Employee\AbleController');
 

@@ -1,39 +1,81 @@
-class DataTableController {
+class EmployeeController {
 
     "use strict";
 
-    constructor (route, columsData, name, rule, message) {
+    constructor (rule, message) {
 
-        this.createDataTables(route, columsData, name);
+        this.createDataTables();
         this.showModalCreate();
-        this.createData(route, rule, message)
+        this.createData(rule, message)
         this.showModalUpdate();
-        this.updateData(route, rule, message);
-        this.deleteData(route);
+        this.updateData(rule, message);
+        this.showModalOccupation();
+        this.createOccupation();
+        this.deleteData();
     }
 
     
-    createDataTables(route, columsData, name) {
+    createDataTables() {
+
+        let columsData = [
+            {data: "id", name: "id"},
+            {data: "registration", name: "registration"},
+            {data: "name", name: "name"},
+            {data: "last_name", name: "last_name"},
+            {data: "email", name: "email"},
+            {data: "gender", name: "gender", render: function (data, type, row) {
+
+                if (data == "f") {
+
+                    return "Feminino";
+
+                }
+
+                return "Masculino";
+
+            }},
+            {data: "contact", name: "contact"},
+            {data: "sector_name", name: "sector_name"},
+            {data: "occupation_names", name: "occupation_names", render: 
+            function (data, type, row) {
+                
+                if (data) {
+
+                    let dataArray = data.split(',');
+
+                    return `<div class='col-12'>${dataArray[0]} e + ${dataArray.length - 1}</div>`
+
+                }
+
+                return `<button id="${row.id}" class="occupation btn btn-primary btn-sm">Adicionar</button>`
+
+            }}
+        ];
+
         columsData.push(
             {
                 data: null,  orderable: false, searchable: false,
-                render: function (data, type, row,) {
-                    
-                    return `<a href="/dashboard/course/${data.id}" title="Visualizar" class="view btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
+                render: function (data, type, row) {
+                 
+                    return `
+                            <a href="/dashboard/course/${data.id}" title="Visualizar" class="view btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
+                            <button type="button" id="${data.id}" name="add-occupation" title="Adicionar Função" class="occupation btn btn-success btn-sm"><i class="fas fa-award"></i></button>
                             <button type="button" id="${data.id}" name="edit" title="Editar" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
                             <button type="button" id="${data.id}" name="delete" title="Excluir" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>`
                 }
             }
         );
 
-        let table = $(document).ready(function () {
+        
+        
+        $(document).ready(function () {
 
-            $("#list").DataTable({
+             $("#list").DataTable({
                 processing: true,
                 serverSide: true,
                 autoWidth: false,
                 ajax: {
-                    url: route,
+                    url: "employee",
                     type: 'GET'
                 },
                 lengthMenu: [ [10, 25, 50, 100, -1], [10, 25, 50, 100, 'Todos'] ],
@@ -64,7 +106,7 @@ class DataTableController {
                         extend: 'excel',
                         text: '<i class="fas fa-file-excel"></i> Excel',
                         exportOptions: {columns: 'th:not(:last-child)'},
-                        title: `Listar ${name}s`,
+                        title: `Listar Funcionarios`,
                         attr: {
                             
                             id: "excel",
@@ -76,7 +118,7 @@ class DataTableController {
                         extend: 'pdf',
                         text: '<i class="fas fa-file-pdf"></i> PDF',
                         exportOptions: {columns: 'th:not(:last-child)'},
-                        title: `Listar ${name}s`,
+                        title: `Listar Funcionarios`,
                         attr: {
                             
                             id: "pdf",
@@ -88,7 +130,7 @@ class DataTableController {
                         extend: 'print',
                         text: '<i class="fas fa-print"></i> Imprimir',
                         exportOptions: {columns: 'th:not(:last-child)'},
-                        title: `Listar ${name}s`,
+                        title: `Listar Funcionarios`,
                         attr: {
 
                             id: "print",
@@ -149,10 +191,11 @@ class DataTableController {
                     }
                 }
                 
+                
             });
-    
+
         });
-    
+
 
     }
 
@@ -168,9 +211,9 @@ class DataTableController {
 
             $("#method").val("POST");
 
-            $("#formSubmit").addClass("create-data");
+            $("#form-submit").addClass("create-data");
 
-            $("#formSubmit").removeClass("edit-data");
+            $("#form-submit").removeClass("edit-data");
 
             helper.cleanInput("#input-box");
 
@@ -178,7 +221,7 @@ class DataTableController {
 
     }
 
-    createData(route, rule, message) {
+    createData(rule, message) {
 
         let helper = new Helper();
 
@@ -190,13 +233,13 @@ class DataTableController {
 
             helper.validationForm(rule, message, form);
 
-            if (!form.valid()) return;
+            if (!form.valid()) return; 
 
             $("#modal").modal('hide');
 
             $.ajax({
 
-                url: `${route}`,
+                url: `employee`,
                 method: "POST",
                 data: new FormData(this),
                 contentType: false,
@@ -247,9 +290,9 @@ class DataTableController {
 
             $("#modal").modal("show");
 
-            $("#formSubmit").addClass("edit-data");
+            $("#form-submit").addClass("edit-data");
 
-            $("#formSubmit").removeClass("create-data");
+            $("#form-submit").removeClass("create-data");
 
             helper.cleanInput("#input-box");
             
@@ -258,7 +301,7 @@ class DataTableController {
 
     }
 
-    updateData(route, rule, message) {
+    updateData(rule, message) {
 
         let helper = new Helper();
 
@@ -270,7 +313,6 @@ class DataTableController {
 
         });
         
-
         $(document).on("submit", ".edit-data", function (event) {
 
             event.preventDefault();
@@ -285,7 +327,7 @@ class DataTableController {
 
             $.ajax({
 
-                url: `${route}/${btnId}`,
+                url: `employee/${btnId}`,
                 method: "POST",
                 data: new FormData(this),
                 contentType: false,
@@ -303,7 +345,7 @@ class DataTableController {
 
                     let message = "";
 
-                    $.each(error.responseJSON.message, function (key, value) {
+                    $.each(error.message, function (key, value) {
 
                         message += value;
 
@@ -318,7 +360,83 @@ class DataTableController {
 
     }
 
-    deleteData(route) {
+    showModalOccupation() {
+
+        $(document).on("click", ".occupation", (e) => {
+
+            e.preventDefault();
+
+            let helper = new Helper();
+
+            $("#method-occupation").val("POST");
+
+            $("#modal-occupation").modal("show");
+
+            $("#form-occupation").addClass("create-occupation");
+
+            helper.cleanInput("#input-box");
+            
+        });    
+
+    }
+
+    createOccupation() {
+
+        let helper = new Helper();
+
+        let btnId;
+
+        $(document).on("click", ".occupation", function () {
+
+            btnId = $(this).attr("id");
+
+        });
+
+        $(document).on("submit", "#form-occupation", function (e) {
+
+            e.preventDefault();
+
+            console.log(btnId);
+
+            $.ajax({
+
+                url: `/dashboard/occupationemployee/${btnId}`,
+                method: 'POST',
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData: false,
+                dataType: "json",
+                success: function (response) {
+
+                    helper.alertMessage("success", response.message);
+
+                    $("#list").DataTable().ajax.reload();
+
+                },
+                error: function (error) {
+
+                    let message = "";
+
+                    $.each(error.responseJSON.message, function (key, value) {
+
+                        message += value;
+
+                    });
+
+                    helper.alertMessage("error", message);
+
+                    $("#modal").modal("hide");
+                    
+                }
+
+            });
+
+        });
+
+    }
+
+    deleteData() {
 
         let helper = new Helper();
 
@@ -340,13 +458,14 @@ class DataTableController {
                 cancelButtonText: 'Cancelar',
                 confirmButtonText: 'Deletar',
                 type: "warning"
+
             }).then((result) => {
 
                 if (result.value) {
 
                     $.ajax({
 
-                        url: `${route}/${id}`,
+                        url: `/dashboard/employee/${id}`,
                         method: "DELETE",
                         success: function (response) {
 
