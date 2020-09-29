@@ -50,6 +50,7 @@ class EmployeeController extends Controller
         ->leftJoin("occupation_employees", "occupation_employees.employee_id", "=", "employees.employee_id")
         ->leftJoin("occupations", "occupations.occupation_id", "=", "occupation_employees.occupation_id")
         ->where("employees.deleted_at", "=", null)
+        ->groupBy("users.user_id")
         ->get();
 
         if ($request->ajax())
@@ -242,6 +243,7 @@ class EmployeeController extends Controller
             "error" => false,
             "message" => ["Employee updated"],
             "request" => $exertsId
+            
         ], 200);
         
     }
@@ -261,24 +263,15 @@ class EmployeeController extends Controller
 
         $userId = $employee->user_id;
 
-        $employeeId = $employee->employee_id;
-
-        $occupations = OccupationEmployee::all()->where($employeeId, "=", "employee_id");
-
-
-        forEach($occupations as $occupation) {
-
-
-
-        }
-        
+        OccupationEmployee::where("employee_id", "=", $id)->delete();
+       
         $employee->delete();
 
         $user->destroy($userId);
 
         return response()->json([
             "error" => false,
-            "message" => ["Employee deleted"]
+            "message" => "Employee successfully deleted."
         ], 200);
 
     }
