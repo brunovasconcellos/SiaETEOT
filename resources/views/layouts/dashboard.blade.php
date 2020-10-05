@@ -3,6 +3,10 @@
 
 @section('title', 'Dashboard')
 
+@section('css')
+    <link rel="stylesheet" href="{{asset('css/app.css')}}"
+@stop
+
 @section('content')
     
 <div class="list-div p-4">

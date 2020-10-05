@@ -31187,6 +31187,15 @@ a.text-muted:hover {
   color: #212529;
 }
 
+/* ======================================================== */
+
+.background-menu-red{
+  background: ;
+}
+
+
+/* ============================================================ */
+
 [class*="accent-"] a.btn-primary {
   color: #ffffff;
 }
@@ -31219,3 +31228,4 @@ a.text-muted:hover {
   color: #ffffff;
 }
 /*# sourceMappingURL=adminlte.css.map */
+
