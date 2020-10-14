@@ -10,7 +10,7 @@ class Helper {
             text: message,
             confirmButtonText:"<i class='fa fa-check'><i/> Confirmar!",
             confirmButtonAriaLabel: 'Thumbs up, great!',
-            type: type
+            icon: type
 
         });            
 

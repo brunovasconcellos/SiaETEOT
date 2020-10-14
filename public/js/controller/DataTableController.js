@@ -168,9 +168,9 @@ class DataTableController {
 
             $("#method").val("POST");
 
-            $("#formSubmit").addClass("create-data");
+            $("#form-submit").addClass("create-data");
 
-            $("#formSubmit").removeClass("edit-data");
+            $("#form-submit").removeClass("edit-data");
 
             helper.cleanInput("#input-box");
 
@@ -247,9 +247,9 @@ class DataTableController {
 
             $("#modal").modal("show");
 
-            $("#formSubmit").addClass("edit-data");
+            $("#form-submit").addClass("edit-data");
 
-            $("#formSubmit").removeClass("create-data");
+            $("#form-submit").removeClass("create-data");
 
             helper.cleanInput("#input-box");
             

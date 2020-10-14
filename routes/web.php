@@ -60,32 +60,34 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
         Route::resource('/transfersu', 'StudentUnit\TransferSusController');
 
         Route::resource('/schoolclass', 'Course\SchoolClassController');
-    
-        Route::resource("/discipline", "Course\DisciplineController");
    
         Route::resource("/disciplineschoolclass", "Course\DisciplineSchoolClassController");
 
         Route::resource('/course', 'Course\CourseController');
 
+        Route::resource('/occupation', 'Employee\OccupationsController');
+
+        Route::get('/occupationformated', 'Employee\OccupationsController@select2Data');
+
         Route::post('/occupationemployee/{employeId}', 'Employee\OccupationEmployeeController@store');
+
+        Route::resource("/teach", "Employee\TeachController");
         
+        Route::resource("/discipline", "Course\DisciplineController");
+        
+        Route::get("/disciplineformated", "Course\DisciplineController@select2Data");
+
+        Route::resource('/position', 'Employee\PositionController');
+
+        Route::resource('/exert', 'Employee\ExertsController');
+
     });
 
 });
 
-Route::resource('/occupation', 'Employee\OccupationsController');
-
-Route::resource('/occupation', 'Employee\OccupationsController');
-
 Route::resource('/coursediscipline', 'Course\CourseDisciplineController');
 
-Route::resource('/position', 'Employee\PositionController');
-
-Route::resource('/exert', 'Employee\ExertsController');
-
 Route::resource('/able', 'Employee\AbleController');
-
-Route::resource("/teach", "Employee\TeachController");
 
 Route::resource('/schedule', 'Course\SchedulesController');
 

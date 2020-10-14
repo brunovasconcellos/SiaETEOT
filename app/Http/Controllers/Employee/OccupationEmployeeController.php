@@ -76,14 +76,13 @@ class OccupationEmployeeController extends Controller
             return response()->json([
                 "error" => true,
                 "message" => $error->errors()->all(),
-                "carbon" => Carbon::parse($request->startDate),
             ], 400);
         }
 
         OccupationEmployee::create([
 
-            "start_date" => Carbon::minValue(),
-            "final_date" => new Carbon($request->finalDate),
+            "start_date" => $request->startDate,
+            "final_date" => $request->finalDate,
             "employee_id" => $employeeId,
             "occupation_id" => $request->occupationId
     
@@ -92,7 +91,6 @@ class OccupationEmployeeController extends Controller
         return response()->json([
             "error" => false,
             "message" => "OccupationEmployee created",
-            "carbon" => Carbon::parse($request->startDate),
         ], 201);
     
     }
