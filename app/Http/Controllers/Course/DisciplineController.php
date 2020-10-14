@@ -28,29 +28,22 @@ class DisciplineController extends Controller
 
      }
 
-    public function index()
+    public function index(Request $request)
     {
         
         $disciplines = DB::table("disciplines")
-        ->select("disciplines.discipline_id", "disciplines.discipline_name", "disciplines.discipline_abbreviation")
+        ->select("disciplines.discipline_id as id", "disciplines.discipline_name", "disciplines.discipline_abbreviation")
         ->where("disciplines.deleted_at", "=", null)
-        ->paginate(5);
+        ->get();
 
+        if ($request->ajax())
+        {
 
-        if (empty($disciplines["data"] == false)) {
-
-            return response()->json([
-                "error" => false,
-                "message" => "no registered discipline.",
-                "response" => null
-            ], 400);
+          return DataTables()->of($disciplines)->make(true);
 
         }
 
-        return response()->json([
-            "error" => false,
-            "response" => $disciplines
-        ], 200);
+        return view('discipline');
         
     }
 
