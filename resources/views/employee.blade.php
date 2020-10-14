@@ -8,13 +8,14 @@
 <tr>
     <th width="5%">ID</th>
     <th width="10%">Matrícula</th>
-    <th width="15%">Nome</th>
-    <th width="15%">Sobrenome</th>
+    <th width="10%">Nome</th>
+    <th width="10%">Sobrenome</th>
     <th width="10%">E-mail</th>
     <th width="5%">Gênero</th>
     <th width="10%">Contato</th>
     <th width="9%">Setor</th>
-    <th width="10%">Função</th>
+    <th width="10%">Funções</th>
+    <th width="10%">Cargos</th>
     <th width="11%">Ação</th>
 </tr>
 
@@ -52,6 +53,8 @@
     <input name="contact" class="form-control" type="text">
     <input name="sectorId" class="form-control" type="text">
 
+    <input name="registration" class="form-control" type="text">
+    <input name="positionId" class="form-control" type="text">
 
 
 @endsection
@@ -66,7 +69,7 @@
 
             <input type="date" class="form-control" name="startDate">
             <input type="date" class="form-control" name="finalDate">  
-            <input type="number" class="form-control" name="occupationId">
+            <select id="occupations" class="form-control"></select>
 
         @endslot
     @endcomponent
@@ -81,7 +84,46 @@
 
     <script>
 
-        new EmployeeController();
+    $("#occupations").select2({
+
+        ajax: {
+
+            url: "/dashboard/occupationformated",
+            method: "GET",
+            dataType: "json",
+            processResults: (response) => {
+                return {"results": response}
+            },
+            cache: true
+
+        }
+
+    });
+
+
+        let rulesOccupation = {
+
+            startDate: {
+                required: true,
+                date: true
+            },
+            endDate: {
+
+                required: true,
+                date: true
+
+            }
+
+        }
+
+        let messagesOccupation = {
+
+            startDate: "O campo deve ser preenchido com  uma data válida.",
+            endDate: "O campo deve ser preenchido com  uma data válida."
+
+        }
+
+        new EmployeeController("", "", rulesOccupation, messagesOccupation);
     
     </script>
 

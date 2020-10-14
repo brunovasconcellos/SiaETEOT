@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Arr;
 
 class DisciplineController extends Controller
 {
@@ -45,6 +46,25 @@ class DisciplineController extends Controller
 
         return view('discipline');
         
+    }
+
+    public function select2Data() {
+
+        $disciplines = DB::table("disciplines")
+        ->select("disciplines.discipline_id", "disciplines.discipline_name")
+        ->where("disciplines.deleted_at", "=", null)
+        ->get();
+
+        $disciplinesFormated = [];
+        
+        foreach($disciplines as $discipline) {
+
+            $disciplinesFormated[] = ["id" => $discipline->discipline_id, "text" => $discipline->discipline_name];
+
+        }
+
+        return response()->json($disciplinesFormated);
+
     }
 
     /**
