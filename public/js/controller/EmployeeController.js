@@ -87,7 +87,6 @@ class EmployeeController {
                             <button type="button" id="${data.id}" name="add-occupation" title="Adicionar Função" class="occupation btn btn-success btn-sm"><i class="fas fa-award"></i></button>
                             <button type="button" id="${data.id}" name="edit" title="Editar" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
                             <button type="button" id="${data.id}" name="delete" title="Excluir" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
-                            <button type="button" id="${data.id}" name="delete" title="Excluir" class="teacher btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
                             `
                 }
             }
@@ -284,7 +283,7 @@ class EmployeeController {
                         confirmButtonText: "Continuar",
                         showCancelButton: true,
                         cancelButtonText: "Fechar",
-                        incon: "success"
+                        icon: "success"
 
                     }).then((result) => {
 
@@ -353,7 +352,7 @@ class EmployeeController {
                                         Swal.fire({
         
                                             title: "Professor criado com sucesso!",
-                                            type: "success"
+                                            icon: "success"
         
                                         });
                 
@@ -505,6 +504,24 @@ class EmployeeController {
             $("#form-occupation").addClass("create-occupation");
 
             helper.cleanInput("#input-box");
+
+            $("#occupations").select2({
+
+                width: 'element',
+
+                ajax: {
+        
+                    url: "/dashboard/occupationformated",
+                    method: "GET",
+                    dataType: "json",
+                    processResults: (response) => {
+                        return {"results": response}
+                    },
+                    cache: true
+        
+                }
+        
+            });
             
         });   
 

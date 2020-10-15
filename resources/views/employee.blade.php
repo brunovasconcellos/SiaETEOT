@@ -84,23 +84,6 @@
 
     <script>
 
-    $("#occupations").select2({
-
-        ajax: {
-
-            url: "/dashboard/occupationformated",
-            method: "GET",
-            dataType: "json",
-            processResults: (response) => {
-                return {"results": response}
-            },
-            cache: true
-
-        }
-
-    });
-
-
         let rulesOccupation = {
 
             startDate: {

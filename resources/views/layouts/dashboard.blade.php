@@ -4,7 +4,18 @@
 @section('title', 'Dashboard')
 
 @section('css')
-    <link rel="stylesheet" href="{{asset('css/app.css')}}"
+    <link rel="stylesheet" href="{{asset('css/app.css')}}">
+
+    <style>
+    
+    .select2-container {
+
+        z-index: 99999;
+        width: 100% !important;
+    }
+
+    </style>
+
 @stop
 
 @section('content')
