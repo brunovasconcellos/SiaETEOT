@@ -44,6 +44,26 @@ class OccupationsController extends Controller
         ], 200);
     }
 
+    public function select2Data () 
+    {
+
+        $occupations = DB::table('occupations')
+        ->select('occupation_id', 'occupation_name')
+        ->where('deleted_at', null)
+        ->get();
+
+        $occupationsFormated = [];
+
+        foreach ($occupations as $occupation) {
+
+            $occupationsFormated[] = ["id" => $occupation->occupation_id, "text" => $occupation->occupation_name];
+
+        }
+
+        return response()->json($occupationsFormated);
+
+    }
+
     /**
      * Store a newly created resource in storage.
      *

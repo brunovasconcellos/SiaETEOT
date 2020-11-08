@@ -40,13 +40,15 @@ class EmployeeController extends Controller
         $employees = DB::table('employees')
         ->select(
             "employees.employee_id as id", "exerts.registration","users.name", "users.last_name", "users.email",
-            "users.gender", "contacts.contact", "sectors.sector_name"
+            "users.gender", "contacts.contact", "sectors.sector_name",
          )
-         ->selectRaw("GROUP_CONCAT(occupations.occupation_name) as occupation_names")
+         ->selectRaw("GROUP_CONCAT(DISTINCT occupations.occupation_name) as occupation_names,
+            GROUP_CONCAT(DISTINCT positions.position_name) as position_names")
         ->join("users", "employees.user_id", "=", "users.user_id")
         ->join("contacts", "employees.user_id", "=", "contacts.user_id")
         ->join("sectors", "employees.sector_id", "=", "sectors.sector_id")
         ->leftJoin("exerts", "employees.employee_id", "=", "exerts.employee_id")
+        ->leftJoin("positions", "exerts.position_id", "=", "positions.position_id")
         ->leftJoin("occupation_employees", "occupation_employees.employee_id", "=", "employees.employee_id")
         ->leftJoin("occupations", "occupations.occupation_id", "=", "occupation_employees.occupation_id")
         ->where("employees.deleted_at", "=", null)
@@ -130,7 +132,8 @@ class EmployeeController extends Controller
         return response()->json([
 
             "error" => false,
-            "message" => "Employee successfully created."
+            "message" => "Employee successfully created.",
+            "employeeId" => $employee->employee_id
 
         ], 201);
     }
@@ -147,22 +150,33 @@ class EmployeeController extends Controller
         Employee::findOrFail($id);
 
         $employee = DB::table("employees")
-        ->select("employees.employee_id", "exerts.registration", "users.name", "users.last_name", "users.email",
+        ->select("employees.employee_id", "users.name", "users.last_name", "users.email",
             "users.gender", "users.date_of_birth", "users.identity_rg", "users.identity_em_dt",
             "users.identity_issuing_authority", "users.cpf","sectors.sector_name", "localities.cep",
             "localities.public_place", "localities.neighborhood", "users.num_residence","users.complement_residence",
-            "localities.cep", "localities.city", "localities.federation_unit","contacts.type",
-            "contacts.contact", 'positions.position_name', 'positions.workload', 'positions.type')
+            "localities.cep", "localities.city", "localities.federation_unit","contacts.type", "contacts.contact")
+        ->selectRaw(
+            "GROUP_CONCAT(DISTINCT exerts.registration) as registrations, 
+             GROUP_CONCAT(DISTINCT positions.position_name) as position_names,
+             GROUP_CONCAT(DISTINCT positions.workload) as position_workloads,
+             GROUP_CONCAT(DISTINCT positions.type) as position_types"
+            )
+        ->selectRaw(
+            "GROUP_CONCAT(DISTINCT occupations.occupation_name) as occupation_names,
+             GROUP_CONCAT(DISTINCT occupation_employees.start_date) as start_dates,
+             GROUP_CONCAT(DISTINCT occupation_employees.final_date) as final_dates"
+        )
         ->join("users", "employees.user_id", "=", "users.user_id")
         ->join("sectors", "employees.sector_id", "=", "sectors.sector_id")
         ->join("localities", "users.cep_user", "=", "localities.cep")
         ->join("contacts", "employees.user_id", "=", "contacts.user_id")
         ->join("exerts", "employees.employee_id", "=", "exerts.employee_id")
         ->join("positions", "exerts.position_id", "=", "positions.position_id")
-        ->join("occupation_employees", "occupation_employees.employee_id", "=", "employees.employee_id")
-        ->join("occupations", "occupations.occupation_id", "=", "occupation_employees.occupation_id")
+        ->leftJoin("occupation_employees", "occupation_employees.employee_id", "=", "employees.employee_id")
+        ->leftJoin("occupations", "occupations.occupation_id", "=", "occupation_employees.occupation_id")
         ->where("employees.deleted_at", "=", null)
         ->where("employees.employee_id", "=", $id)
+        ->groupBy("users.user_id")
         ->get();
 
         return response()->json([
@@ -179,7 +193,7 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $employeeId, $exertsId)
+    public function update(Request $request, $employeeId)
     {
         
         $employee = Employee::findOrFail($employeeId);
@@ -189,12 +203,6 @@ class EmployeeController extends Controller
         $user = new UserController();
 
         $userValidation = $user->validator($request);
-
-        $exerts = new ExertsController();
-
-        $exertsValidation = $exerts->validation($request);
-
-        Exerts::findOrFail($exertsId);
 
         if ($error->fails()) {
 
@@ -218,17 +226,6 @@ class EmployeeController extends Controller
     
         }
 
-        if ($exertsValidation->fails()) {
-
-            return response()->json([
-
-            "error" => true,
-            "message" => $exertsValidation->errors()->all()
-
-            ], 400);
-
-        }
-
         $userId = $user->update($request, $employee->user_id);
 
         $employee->update([
@@ -236,13 +233,10 @@ class EmployeeController extends Controller
             "sector_id" => $request->sectorId
         ]);
 
-        $exerts->update($request, $exertsId);
-
         return response()->json([
 
             "error" => false,
-            "message" => ["Employee updated"],
-            "request" => $exertsId
+            "message" => "Employee successfully updated.",
             
         ], 200);
         

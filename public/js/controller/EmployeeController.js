@@ -2,7 +2,7 @@ class EmployeeController {
 
     "use strict";
 
-    constructor (rule, message) {
+    constructor (rule, message, rulesOccupation, messagesOccupation) {
 
         this.createDataTables();
         this.showModalCreate();
@@ -10,7 +10,7 @@ class EmployeeController {
         this.showModalUpdate();
         this.updateData(rule, message);
         this.showModalOccupation();
-        this.createOccupation();
+        this.createOccupation(rulesOccupation, messagesOccupation);
         this.deleteData();
     }
 
@@ -43,14 +43,39 @@ class EmployeeController {
 
                     let dataArray = data.split(',');
 
+                    if (dataArray.length -1 == 0) {
+                        
+                        return data;
+
+                    }
+
                     return `<div class='col-12'>${dataArray[0]} e + ${dataArray.length - 1}</div>`
 
                 }
 
                 return `<button id="${row.id}" class="occupation btn btn-primary btn-sm">Adicionar</button>`
 
+            }},
+            {data:"position_names", name: "position_names", render: 
+            function (data, type, row) {
+                
+               
+                if (data) {
+
+                    let dataArray = data.split(',');
+
+                    if (dataArray.length -1 == 0) {
+                        
+                        return data;
+
+                    }
+
+                    return `<div class='col-12'>${dataArray[0]} e + ${dataArray.length - 1}</div>`
+
+                }
+                
             }}
-        ];
+            ];
 
         columsData.push(
             {
@@ -58,10 +83,11 @@ class EmployeeController {
                 render: function (data, type, row) {
                  
                     return `
-                            <a href="/dashboard/course/${data.id}" title="Visualizar" class="view btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
+                            <a href="/dashboard/employee/${data.id}" title="Visualizar" class="view btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
                             <button type="button" id="${data.id}" name="add-occupation" title="Adicionar Função" class="occupation btn btn-success btn-sm"><i class="fas fa-award"></i></button>
                             <button type="button" id="${data.id}" name="edit" title="Editar" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
-                            <button type="button" id="${data.id}" name="delete" title="Excluir" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>`
+                            <button type="button" id="${data.id}" name="delete" title="Excluir" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
+                            `
                 }
             }
         );
@@ -248,11 +274,114 @@ class EmployeeController {
                 dataType: "json",
                 success: function (response) {
 
-                    helper.alertMessage("success", response.message);
+                    let employeeId = response.employeeId;
+
+                    Swal.fire({
+
+                        title: "Funcionário criado com sucesso",
+                        text: "Caso o esse funcionário seja um professor, aperte em continuar. Se não, aperte em Fechar",
+                        confirmButtonText: "Continuar",
+                        showCancelButton: true,
+                        cancelButtonText: "Fechar",
+                        icon: "success"
+
+                    }).then((result) => {
+
+                        if (result.value == true) {
+
+                            Swal.fire({
+                    
+                                title: "Formulário do professor.",
+                                html: `
+                                    <input type="date" id="startDate" name="startDate" class="swal2-input">
+                                    <input type="date" id="endDate" name="endDate" class="swal2-input">
+                                    <select id="disciplines" class="form-control"></select>
+                                `,
+                                confirmButtonText: 'Confirmar',
+                                didOpen: () => {
+        
+                                    $("#disciplines").select2({
+        
+                                        ajax: {
+                                            url: '/dashboard/disciplineformated',
+                                            dataType: 'json',
+                                            processResults: (response) => {
+                                                return {
+                                                    "results": response
+                                                };
+                                            },                             
+        
+                                        },
+        
+                                    });
+        
+                                },
+                                preConfirm: () => {
+        
+                                    let data = [
+        
+                                        Swal.getPopup().querySelector("#startDate").value,
+                                        Swal.getPopup().querySelector("#endDate").value,
+                                        $("#disciplines").select2('data')[0].id
+        
+                                    ];
+                
+                                    return data;
+                
+                                }
+                            }).then((data) => {
+                
+                                let formData = new FormData();
+                
+                                formData.append("startDate", data.value[0]);
+                                formData.append("endDate", data.value[1]);
+                                formData.append("disciplineId", data.value[2]);
+                                formData.append("employeeId", employeeId);
+                
+                                $.ajax({
+                
+                                    url:`/dashboard/teach`,
+                                    method: "POST",
+                                    data: formData,
+                                    contentType: false,
+                                    cache: false,
+                                    processData: false,
+                                    dataType: "json",
+                                    success: function (response) {
+                
+                                        Swal.fire({
+        
+                                            title: "Professor criado com sucesso!",
+                                            icon: "success"
+        
+                                        });
+                
+                                    },
+                                    error: function (error) {
+                
+                                        let message;
+            
+                                        $.each(error.responseJSON.response, function (key, value) {
+            
+                                            message += value;
+            
+                                        });
+            
+                                        helper.alertMessage("error", message);
+                
+                                    }
+                
+                                });
+                            });
+
+                        }
+
+                    });
                     
                     $("#modal").modal("hide");
 
                     $("#list").DataTable().ajax.reload();
+
 
                 },
                 error: function (error) {
@@ -375,12 +504,30 @@ class EmployeeController {
             $("#form-occupation").addClass("create-occupation");
 
             helper.cleanInput("#input-box");
+
+            $("#occupations").select2({
+
+                width: 'element',
+
+                ajax: {
+        
+                    url: "/dashboard/occupationformated",
+                    method: "GET",
+                    dataType: "json",
+                    processResults: (response) => {
+                        return {"results": response}
+                    },
+                    cache: true
+        
+                }
+        
+            });
             
-        });    
+        });   
 
     }
 
-    createOccupation() {
+    createOccupation(rulesOccupation, messagesOccupation) {
 
         let helper = new Helper();
 
@@ -396,22 +543,32 @@ class EmployeeController {
 
             e.preventDefault();
 
-            console.log(btnId);
+            let form = $(this);
+
+            helper.validationForm(rulesOccupation, messagesOccupation, form);
+
+            if (!form.valid()) return;
+
+            let formData = new FormData(this);
+
+            formData.append("occupationId", $("#occupations").select2("data")[0].id);
 
             $.ajax({
 
                 url: `/dashboard/occupationemployee/${btnId}`,
                 method: 'POST',
-                data: new FormData(this),
+                data: formData,
                 contentType: false,
                 cache: false,
                 processData: false,
                 dataType: "json",
                 success: function (response) {
 
-                    helper.alertMessage("success", response.message);
-
+                    $("#modal-occupation").modal("hide");
+                    
                     $("#list").DataTable().ajax.reload();
+
+                    helper.alertMessage("success", response.message);
 
                 },
                 error: function (error) {
@@ -422,11 +579,15 @@ class EmployeeController {
 
                         message += value;
 
+                        $(document).on('click', '.teacher', (e) => {
+
+                            e.preventDefault();
+                           
+                        });
+
                     });
 
                     helper.alertMessage("error", message);
-
-                    $("#modal").modal("hide");
                     
                 }
 
@@ -477,8 +638,6 @@ class EmployeeController {
                         error: function (error) {
 
                             let message;
-                            
-                            console.log(error)
 
                             $.each(error.responseJSON.response, function (key, value) {
 
