@@ -126,3 +126,16 @@
 .menu-open {
   transition: none;
 }
+
+.table {
+  border-radius: 60px !important;
+}
+
+.brand-image {
+  transform: scale(1);
+}
+
+.brand-image:hover {
+  transform: scale(1.1);
+  transition: ease 0.3s;
+}

@@ -9,18 +9,22 @@
         <div class="login-quadrado">
             <div class="row">
                 <div class="col-md-6 login-img">
-                    <img src="/storage/imagesAuth/pequena-branca.png" alt="login-logo" class="img-fluid">
-                    <hr>
-                    <h3>Seja bem vindo ao Sia Eteot</h3>
+                    <h3>Acesse a Plataforma para ter acesso</h3>
+                    {{-- <img src="/storage/imagesAuth/Sia-Gradient.png" alt="login-logo" class="img-fluid"> --}}
+
                 </div>
                 <div class="col-md-6 col-2-login">
                     <div class="tot-col-2">
                         <div class="topo-login">
-                            <h3>Faça login <i class="fas fa-user-circle"></i></h3>
+                            <div class="row">
+                            <div class="col-2"><img src="/storage/imagesAuth/Sia-Gradient.png" alt="login-logo" class="img-fluid"></div>                            
+                            <div class="col-6"><h3><strong>Sia</strong> eteot <i class="fas fa-user-circle"></i></h3></div>
+                            </div>
+                            
+                            
                             <hr>
                         </div>
                         <div class="login-form">
-
                             <div class="login-form">
                                 <form method="POST" action="{{ route('login') }}">
                                     @csrf
@@ -40,6 +44,16 @@
                                     <div class="form-group">
                                         <input id="password" type="password" class="@error('password') is-invalid @enderror" placeholder="Senha" name="password" required autocomplete="current-password">
                                     </div>
+                                    <div class="senha-esq-login">
+
+                                    @if (Route::has('password.request'))
+                                     <a class="btn btn-link" href="{{ route('password.request') }}">
+                                    {{ __('Esqueceu sua senha?') }}
+                                      </a>
+                                     @endif
+
+                                    </div>
+
                                     <div><input type="submit" value="Entrar"></div>
                                 </form>
 
@@ -47,19 +61,9 @@
 
                         </div>
                         <hr>
-                        <div class="senha-esq-login">
-
-                            @if (Route::has('password.request'))
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    {{ __('Esqueceu sua senha?') }}
-                                </a>
-                            @endif
-
-                        </div>
+                        
                         <div class="rodape-login">
-                            <hr>
                             <p>Caso não tenha login, Contate a direção para fazer seu cadastro na plataforma</p>
-                            <hr>
                         </div>
                     </div>
                 </div>
