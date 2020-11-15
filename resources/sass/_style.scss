@@ -109,7 +109,7 @@
     /* background: linear-gradient(to right, #00a3e0, #16d9cf, #00a3e0); */
     /* background-size: 800%; */
     /* background-position: 0; */
-    background: #007bff;
+    background: $blue-active;
     border: none;
     color: white;
     padding: 0;
@@ -118,7 +118,7 @@
     padding-left: 110px;
     margin-top: 20px;
     font-size: 16px;
-    box-shadow: 12px 12px 20px #ccd2f4;
+    box-shadow: 12px 12px 20px $shadow-blue-active;
     /* border-bottom: 5px solid #00a3e0; */
     /*border-radius: 10px;*/
   }

@@ -46,7 +46,7 @@ return [
     */
 
     'logo' => '<b>SIA</b>ETEOT',
-    'logo_img' => 'vendor/adminlte/dist/img/Logo2.png',
+    'logo_img' => 'vendor/adminlte/dist/img/Sia-Blue.png',
     'logo_img_class' => 'brand-image',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -245,8 +245,7 @@ return [
         [
             'text' => 'Funcionarios',
             'url'  => 'dashboard/employee',
-            "icon" => 'volume-up',
-            // "icon" => 'fas fa-user-tie',
+            "icon" => 'fas fa-user-tie',
             'can'  => 'diretoria',
             
         ],
@@ -270,20 +269,20 @@ return [
             'submenu' => [
 
                 [
-                    'text' => 'Alunos',
+                    'text' => '➥Alunos',
                     'url'  => 'dashboard/student',
                     'icon' => "fa fa-user-graduate",
 
                 ],
 
                 [
-                    'text' => 'Responsável',
+                    'text' => '➥Responsável',
                     'url'  => 'dashboard/responsible',
                     'icon' => 'fa fa-user-alt'
                 ],
 
                 [
-                    'text' => 'Transferência de unidade',
+                    'text' => '➥Transferência de unidade',
                     'url'  => 'dashboard/transfersus',
                     'icon' => 'fa fa-exchange-alt'
                 ]
