@@ -2,9 +2,9 @@ class DataTableController {
 
     "use strict";
 
-    constructor (route, columsData, name, rule, message) {
+    constructor (route, columsData, name, rule, message, aditionalButton = null) {
 
-        this.createDataTables(route, columsData, name);
+        this.createDataTables(route, columsData, name, aditionalButton);
         this.showModalCreate();
         this.createData(route, rule, message)
         this.showModalUpdate();
@@ -13,20 +13,78 @@ class DataTableController {
     }
 
     
-    createDataTables(route, columsData, name) {
+    createDataTables(route, columsData, name, aditionalButton) {
         columsData.push(
             {
                 data: null,  orderable: false, searchable: false,
                 render: function (data, type, row,) {
                     
-                    return `<a href="/dashboard/course/${data.id}" title="Visualizar" class="view btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
+                    return `<a href="${route}/${data.id}" title="Visualizar" class="view btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
                             <button type="button" id="${data.id}" name="edit" title="Editar" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
                             <button type="button" id="${data.id}" name="delete" title="Excluir" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>`
                 }
             }
         );
 
-        let table = $(document).ready(function () {
+            
+        let buttonsTable = [
+            {
+                extend: 'excel',
+                text: '<i class="fas fa-file-excel"></i> Excel',
+                exportOptions: {columns: 'th:not(:last-child)'},
+                title: `Listar ${name}s`,
+                attr: {
+                    
+                    id: "excel",
+                    class: "btn btn-primary"
+
+                }
+            },
+            {
+                extend: 'pdf',
+                text: '<i class="fas fa-file-pdf"></i> PDF',
+                exportOptions: {columns: 'th:not(:last-child)'},
+                title: `Listar ${name}s`,
+                attr: {
+                    
+                    id: "pdf",
+                    class: "btn btn-primary"
+
+                }
+            },
+            {
+                extend: 'print',
+                text: '<i class="fas fa-print"></i> Imprimir',
+                exportOptions: {columns: 'th:not(:last-child)'},
+                title: `Listar ${name}s`,
+                attr: {
+
+                    id: "print",
+                    class: "btn btn-primary"
+
+                }
+            },
+
+            {
+
+                text: "<i class='fa fa-plus'></i> Novo",
+                attr: {
+
+                    id: "new",
+                    class: "btn btn-primary"
+
+                }
+
+            }
+        ];
+
+        if (aditionalButton) {
+
+            buttonsTable.push(aditionalButton);
+            
+        }
+
+        $(document).ready(function () {
 
             $("#list").DataTable({
                 processing: true,
@@ -46,70 +104,7 @@ class DataTableController {
                      "<'row'<'col-sm-12'tr>>" +
                      "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
 
-                buttons: [
-
-                    {
-                        extend: 'copy',
-                        text: '<i class="fas fa-copy"></i> Copiar',
-                        exportOptions: {columns: 'th:not(:last-child)'},
-                        attr: {
-                            
-                            id: "excel",
-                            class: "btn btn-primary"
-
-                        }
-                    },
-
-                    {
-                        extend: 'excel',
-                        text: '<i class="fas fa-file-excel"></i> Excel',
-                        exportOptions: {columns: 'th:not(:last-child)'},
-                        title: `Listar ${name}s`,
-                        attr: {
-                            
-                            id: "excel",
-                            class: "btn btn-primary"
-
-                        }
-                    },
-                    {
-                        extend: 'pdf',
-                        text: '<i class="fas fa-file-pdf"></i> PDF',
-                        exportOptions: {columns: 'th:not(:last-child)'},
-                        title: `Listar ${name}s`,
-                        attr: {
-                            
-                            id: "pdf",
-                            class: "btn btn-primary"
-
-                        }
-                    },
-                    {
-                        extend: 'print',
-                        text: '<i class="fas fa-print"></i> Imprimir',
-                        exportOptions: {columns: 'th:not(:last-child)'},
-                        title: `Listar ${name}s`,
-                        attr: {
-
-                            id: "print",
-                            class: "btn btn-primary"
-
-                        }
-                    },
-
-                    {
-
-                        text: "<i class='fa fa-plus'></i> Novo",
-                        attr: {
-
-                            id: "new",
-                            class: "btn btn-primary"
-
-                        }
-
-                    }
-
-                ],
+                buttons: buttonsTable,
                     
                 language: {
                     "sEmptyTable": "Nenhum registro encontrado",
@@ -153,6 +148,73 @@ class DataTableController {
     
         });
     
+
+    }
+
+    createDataExcel (routeExcel, name, routeExcelPost) {
+
+       $(document).on("click", "#new-excel", () => {
+        
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+            Swal.fire({
+                title: `Criar ${name}`,
+                text: `Insira uma planilha excel para criar um(a) novo(a) ${name}`,
+                html: ` <a href='download/excel/${routeExcel}' download>Baixar modelo.</a>
+                <form id="form-excel" enctype="multipart/form-data">
+                    <input type="file" id="excel-file" name="excel-file"> 
+                </form>`,
+                confirmButtonText: 'Confirmar',
+                showCancelButton: true,
+                cancelButtonText: "Fechar",
+            }).then((result) => {
+
+                if (result.value) {   
+
+                    $.ajax({
+
+                        url: `${routeExcelPost}`,
+                        method: "POST",
+                        data: new FormData(document.querySelector("#form-excel")),
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        dataType: "json",
+                        success: function (response) {
+
+                            Swal.fire({
+
+                                title: "Sucesso!",
+                                text: `${name} criado(a).`,
+                                icon: "success"
+
+                            });
+
+                            $("#list").DataTable().ajax.reload();
+
+                        },
+                        error: function (error) {
+
+                            console.log(error);
+
+                            Swal.fire({
+
+                                title: "Erro!",
+                                icon: "error"
+
+                            });
+
+                        }
+                    });
+
+                }
+
+            });
+       });
 
     }
 

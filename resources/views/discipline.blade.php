@@ -35,17 +35,6 @@
     
     new DataTableController("/dashboard/discipline", colunnsData, 'Discipline', "", "");
 
-
-
-
     </script>
 
-
-
 @endsection
-
-
-
-
-
-?>

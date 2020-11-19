@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Student;
 
 use App\Student;
 use App\User;
+use App\Imports\StudentImport;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Student\StudentComplementController;
@@ -17,6 +18,7 @@ use Illuminate\Support\Str;
 use App\Exports\StudentExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
@@ -39,22 +41,33 @@ class StudentController extends Controller
 
     }
 
+    public function downloadExcel() {
+
+        $file = Storage::path('public\modelsExcel\student_model.xlsx');
+
+        return response()->download($file);
+
+    }
+
     public function index(Request $request)
     {
         
         $students = DB::table('students')
         ->select(
-            "students.student_registration", "users.name", "users.last_name", "users.email",
-            "users.gender", "students.student_type", "contacts.contact"
+            "students.student_registration as id", "users.name", "users.last_name", "users.email",
+            "users.gender", "students.student_type", "contacts.contact", "school_classes.school_class_name",
+            "matriculateds.call_number", "matriculateds.school_year"
          )
         ->join("users", "students.user_id", "=", "users.user_id")
         ->join("contacts", "students.user_id", "=", "contacts.user_id")
+        ->leftJoin("matriculateds", "students.student_registration", "matriculateds.student_registration")
+        ->leftJoin("school_classes", "matriculateds.school_class_id", "school_classes.school_class_id")
         ->where("students.deleted_at", "=", null)
         ->get();
 
         if ($request->ajax()) {
 
-            return DatasTable()->of($students)->make(true);
+            return DataTables()->of($students)->make(true);
         
         }
 
@@ -68,6 +81,19 @@ class StudentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+     public function storeExcel (Request $request) {
+
+        Excel::import(new StudentImport, $request->file("excel-file"));
+
+        return response()->json([
+
+            "response" => "Students successfully created."
+
+        ]);
+
+     }
+
     public function store(Request $request)
     {
 

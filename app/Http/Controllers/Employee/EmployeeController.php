@@ -174,7 +174,7 @@ class EmployeeController extends Controller
         ->join("positions", "exerts.position_id", "=", "positions.position_id")
         ->leftJoin("occupation_employees", "occupation_employees.employee_id", "=", "employees.employee_id")
         ->leftJoin("occupations", "occupations.occupation_id", "=", "occupation_employees.occupation_id")
-        ->where("employees.deleted_at", "=", null)
+        ->whereNull("employees.deleted_at")
         ->where("employees.employee_id", "=", $id)
         ->groupBy("users.user_id")
         ->get();
