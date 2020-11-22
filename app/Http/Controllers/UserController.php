@@ -192,22 +192,14 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
 
-        if (isset($user)){
-
-            $contact = Contact::where("user_id", "=", $id)->delete();
-         
-            $user->delete();
-
-            return [
-                "error" => false
-            ];
-
-        }
+        $contact = Contact::where("user_id", "=", $id)->delete();
+        
+        $user->delete();
 
         return [
-            "error" => true
+            "error" => false
         ];
-      
+
     }
 
 }

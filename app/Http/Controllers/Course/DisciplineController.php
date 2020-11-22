@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
+use App\Imports\DisciplineImport;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class DisciplineController extends Controller
 {
@@ -97,6 +100,20 @@ class DisciplineController extends Controller
             "message" => "Discipline successfully created."
         ], 201);
 
+    }
+
+    public function Import (Request $request)
+    {
+    
+        Excel::import(new DisciplineImport, $request->file("excel-file"));
+
+        return response()->json([
+
+            "error" => false,
+            "message" => "Disciplines successfully created."
+
+        ]);
+        
     }
 
     /**

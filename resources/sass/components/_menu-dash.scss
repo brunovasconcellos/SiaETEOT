@@ -40,7 +40,7 @@
   // color: #4ad2fe!important;
   color: #acbdc2 !important;
   border: solid 2px rgb(255, 255, 255);
-  border: 1px solid rgb(255, 255, 255);
+  // border: 1px solid rgb(255, 255, 255);
   margin-bottom: 14px !important;
 }
 
@@ -52,7 +52,7 @@
   background: #d5f1fb;
   border-radius: 100px;
   // color:#00A3E0!important ;
-  color: #4ad2fe !important;
+  color: #67b0ff !important;
   // box-shadow: 0px 0px 15px 0px rgba(0, 164, 224, 0.048);
   // animation: border-animate1 8s infinite;
   // border: solid 2px rgb(205, 223, 228);
@@ -60,8 +60,10 @@
 }
 
 .nav-left ul li .active {
-  background: #00cfff !important;
+  background: $blue-active !important;
+  border: none;
   border-radius: 100px;
+  box-shadow:0px 6px 8px $shadow-blue-active;
   color: white !important;
 }
 
@@ -120,9 +122,26 @@
   // padding-left: 20px!important;
   // background: #f6f9fb!important;
   transition: none;
-  background: #edf0f2;
+  // background: #edf0f2;
+}
+
+.nav-treeview li{
+  color:$blue-active!important;
 }
 
 .menu-open {
   transition: none;
+}
+
+.table {
+  border-radius: 60px !important;
+}
+
+.brand-image {
+  transform: scale(1);
+}
+
+.brand-image:hover {
+  transform: scale(1.1);
+  transition: ease 0.3s;
 }

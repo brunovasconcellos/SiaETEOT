@@ -1,6 +1,5 @@
+"use strict";
 class EmployeeController {
-
-    "use strict";
 
     constructor (rule, message, rulesOccupation, messagesOccupation) {
 
@@ -122,7 +121,7 @@ class EmployeeController {
                         exportOptions: {columns: 'th:not(:last-child)'},
                         attr: {
                             
-                            id: "excel",
+                            id: "copy",
                             class: "btn btn-primary"
 
                         }
@@ -288,6 +287,8 @@ class EmployeeController {
                     }).then((result) => {
 
                         if (result.value == true) {
+
+                            helper.ajaxCsrfSetting();
 
                             Swal.fire({
                     

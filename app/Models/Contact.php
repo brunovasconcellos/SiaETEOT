@@ -11,9 +11,18 @@ class Contact extends Model
 
     use SoftDeletes;
 
-    static function insertContact ($data, $userId) {
+    static function insertContact ($data, $userId, $insertType = null) {
 
-        if ($data) {
+        if ($data && $insertType == "excel") {
+
+            $contactId = DB::table("contacts")->insertGetId([
+
+                "type" => $data["tipo"],
+                "contact" => $data["contato"],
+                "user_id" => $userId,
+
+            ]);
+        }else {
 
             $contactId = DB::table("contacts")->insertGetId([
 
@@ -22,9 +31,6 @@ class Contact extends Model
                 "user_id" => $userId,
 
             ]);
-        }else {
-
-            return false;
 
         }
 

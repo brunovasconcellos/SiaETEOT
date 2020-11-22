@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
+    'title' => 'Sia eteot',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -30,8 +30,8 @@ return [
     |
     */
 
-    'use_ico_only' => false,
-    'use_full_favicon' => false,
+    'use_ico_only' => true,
+    'use_full_favicon' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -46,7 +46,7 @@ return [
     */
 
     'logo' => '<b>SIA</b>ETEOT',
-    'logo_img' => 'vendor/adminlte/dist/img/Logo.png',
+    'logo_img' => 'vendor/adminlte/dist/img/Sia-Blue.png',
     'logo_img_class' => 'brand-image',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'usermenu_enabled' => true,
+    'usermenu_enabled' => false,
     'usermenu_header' => false,
     'usermenu_header_class' => 'bg-primary',
     'usermenu_image' => false,
@@ -152,7 +152,7 @@ return [
     'sidebar_scrollbar_theme' => 'os-theme-light',
     'sidebar_scrollbar_auto_hide' => '1',
     'sidebar_nav_accordion' => true,
-    'sidebar_nav_animation_speed' => 900,
+    'sidebar_nav_animation_speed' => 300,
 
     /*
     |--------------------------------------------------------------------------
@@ -200,7 +200,7 @@ return [
 
     'password_email_url' => 'password/email',
 
-    'profile_url' => false,
+    'profile_url' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -231,7 +231,12 @@ return [
     */
 
     'menu' => [
-    
+        // [
+        //     'header' => 'FUNCIONARIO',
+        //     'can'  => 'diretoria',
+        // ],
+
+
         [
             'header' => 'FUNCIONARIO',
             'can'  => 'diretoria',
@@ -240,8 +245,9 @@ return [
         [
             'text' => 'Funcionarios',
             'url'  => 'dashboard/employee',
-            "icon" => 'fa fa-user-tie',
+            "icon" => 'fas fa-user-tie',
             'can'  => 'diretoria',
+            
         ],
 
         [
@@ -263,20 +269,20 @@ return [
             'submenu' => [
 
                 [
-                    'text' => 'Alunos',
+                    'text' => '➥Alunos',
                     'url'  => 'dashboard/student',
                     'icon' => "fa fa-user-graduate",
 
                 ],
 
                 [
-                    'text' => 'Responsável',
+                    'text' => '➥Responsável',
                     'url'  => 'dashboard/responsible',
                     'icon' => 'fa fa-user-alt'
                 ],
 
                 [
-                    'text' => 'Transferência de unidade',
+                    'text' => '➥Transferência de unidade',
                     'url'  => 'dashboard/transfersus',
                     'icon' => 'fa fa-exchange-alt'
                 ]
@@ -406,5 +412,17 @@ return [
                 ],
             ],
         ],
+
+        'fontisto' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdn.jsdelivr.net/npm/fontisto@v3.0.4/css/fontisto/fontisto.min.css',
+                ],
+            ],
+        ],
+
     ],
 ];

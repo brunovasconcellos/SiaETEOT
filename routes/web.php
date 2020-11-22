@@ -49,6 +49,8 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
 
         Route::resource("/student", "Student\StudentController");
 
+        Route::get("/download/excel/student", "Student\StudentController@downloadExcel")->name("excel-student");
+
         Route::resource("/responsible", "Student\ResponsibleController");
 
         Route::resource('/employee', 'Employee\EmployeeController');      
@@ -76,6 +78,8 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
         Route::resource("/discipline", "Course\DisciplineController");
         
         Route::get("/disciplineformated", "Course\DisciplineController@select2Data");
+        
+        Route::post("/disciplineimport", "Course\DisciplineController@import");
 
         Route::resource('/position', 'Employee\PositionController');
 
@@ -84,6 +88,8 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
     });
 
 });
+
+Route::post("/excelcreate/student", "Student\StudentController@storeExcel");
 
 Route::resource('/coursediscipline', 'Course\CourseDisciplineController');
 
