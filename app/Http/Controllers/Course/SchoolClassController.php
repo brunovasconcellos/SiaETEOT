@@ -36,32 +36,28 @@ class SchoolClassController extends Controller
 
      }
 
-    public function index()
+    public function index(Request $request)
     {
         
         $schoolClasses = DB::table("school_classes")
         ->select(
-            "school_classes.school_class_id", "school_classes.school_class_name", "school_classes.school_class_type", "school_classes.school_year",
+            "school_classes.school_class_id as id", "school_classes.school_class_name", "school_classes.school_class_type", "school_classes.school_year",
             "school_classes.situation", "school_classes.shift", "courses.course_name"
             )
         ->join("courses", "school_classes.course_id", "=", "courses.course_id")
         ->where("school_classes.deleted_at", "=", null)
-        ->paginate(5);
+        ->get();
 
-        if (empty($schoolClasses["data"] == false)) {
 
-            return response()->json([
-                "error" => false,
-                "message" => "no registered discipline.",
-                "response" => null
-            ]);
+        if ($request->ajax())
+        {
+
+          return DataTables()->of($schoolClasses)->make(true);
 
         }
+        
 
-        return response()->json([
-            "error" => false,
-            "response" => $schoolClasses
-        ]);
+        return view("schoolclass");
         
     }
 
@@ -96,7 +92,7 @@ class SchoolClassController extends Controller
             "start_date" => $request->startDate,
             "end_date" => $request->endDate,
             "modality" => $request->modality,
-            "course_id" => $request->course
+            "course_id" => $request->course,
         ]);
 
         return response()->json([

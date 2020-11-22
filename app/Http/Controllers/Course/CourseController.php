@@ -42,7 +42,7 @@ class CourseController extends Controller
           return DataTables()->of($course)->make(true);
         }
         
-        return view("lte");
+        return view("course");
         
     }
 

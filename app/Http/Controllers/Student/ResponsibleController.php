@@ -27,8 +27,8 @@ class ResponsibleController extends Controller
     public function index()
     {
         $responsible = DB::table('responsibles')
-        ->join("users", "responsibles.user_id", "=", "users.user_id")
-        ->paginate(5);
+        ->join("users","responsibles.user_id", "=", "users.user_id")
+        ->get();
 
         if (empty($responsible["data"] == false)) {
 
