@@ -67,11 +67,11 @@ class Locality extends Model
 
         $locality = Locality::where("cep", $data["cep"])->first('cep');
 
-        if($locality->cep) {
+        if($locality && $locality->cep) {
             return $locality->cep;
         }
 
-        $locality = ($insertType == "excel") ? Locality::insertLocalityExcel($data): Locality::insertData($data); 
+        $locality = ($insertType == "excel") ? Locality::insertLocalityExcel($data): Locality::insertLocality($data); 
 
         return $locality;
         

@@ -24,26 +24,26 @@ class ResponsibleController extends Controller
         ]);
     }
     
-    public function index()
+    public function index(Request $request)
     {
-        $responsible = DB::table('responsibles')
+        $responsible = DB::table('responsibles') //group concat
         ->join("users", "responsibles.user_id", "=", "users.user_id")
-        ->paginate(5);
+        ->leftjoin("responsible_students", "responsibles.responsible_id", "=", "responsible_students.responsible_id")
+        ->leftjoin("students", "responsible_students.student_registration", "=", "students.student_registration")
+        ->join("contacts", "responsibles.user_id", "=", "contacts.user_id")
+        ->select('responsibles.responsible_id as id', 'users.name', 'users.last_name', 'users.email', 'users.gender')
+        ->where('responsibles.deleted_at', null)
+        // ->select('students.user_id')->where('students.user_id',)
+        ->get();
 
-        if (empty($responsible["data"] == false)) {
+        if ($request->ajax()) {
 
-            return response()->json([
-                "error" => false,
-                "message" => "no registered discipline.",
-                "response" => null
-            ]);
+            return DataTables()->of($responsible)->make(true);
 
         }
 
-        return response()->json([
-            "error" => false,
-            "response" => $responsible
-        ], 200);
+        return view('responsible');
+
     }
 
     /**
