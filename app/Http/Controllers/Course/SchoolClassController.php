@@ -67,6 +67,26 @@ class SchoolClassController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    public function select2Data()
+     {
+        
+        $schoolClasses = DB::table("school_classes")
+        ->select("school_classes.school_class_id as id", "school_classes.school_class_name as name")
+        ->get();
+
+        $schoolClassesFormated = [];
+
+        foreach ($schoolClasses as $schoolClass) {
+
+            $schoolClasses = ["id" => $schoolClasses->id, "name" => $schoolClass->name];
+
+            return response()->json($schoolClasses);
+
+        }
+
+     }
+
     public function store(Request $request)
     {
 

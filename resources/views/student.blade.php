@@ -12,11 +12,11 @@
     <th width="10%">e-mail</th>
     <th width="5%">genero</th>
     <th width="10%">tipo de estudante</th>
-    <th width="5%">ano</th>
     <th width="10%">turma</th>
-    <th width="10%">numero da chamada</th>
-    <th width="10%">contato</th>
-    <th width="15%">Ação</th>
+    <th width="8%">numero da chamada</th>
+    <th width="7%">ano</th>
+    <th width="8%">contato</th>
+    <th width="17%">Ação</th>
     
 </tr>
 
@@ -24,78 +24,91 @@
 
 @section("input")
 
-    <input name="name" type="text">
-    <input name="lastName" type="text">
-    <input name="email" type="text">
-    <input name="password" type="text">
-    <input name="password_confirmation" type="text">
-    <input name="dateOfBirth" type="text">
-    <input name="gender" type="text">
-    <input name="cellPhone" type="text">
-    <input name="identityRg" type="text">
-    <input name="identityEmDt" type="text">
-    <input name="identityAuthority" type="text">
-    <input name="cpf" type="text">
-    <input name="userName" type="text">
-    <input name="level" type="text">
-    <input name="numResidence" type="text">
-    <input name="complementResidence" type="text">
-    <input name="cep" type="text">
-    <input name="tpPublicPlace" type="text">
-    <input name="publicPlace" type="text">
-    <input name="neighborhood" type="text">
-    <input name="city" type="text">
-    <input name="federationUnit" type="text">
-    <input name="type" type="text">
-    <input name="contact" type="text">
-    <input name="fatherName" type="text">
-    <input name="matherName" type="text">
-    <input name="studentType" type="text">
-    <input name="actualSituation" type="text">
-    <input name="half" type="text">
-    <input name="modality" type="text">
-    <input name="course" type="text">
-    <input name="ingressType" type="text">
-    <input name="ingressForm" type="text">
-    <input name="vagacyType" type="text">
-    <input name="lastSchool" type="text">
-    <input name="identEducacenso" type="text">
-    <input name="yearLastGrade" type="text">
+name
+<input name="name" class="form-control" type="text">
+lastName
+<input class="form-control" name="lastName" type="text">
+email
+<input name="email" class="form-control" type="text">
+password
+<input name="password" type="text" class="form-control">
+password_confirmation
+<input name="password_confirmation" type="text" class="form-control">
+dateOfBirth
+<input name="dateOfBirth" type="text" class="form-control">
+gender
+<input name="gender" type="text" class="form-control">
+cellPhone
+<input name="cellPhone" type="text" class="form-control">
+identityRg
+<input name="identityRg" type="text" class="form-control">
+identityEmDt
+<input name="identityEmDt" type="text" class="form-control">
+identityAuthority
+<input name="identityAuthority" type="text" class="form-control">
+cpf
+<input name="cpf" type="text" class="form-control">
+userName
+<input name="userName" type="text" class="form-control">
+level
+<input name="level" type="text" class="form-control">
+numResidence
+<input name="numResidence" type="text" class="form-control">
+complementResidence
+<input name="complementResidence" type="text" class="form-control">
+cep
+<input name="cep" type="text" class="form-control">
+tpPublicPlace
+<input name="tpPublicPlace" type="text" class="form-control">
+publicPlace
+<input name="publicPlace" type="text" class="form-control">
+neighborhood
+<input name="neighborhood" type="text" class="form-control">
+city<input name="city" type="text" class="form-control">
+federationUnit
+<input name="federationUnit" type="text" class="form-control">
+type
+<input name="type" type="text" class="form-control">
+contact
+<input name="contact" type="text" class="form-control">
+fatherName
+<input name="fatherName" type="text" class="form-control">
+matherName
+<input name="matherName" type="text" class="form-control">
+studentType
+<input name="studentType" type="text" class="form-control">
+actualSituation
+<input name="actualSituation" type="text" class="form-control">
+half
+<input name="half" type="text" class="form-control">
+modality
+<input name="modality" type="text" class="form-control">
+course
+<input name="course" type="text" class="form-control">
+ingressType
+<input name="ingressType" type="text" class="form-control">
+ingressForm
+<input name="ingressForm" type="text" class="form-control">
+vagacyType
+<input name="vagacyType" type="text" class="form-control">
+lastSchool
+<input name="lastSchool" type="text" class="form-control">
+identEducacenso
+<input name="identEducacenso" type="text" class="form-control">
+yearLastGrade
+<input name="yearLastGrade" type="text" class="form-control">
 
 @endsection
 
 @section("scripts")
 
     <script src="{{asset('js/controller/DataTableController.js')}}"></script>
+    <script src="{{asset('js/controller/StudentController.js')}}"></script>
 
     <script>
         
-        let columnsData = [
-            {data: "id", name: "id"},
-            {data: "name", name: "name"},
-            {data: "last_name", name: "last_name"},
-            {data: "email", name: "email"},
-            {data: "gender", name: "gender"},
-            {data: "student_type", name: "student_type"},
-            {data: "school_class_name", name: "school_class_name"},
-            {data: "call_number", name: "call_number"},
-            {data: "school_year", name: "school_year"},
-            {data: "contact", name: "contact"},
-        ];
 
-        let button =  {
-            text: "<i class='fa fa-plus'></i> Novo(Excel)",
-            attr: {
-
-                id: "new-excel",
-                class: "btn btn-primary"
-
-            }
-        }
-
-        let dataTable = new DataTableController("/dashboard/student", columnsData, "Student", "", "", button);
-    
-        dataTable.createDataExcel("student", "Estudante", "/excelcreate/student");
+        let dataTable = new StudentController("", "");
 
     </script>
 

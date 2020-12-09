@@ -1,27 +1,86 @@
-class DataTableController {
+"use strict";
+class StudentController 
+{
 
-    "use strict";
+    constructor (rule, message) {
 
-    constructor (route, columsData, name, rule, message, aditionalButton = null, additionalFunction = null) {
+        let route = "/dashboard/student";
 
-        this.createDataTables(route, columsData, name, aditionalButton);
+        this.createDataTables(route);
         this.showModalCreate();
-        this.createData(route, rule, message, additionalFunction);
+        this.createDataExcel( "/excelcreate/student");
+        this.createData(route, rule, message);
         this.showModalUpdate();
         this.updateData(route, rule, message);
+        this.matriculateStudent();
         this.deleteData(route);
     }
 
     
-    createDataTables(route, columsData, name, aditionalButton) {
+    createDataTables(route) {
+        
+        let columsData = [
+            {data: "id", name: "id"},
+            {data: "name", name: "name"},
+            {data: "last_name", name: "last_name"},
+            {data: "email", name: "email"},
+            {data: "gender", name: "gender",  render: function (data, type, row) {
+
+                if (data == "f") {
+
+                    return "Feminino";
+
+                }
+
+                return "Masculino";
+
+            }},
+            {data: "student_type", name: "student_type"},
+            {data: "school_class_name", name: "school_class_name", render: function (data, type, row) {
+
+                if (data) {
+
+                    return data;
+
+                }
+
+                return `<p>Não registrado.</p>`
+
+            }},
+            {data: "call_number", name: "call_number", render: function (data, type, row) {
+
+                if (data) {
+
+                    return data;
+
+                }
+
+                return `<p>Não registrado.</p>`
+
+            }},
+            {data: "school_year", name: "school_year", render: function (data, type, row) {
+
+                if (data) {
+
+                    return data;
+
+                }
+
+                return `<p>Não registrado.</p>`
+
+            }},
+            {data: "contact", name: "contact"},
+        ];
+        
         columsData.push(
             {
                 data: null,  orderable: false, searchable: false,
                 render: function (data, type, row,) {
                     
                     return `<a href="${route}/${data.id}" title="Visualizar" class="view btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
-                            <button type="button" id="${data.id}" name="edit" title="Editar" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
-                            <button type="button" id="${data.id}" name="delete" title="Excluir" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>`
+                            <button type="button" data-id="${data.id}" name="edit" title="Editar" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
+                            <button type="button" data-id="${data.id}" name="delete" title="Excluir" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
+                            <button type="button" data-id="${data.id}" name="delete" title="matricular" class="matriculate btn btn-warning btn-sm"><i class="fas fa-plus"></i></button>`
                 }
             }
         );
@@ -32,7 +91,7 @@ class DataTableController {
                 extend: 'excel',
                 text: '<i class="fas fa-file-excel"></i> Excel',
                 exportOptions: {columns: 'th:not(:last-child)'},
-                title: `Listar ${name}s`,
+                title: `Listar Estudantes`,
                 attr: {
                     
                     id: "excel",
@@ -44,7 +103,7 @@ class DataTableController {
                 extend: 'pdf',
                 text: '<i class="fas fa-file-pdf"></i> PDF',
                 exportOptions: {columns: 'th:not(:last-child)'},
-                title: `Listar ${name}s`,
+                title: `Listar Estudantes`,
                 attr: {
                     
                     id: "pdf",
@@ -56,7 +115,7 @@ class DataTableController {
                 extend: 'print',
                 text: '<i class="fas fa-print"></i> Imprimir',
                 exportOptions: {columns: 'th:not(:last-child)'},
-                title: `Listar ${name}s`,
+                title: `Listar Estudantes`,
                 attr: {
 
                     id: "print",
@@ -75,16 +134,22 @@ class DataTableController {
 
                 }
 
+            },
+
+            {
+                text: "<i class='fa fa-plus'></i> Novo(Excel)",
+                attr: {
+
+                    id: "new-excel",
+                    class: "btn btn-primary"
+
+                }
             }
+
         ];
 
-        if (aditionalButton) {
-
-            buttonsTable.push(aditionalButton);
-            
-        }
-
         $(document).ready(function () {
+            
 
             $("#list").DataTable({
                 processing: true,
@@ -151,7 +216,7 @@ class DataTableController {
 
     }
 
-    createDataExcel (routeExcel, name, routeExcelPost) {
+    createDataExcel (routeExcel, routeExcelPost) {
 
        $(document).on("click", "#new-excel", () => {
         
@@ -162,9 +227,9 @@ class DataTableController {
         });
 
             Swal.fire({
-                title: `Criar ${name}`,
-                text: `Insira uma planilha excel para criar um(a) novo(a) ${name}`,
-                html: ` <a href='download/excel/${routeExcel}' download>Baixar modelo.</a>
+                title: `Criar Estudantes`,
+                text: `Insira uma planilha excel para criar um(a) novo(a) Estudantes`,
+                html: ` <a href='/dashboard/download/excel/student' download>Baixar modelo.</a>
                 <form id="form-excel" enctype="multipart/form-data">
                     <input type="file" id="excel-file" name="excel-file"> 
                 </form>`,
@@ -177,7 +242,7 @@ class DataTableController {
 
                     $.ajax({
 
-                        url: `${routeExcelPost}`,
+                        url: `/dashboard/excelcreate/student`,
                         method: "POST",
                         data: new FormData(document.querySelector("#form-excel")),
                         contentType: false,
@@ -189,7 +254,7 @@ class DataTableController {
                             Swal.fire({
 
                                 title: "Sucesso!",
-                                text: `${name} criado(a).`,
+                                text: `Estudante criado(a).`,
                                 icon: "success"
 
                             });
@@ -240,7 +305,7 @@ class DataTableController {
 
     }
 
-    createData(route, rule, message, additionalFunction) {
+    createData(route, rule, message) {
 
         let helper = new Helper();
 
@@ -258,7 +323,7 @@ class DataTableController {
 
             $.ajax({
 
-                url: `${route}`,
+                url: `dashboard/student/create`,
                 method: "POST",
                 data: new FormData(this),
                 contentType: false,
@@ -273,13 +338,7 @@ class DataTableController {
 
                     $("#list").DataTable().ajax.reload();
 
-                }.then(() => {
-
-                    let methodAdditional = "enrollStudent";
-
-                    additionalFunction.methodAdditional;
-
-                }),
+                },
                 error: function (error) {
 
                     let message = "";
@@ -301,6 +360,78 @@ class DataTableController {
 
     }
 
+    matriculateStudent() {
+
+        $(document).on("click", ".matriculate", () => {
+
+            Swal.fire({
+
+                title: "Matricular aluno",
+                text: "Preencha o formulario para matricular o aluno em uma matéria.",
+                html: `<input type='date'>
+                        <input type='number'>
+                        <input type='text'>
+                        <input type='text'>
+                        <select id="discipline"></select>
+                        <select id="school_class"></select>`,
+                confirmButtonText: 'Confirmar',
+                didOpen: () => {
+
+                    $("#discipline").select2({
+
+                        ajax: {
+
+                            url: "/dashboard/disciplineformated",
+                            dataType: "json",
+                            processResults: (response) => {
+
+                                console.log(response);  
+
+                                return {
+                                    "results": response 
+                                };
+                                
+                            }
+
+                        }
+
+                    });;
+
+                    $("#school_class").select2({
+
+                        ajax: {
+
+                            url: "/dashboard/schoolclassformated",
+                            dataType: "json",
+                            processResults: (response) => {
+
+                                console.log(response);  
+
+                                return {
+                                    "results": response 
+                                };
+                                
+                            }
+
+                        }
+
+                    });;
+
+                }
+
+            }).then(() => {
+
+                $.ajax({
+
+
+
+                });
+
+            });
+
+        });
+
+    }
    
 
     showModalUpdate() {
@@ -334,7 +465,7 @@ class DataTableController {
 
         $(document).on("click", ".edit", function () {
 
-            btnId = $(this).attr("id");
+            btnId = $(this).attr("data-id");
 
         });
         
@@ -353,7 +484,7 @@ class DataTableController {
 
             $.ajax({
 
-                url: `${route}/${btnId}`,
+                url: `dashboard/student/${btnId}`,
                 method: "POST",
                 data: new FormData(this),
                 contentType: false,
@@ -396,7 +527,7 @@ class DataTableController {
 
             e.preventDefault();
             
-            let id = $(this).attr("id");
+            let id = $(this).attr("data-id");
 
             Swal.fire({
 
@@ -407,14 +538,14 @@ class DataTableController {
                 cancelButtonColor: '#d33',
                 cancelButtonText: 'Cancelar',
                 confirmButtonText: 'Deletar',
-                type: "warning"
+                icon: "warning"
             }).then((result) => {
 
                 if (result.value) {
 
                     $.ajax({
 
-                        url: `${route}/${id}`,
+                        url: `dashboard/student/${id}`,
                         method: "DELETE",
                         success: function (response) {
 

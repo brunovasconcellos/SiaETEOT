@@ -82,7 +82,7 @@ class StudentImport implements ToModel, WithHeadingRow
             "sobrenome" => ["required", "string", "max:255"],
             "email" => ["required", "email", 'unique:users', "max:255"],
             "senha" => ["required", "min:8"],
-            "data_nascimento" => "required",
+            "data_nascimento" => ["required"],
             "sexo" => ["required", "string", "size:1"],
             "numero_telefone" => ["required", "size:11"],
             "numero_rg" => ["required", "size:9"],

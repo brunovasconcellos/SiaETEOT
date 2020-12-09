@@ -50,6 +50,8 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
         Route::resource("/student", "Student\StudentController");
 
         Route::get("/download/excel/student", "Student\StudentController@downloadExcel")->name("excel-student");
+        
+        Route::post("/excelcreate/student", "Student\StudentController@storeExcel");
 
         Route::resource("/responsible", "Student\ResponsibleController");
 
@@ -62,6 +64,8 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
         Route::resource('/transfersu', 'StudentUnit\TransferSusController');
 
         Route::resource('/schoolclass', 'Course\SchoolClassController');
+
+        Route::get('/schoolclassformated', "Course\SchoolClassController@select2Data");
    
         Route::resource("/disciplineschoolclass", "Course\DisciplineSchoolClassController");
 
@@ -88,8 +92,6 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
     });
 
 });
-
-Route::post("/excelcreate/student", "Student\StudentController@storeExcel");
 
 Route::resource('/coursediscipline', 'Course\CourseDisciplineController');
 
