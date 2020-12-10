@@ -22,32 +22,32 @@ Route::get("/index", function() {
     return view('index');
 });
 
-Route::get('/home', 'HomeController@index')->name('home');
-
 Route::middleware(["auth"])->prefix("dashboard")->group(function () {
+
+    Route::get('/', 'HomeController@index');
 
     Route::middleware(["employee"])->group(function () {
 
         Route::resource("/student", "Student\StudentController");
 
         Route::get("/download/excel/student", "Student\StudentController@downloadExcel")->name("excel-student");
-        
+
         Route::post("/excelcreate/student", "Student\StudentController@storeExcel");
 
         Route::resource("/responsible", "Student\ResponsibleController");
 
-        Route::resource('/employee', 'Employee\EmployeeController');      
+        Route::resource('/employee', 'Employee\EmployeeController');
 
         Route::put("/employee/{employeeId}/{exertsId}", "Employee\EmployeeController@update");
 
         Route::resource('/studentunit', 'StudentUnit\StudentUnitController');
-        
+
         Route::resource('/transfersu', 'StudentUnit\TransferSusController');
 
         Route::resource('/schoolclass', 'Course\SchoolClassController');
 
         Route::get('/schoolclassformated', "Course\SchoolClassController@select2Data");
-   
+
         Route::resource("/disciplineschoolclass", "Course\DisciplineSchoolClassController");
 
         Route::resource('/course', 'Course\CourseController');
@@ -59,11 +59,11 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
         Route::post('/occupationemployee/{employeId}', 'Employee\OccupationEmployeeController@store');
 
         Route::resource("/teach", "Employee\TeachController");
-        
+
         Route::resource("/discipline", "Course\DisciplineController");
-        
+
         Route::get("/disciplineformated", "Course\DisciplineController@select2Data");
-        
+
         Route::post("/disciplineimport", "Course\DisciplineController@import");
 
         Route::resource('/position', 'Employee\PositionController');
@@ -95,7 +95,5 @@ Route::get("/course/all", "Course\CourseController@test");
 Route::get("/studentexport", "Student\StudentController@export");
 
 Route::get("/lte", function () {
-
     return view("lte");
-
 });
