@@ -1,0 +1,39 @@
+created:
+    - app/Http/Controllers/SportController.php
+    - app/Http/Controllers/SchoolController.php
+    - app/Http/Controllers/UserController.php
+    - database/factories/UserFactory.php
+    - database/factories/SchoolFactory.php
+    - database/factories/SchoolClassFactory.php
+    - database/factories/SportFactory.php
+    - database/factories/SportClassFactory.php
+    - database/migrations/2020_12_09_124851_create_users_table.php
+    - database/migrations/2020_12_09_124852_create_schools_table.php
+    - database/migrations/2020_12_09_124853_create_school_classes_table.php
+    - database/migrations/2020_12_09_124854_create_sports_table.php
+    - database/migrations/2020_12_09_124855_create_sport_classes_table.php
+    - database/migrations/2020_12_09_124856_create_sport_class_user_table.php
+    - database/migrations/2020_12_09_124857_create_school_class_user_table.php
+    - app/Models/User.php
+    - app/Models/School.php
+    - app/Models/SchoolClass.php
+    - app/Models/Sport.php
+    - app/Models/SportClass.php
+    - database/seeders/UserSeeder.php
+    - database/seeders/SchoolSeeder.php
+    - database/seeders/School_ClassSeeder.php
+    - database/seeders/SportSeeder.php
+    - database/seeders/Sport_ClassSeeder.php
+    - tests/Feature/Http/Controllers/SportControllerTest.php
+    - tests/Feature/Http/Controllers/SchoolControllerTest.php
+    - tests/Feature/Http/Controllers/UserControllerTest.php
+updated:
+    - routes/web.php
+models:
+    User: { enrollment: 'string:20 unique', name: 'string:64', email: 'string:50 unique', password: 'string:60', level: 'tinyInteger default:1', rememberToken: true, timestamps: timestamps, softdeletes: softDeletes, relationships: { belongsToMany: 'SportClass, SchoolClass' } }
+    School: { name: 'string:64 unique', acronym: 'string:10 unique', timestamps: timestamps, softdeletes: softDeletes, relationships: { hasMany: SchoolClass } }
+    School_Class: { school_id: 'id foreign', timestamps: timestamps, softdeletes: softDeletes, relationships: { belongsToMany: User } }
+    Sport: { name: 'string:20 unique', acronym: 'string:10 unique', timestamps: timestamps, softdeletes: softDeletes, relationships: { hasMany: SportClass } }
+    Sport_Class: { bloco_id: 'id foreign', name: 'string:20', weekday: tinyInteger, start_time: time, end_time: time, vacancies: unsignedTinyInteger, timestamps: timestamps, softdeletes: softDeletes, relationships: { belongsToMany: User } }
+    SchoolClass: { school_id: 'id foreign', timestamps: timestamps, softdeletes: softDeletes, relationships: { belongsToMany: User } }
+    SportClass: { bloco_id: 'id foreign', name: 'string:20', weekday: tinyInteger, start_time: time, end_time: time, vacancies: unsignedTinyInteger, timestamps: timestamps, softdeletes: softDeletes, relationships: { belongsToMany: User } }
