@@ -31,7 +31,7 @@ class TeachController extends Controller
 
      }
      
-    public function index()
+    public function index(Request $request)
     {
         
        $teaches = DB::table("teaches")
@@ -42,12 +42,13 @@ class TeachController extends Controller
         ->join("disciplines", "teaches.discipline_id", "=", "disciplines.discipline_id")
         ->join("employees", "teaches.employee_id", "=", "employees.employee_id")
         ->where("teaches.deleted_at", "=", null)
-        ->paginate(5);
+        ->get();
 
-        return response()->json([
-            "error" => false,
-            "response" => $teaches
-        ], 200);
+        if ($request->ajax()) {
+
+            return DataTables()->of($teaches)->make(true);
+
+        }
 
     }
 

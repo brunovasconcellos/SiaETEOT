@@ -18,7 +18,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    protected function validator ($request)
+    public function validator (Request $request)
     {
         return Validator::make($request->all(), [
 
@@ -26,11 +26,11 @@ class UserController extends Controller
             'lastName' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            "dateOfBirth" => ["required", "date", "size:10"],
+            "dateOfBirth" => ["required", "date"],
             "gender" => ["required", "string", "size:1"],
             "cellPhone" => ["required", "size:11"],
             "identityRg" => ["required", "size:9"],
-            "identityEmDt" => ["required", "date", "size:10"],
+            "identityEmDt" => ["required", "date"],
             "identityAuthority" => ["required", "string", "min:4", "max:20"],
             "cpf" => ["required", "string", "size:11"],
             "userName" => ["required", "string", "min:2", "max:255"],
@@ -95,18 +95,6 @@ class UserController extends Controller
     public function store(Request $request)
     {
 
-        $error = $this->validator($request);
-
-        if ($error->fails()) {
-
-            return [
-                "error" => true,
-                "message" => $error->errors()->all(),
-                "userId" => null
-                ];
-
-        }
-
         $localityCep = Locality::validateLocality($request);
 
         $contact = new Contact();
@@ -162,17 +150,6 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
-        $error = $this->validator($request);
-
-        if ($error->fails()) {
-
-            return [
-                "error" => true,
-                "message" => $error->errors()->all()
-            ];
-
-        }
 
         $localityCep = Locality::validateLocality($request);
 
@@ -180,7 +157,7 @@ class UserController extends Controller
             "name" => $request->name,
             "last_name" => $request->lastName,
             "email" => $request->email,
-            "password" => $request->password,
+            "password" => Hash::make($request->password),
             "date_of_birth" => $request->dateOfBirth,
             "cell_phone" => $request->cellPhone,
             "identity_rg" => $request->identityRg,
@@ -215,22 +192,14 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
 
-        if (isset($user)){
-
-            $contact = Contact::where("user_id", "=", $id)->delete();
-         
-            $user->delete();
-
-            return [
-                "error" => false
-            ];
-
-        }
+        $contact = Contact::where("user_id", "=", $id)->delete();
+        
+        $user->delete();
 
         return [
-            "error" => true
+            "error" => false
         ];
-      
+
     }
 
 }

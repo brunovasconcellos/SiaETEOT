@@ -19,12 +19,13 @@ class ExertsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    protected function validator(Request $request){
+    public function validation(Request $request){
+        
         return Validator::make($request->all(), [
-            "registration" => ["required", "string", "max:255"],
-            "employeeId" => ["required", "numeric"],
+            "registration" => ["required", "string", "max:255"], //sera gerado internamente assim como a matricula do aluno
             "positionId" => ["required", "numeric"]
         ]);
+
     }
 
     public function index()
@@ -34,14 +35,6 @@ class ExertsController extends Controller
         ->where('exerts.deleted_at', null)
         ->select('exerts.exerts_id', 'exerts.registration', 'exerts.employee_id', 'exerts.position_id', 'positions.position_name', 'positions.workload', 'positions.type', 'employees.sector_id')
         ->paginate(5);
-
-        if(empty($exerts["data"] == false)){
-            return response()->json([
-                "error" => true,
-                "message" => "No registered Exerts",
-                "response" => null
-            ]);
-        }
 
         return response()->json([
             "error" => false,
@@ -55,22 +48,13 @@ class ExertsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $employeeId)
     {
-        $error = $this->validator($request);
-        Employee::findOrFail($request->employeeId);
-        Position::findOrFail($request->positionId);
-
-        if($error->fails()){
-            return response()->json([
-                "error" => true,
-                "message" => $error->errors()->all()
-            ], 400);
-        }
+        Employee::findOrFail($employeeId);
 
         Exerts::create([
             "registration" => $request->registration,
-            "employee_id" => $request->employeeId,
+            "employee_id" => $employeeId,
             "position_id" => $request->positionId
         ]);
 
@@ -88,22 +72,18 @@ class ExertsController extends Controller
      */
     public function show($id)
     {
-        if(!Auth::user() || Auth::user()->level <= 7){
-            return response()->json([
-                "error" => true,
-                "message" => "Unauthorized"
-            ]);
-        }
 
         Exerts::findOrFail($id);
 
+        $exert = Exerts::where('exerts_id', $id)
+        ->join("positions", "exerts.position_id", "=", "positions.position_id")
+        ->join("employees", "exerts.employee_id", "=", "employees.employee_id")
+        ->select('exerts.exerts_id', 'exerts.registration', 'exerts.employee_id', 'exerts.position_id', 'positions.position_name', 'positions.workload', 'positions.type', 'employees.sector_id')
+        ->get();
+
         return response()->json([
             "error" => false,
-            "response" => Exerts::where('exerts_id', $id)
-            ->join("positions", "exerts.position_id", "=", "positions.position_id")
-            ->join("employees", "exerts.employee_id", "=", "employees.employee_id")
-            ->select('exerts.exerts_id', 'exerts.registration', 'exerts.employee_id', 'exerts.position_id', 'positions.position_name', 'positions.workload', 'positions.type', 'employees.sector_id')
-            ->get()
+            "response" => $exert
         ]);
     }
 
@@ -119,18 +99,8 @@ class ExertsController extends Controller
         Employee::findOrFail($request->employeeId);
         Position::findOrFail($request->positionId);
         $exerts = Exerts::findOrFail($id);
-        
-        $error = $this->validator($request);
-
-        if($error->fails()){
-            return response()->json([
-                "error" => true,
-                "message" => $error->errors()->all()
-            ], 400);
-        }
 
         $exerts->update([
-            "registration" => $request->registration,
             "employee_id" => $request->employeeId,
             "position_id" => $request->positionId
         ]);

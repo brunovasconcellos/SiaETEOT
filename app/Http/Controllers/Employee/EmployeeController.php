@@ -5,12 +5,18 @@ namespace App\Http\Controllers\Employee;
 use App\Employee;
 use App\User;
 use App\Locality;
+use App\Exerts;
+use App\OccupationEmployee;
+use App\Occupation;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Employee\ExertsController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Yajra\Datatables\Datatables;
 
 class EmployeeController extends Controller
 {
@@ -28,34 +34,36 @@ class EmployeeController extends Controller
       
     }
 
-    public function index()
+    public function index(Request $request)
     {
         
         $employees = DB::table('employees')
         ->select(
-            "employees.employee_id", "users.name", "users.last_name", "users.email",
-            "users.gender", "contacts.contact", "sectors.sector_name"
+            "employees.employee_id as id", "exerts.registration","users.name", "users.last_name", "users.email",
+            "users.gender", "contacts.contact", "sectors.sector_name",
          )
+         ->selectRaw("GROUP_CONCAT(DISTINCT occupations.occupation_name) as occupation_names,
+            GROUP_CONCAT(DISTINCT positions.position_name) as position_names")
         ->join("users", "employees.user_id", "=", "users.user_id")
         ->join("contacts", "employees.user_id", "=", "contacts.user_id")
         ->join("sectors", "employees.sector_id", "=", "sectors.sector_id")
+        ->leftJoin("exerts", "employees.employee_id", "=", "exerts.employee_id")
+        ->leftJoin("positions", "exerts.position_id", "=", "positions.position_id")
+        ->leftJoin("occupation_employees", "occupation_employees.employee_id", "=", "employees.employee_id")
+        ->leftJoin("occupations", "occupations.occupation_id", "=", "occupation_employees.occupation_id")
         ->where("employees.deleted_at", "=", null)
-        ->paginate(5);
+        ->groupBy("users.user_id")
+        ->get();
 
-        if (empty($employees["data"] == false)) {
+        if ($request->ajax())
+        {
 
-            return response()->json([
-                "error" => false,
-                "message" => "no registered discipline.",
-                "response" => null
-            ]);
+          return DataTables()->of($employees)->make(true);
 
         }
+        
 
-        return response()->json([
-            "error" => false,
-            "response" => $employees
-        ], 200);
+        return view("employee");
 
     }
 
@@ -71,46 +79,61 @@ class EmployeeController extends Controller
 
         $user = new UserController;
 
-        $userId = $user->store($request);
+        $userValidation = $user->validator($request);
 
-        if ($error->fails() && $userId["error"] == false) {
+        $exerts = new ExertsController;
+
+        $exertsValidation = $exerts->validation($request);
+      
+        if ($error->fails()) {
 
             return response()->json([
+
                 "error" => true,
                 "message" => $error->errors()->all()
+
             ], 400);
 
         }
-
-        if ($userId["error"] == true && count($error->errors()) == 0) {
-
-           return response()->json([
-                "error" => $userId["error"],
-                "message" => $userId["message"]
-            ], 400);
-          
-        }
-
-        if ($userId["error"] == true && $error->fails()) {
+        
+        if ($userValidation->fails()) {
 
             return response()->json([
+                
                 "error" => true,
-                "message" => [$userId["message"], $error->errors()->all()]
+                "message" => $userValidation->errors()->all()
+    
             ], 400);
- 
+    
         }
 
-        Employee::create([
+        if ($exertsValidation->fails()) {
+
+            return response()->json([
+
+            "error" => true,
+            "message" => $exertsValidation->errors()->all()
+
+            ], 400);
+
+        }
+
+        $userId = $user->store($request);
+
+        $employee = Employee::create([
 
             "user_id" => $userId["userId"],
             "sector_id" => $request->sectorId
 
         ]);
 
+        $exerts->store($request, $employee->employee_id);
+
         return response()->json([
 
             "error" => false,
-            "message" => "Employee successfully created."
+            "message" => "Employee successfully created.",
+            "employeeId" => $employee->employee_id
 
         ], 201);
     }
@@ -128,17 +151,32 @@ class EmployeeController extends Controller
 
         $employee = DB::table("employees")
         ->select("employees.employee_id", "users.name", "users.last_name", "users.email",
-        "users.gender", "users.date_of_birth", "users.identity_rg", "users.identity_em_dt",
-        "users.identity_issuing_authority", "users.cpf","sectors.sector_name", "localities.cep",
-        "localities.public_place", "localities.neighborhood", "users.num_residence","users.complement_residence",
-        "localities.cep", "localities.city", "localities.federation_unit","contacts.type",
-        "contacts.contact")
+            "users.gender", "users.date_of_birth", "users.identity_rg", "users.identity_em_dt",
+            "users.identity_issuing_authority", "users.cpf","sectors.sector_name", "localities.cep",
+            "localities.public_place", "localities.neighborhood", "users.num_residence","users.complement_residence",
+            "localities.cep", "localities.city", "localities.federation_unit","contacts.type", "contacts.contact")
+        ->selectRaw(
+            "GROUP_CONCAT(DISTINCT exerts.registration) as registrations, 
+             GROUP_CONCAT(DISTINCT positions.position_name) as position_names,
+             GROUP_CONCAT(DISTINCT positions.workload) as position_workloads,
+             GROUP_CONCAT(DISTINCT positions.type) as position_types"
+            )
+        ->selectRaw(
+            "GROUP_CONCAT(DISTINCT occupations.occupation_name) as occupation_names,
+             GROUP_CONCAT(DISTINCT occupation_employees.start_date) as start_dates,
+             GROUP_CONCAT(DISTINCT occupation_employees.final_date) as final_dates"
+        )
         ->join("users", "employees.user_id", "=", "users.user_id")
         ->join("sectors", "employees.sector_id", "=", "sectors.sector_id")
         ->join("localities", "users.cep_user", "=", "localities.cep")
         ->join("contacts", "employees.user_id", "=", "contacts.user_id")
-        ->where("employees.deleted_at", "=", null)
+        ->join("exerts", "employees.employee_id", "=", "exerts.employee_id")
+        ->join("positions", "exerts.position_id", "=", "positions.position_id")
+        ->leftJoin("occupation_employees", "occupation_employees.employee_id", "=", "employees.employee_id")
+        ->leftJoin("occupations", "occupations.occupation_id", "=", "occupation_employees.occupation_id")
+        ->whereNull("employees.deleted_at")
         ->where("employees.employee_id", "=", $id)
+        ->groupBy("users.user_id")
         ->get();
 
         return response()->json([
@@ -155,18 +193,17 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $employeeId)
     {
         
-        $employee = Employee::findOrFail($id);
+        $employee = Employee::findOrFail($employeeId);
 
         $error = $this->validator($request);
 
         $user = new UserController();
 
-        $userId = $user->update($request, $employee->user_id);
+        $userValidation = $user->validator($request);
 
-        
         if ($error->fails()) {
 
             return response()->json([
@@ -178,47 +215,29 @@ class EmployeeController extends Controller
 
         }
         
-        if (!$employee) {
+        if ($userValidation->fails()) {
 
             return response()->json([
                 
                 "error" => true,
-                "message" => ["Employe not exist"]
-
-            ], 400);
-
-        }
-        
-        if ($userId["error"] == true) {
-
-            return response()->json([
-                
-                "error" => true,
-                "message" => $userId["message"]
-    
-            ], 400);
-    
-        }
-        
-        if ($error->fails() && $userId["error"]) {
-    
-            return response()->json([
-                
-                "error" => true,
-                "message" => [$error->errors()->all(), $userId["message"]]
+                "message" => $userValidation->errors()->all()
     
             ], 400);
     
         }
 
-        $employee->user_id = $userId["userId"];
-        $employee->sector_id = $request->sectorId;
+        $userId = $user->update($request, $employee->user_id);
+
+        $employee->update([
+            "userId" => $userId["userId"],
+            "sector_id" => $request->sectorId
+        ]);
 
         return response()->json([
 
             "error" => false,
-            "message" => ["Employee updated"]
-
+            "message" => "Employee successfully updated.",
+            
         ], 200);
         
     }
@@ -238,23 +257,16 @@ class EmployeeController extends Controller
 
         $userId = $employee->user_id;
 
-        if (isset($employee)) {
+        OccupationEmployee::where("employee_id", "=", $id)->delete();
+       
+        $employee->delete();
 
-            $employee->delete();
-
-            $user->destroy($userId);
-
-            return response()->json([
-                "error" => false,
-                "message" => ["Employee deleted"]
-            ], 200);
-
-        }
+        $user->destroy($userId);
 
         return response()->json([
-            "error" => true,
-            "message" => ["Error when deleting employee"]
-        ], 400);
+            "error" => false,
+            "message" => "Employee successfully deleted."
+        ], 200);
 
     }
 }

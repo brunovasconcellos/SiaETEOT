@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Course;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 use App\Matriculated;
 use App\Student;
 use App\SchoolClass;
 use App\Discipline;
-
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
@@ -88,13 +86,13 @@ class MatriculatedController extends Controller
 
         Matriculated::create([
         
-        "matriculation_date" => $request->matriculationDate,
-        "school_year" => $request->schoolYear,
-        "situation" => $request->situation,
-        "call_number" => $request->callNumber,
-        "student_registration" => $request->studentRegistration,
-        "school_class_id" => $request->schoolClassId,
-        "discipline_id" => $request->disciplineId
+            "matriculation_date" => $request->matriculationDate,
+            "school_year" => $request->schoolYear,
+            "situation" => $request->situation,
+            "call_number" => $request->callNumber,
+            "student_registration" => $request->studentRegistration,
+            "school_class_id" => $request->schoolClassId,
+            "discipline_id" => $request->disciplineId
 
         ]);
 

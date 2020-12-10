@@ -8,6 +8,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Arr;
+use App\Imports\DisciplineImport;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class DisciplineController extends Controller
 {
@@ -28,30 +32,42 @@ class DisciplineController extends Controller
 
      }
 
-    public function index()
+    public function index(Request $request)
     {
         
         $disciplines = DB::table("disciplines")
-        ->select("disciplines.discipline_id", "disciplines.discipline_name", "disciplines.discipline_abbreviation")
+        ->select("disciplines.discipline_id as id", "disciplines.discipline_name", "disciplines.discipline_abbreviation")
         ->where("disciplines.deleted_at", "=", null)
-        ->paginate(5);
+        ->get();
 
+        if ($request->ajax())
+        {
 
-        if (empty($disciplines["data"] == false)) {
-
-            return response()->json([
-                "error" => false,
-                "message" => "no registered discipline.",
-                "response" => null
-            ], 400);
+          return DataTables()->of($disciplines)->make(true);
 
         }
 
-        return response()->json([
-            "error" => false,
-            "response" => $disciplines
-        ], 200);
+        return view('discipline');
         
+    }
+
+    public function select2Data() {
+
+        $disciplines = DB::table("disciplines")
+        ->select("disciplines.discipline_id", "disciplines.discipline_name")
+        ->where("disciplines.deleted_at", "=", null)
+        ->get();
+
+        $disciplinesFormated = [];
+        
+        foreach($disciplines as $discipline) {
+
+            $disciplinesFormated[] = ["id" => $discipline->discipline_id, "text" => $discipline->discipline_name];
+
+        }
+
+        return response()->json($disciplinesFormated);
+
     }
 
     /**
@@ -84,6 +100,20 @@ class DisciplineController extends Controller
             "message" => "Discipline successfully created."
         ], 201);
 
+    }
+
+    public function Import (Request $request)
+    {
+    
+        Excel::import(new DisciplineImport, $request->file("excel-file"));
+
+        return response()->json([
+
+            "error" => false,
+            "message" => "Disciplines successfully created."
+
+        ]);
+        
     }
 
     /**

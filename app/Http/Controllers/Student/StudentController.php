@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Student;
 
 use App\Student;
+use App\User;
+use App\Imports\StudentImport;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Student\StudentComplementController;
@@ -15,6 +17,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Exports\StudentExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
@@ -37,33 +41,37 @@ class StudentController extends Controller
 
     }
 
-    public function index()
+    public function downloadExcel() {
+
+        $file = Storage::path('public\modelsExcel\student_model.xlsx');
+
+        return response()->download($file);
+
+    }
+
+    public function index(Request $request)
     {
         
         $students = DB::table('students')
         ->select(
-            "students.student_registration", "users.name", "users.last_name", "users.email",
-            "users.gender", "students.student_type", "contacts.contact"
+            "students.student_registration as id", "users.name", "users.last_name", "users.email",
+            "users.gender", "students.student_type", "contacts.contact", "school_classes.school_class_name",
+            "matriculateds.call_number", "matriculateds.school_year"
          )
         ->join("users", "students.user_id", "=", "users.user_id")
         ->join("contacts", "students.user_id", "=", "contacts.user_id")
+        ->leftJoin("matriculateds", "students.student_registration", "matriculateds.student_registration")
+        ->leftJoin("school_classes", "matriculateds.school_class_id", "school_classes.school_class_id")
         ->where("students.deleted_at", "=", null)
-        ->paginate(5);
+        ->get();
 
-        if (empty($students["data"] == false)) {
+        if ($request->ajax()) {
 
-            return response()->json([
-                "error" => false,
-                "message" => "no registered discipline.",
-                "response" => null
-            ]);
-
+            return DataTables()->of($students)->make(true);
+        
         }
 
-        return response()->json([
-            "error" => false,
-            "response" => $students
-        ], 200);
+        return view("student");
 
     }
 
@@ -73,6 +81,19 @@ class StudentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+     public function storeExcel (Request $request) {
+
+        Excel::import(new StudentImport, $request->file("excel-file"));
+
+        return response()->json([
+
+            "response" => "Students successfully created."
+
+        ]);
+
+     }
+
     public function store(Request $request)
     {
 
@@ -100,16 +121,18 @@ class StudentController extends Controller
 
         $user = new UserController();
 
-        $userId = $user->store($request);
+        $userValidation = $user->validator($request);
 
-        if ($userId["error"] == true) {
+        if ($userValidation->fails()) {
 
             return response()->json([
-                "error" => $userId["error"],
-                "message" => $userId["message"]
+                "error" => true,
+                "message" => $userValidation->errors()->all()
             ], 400);
 
         }
+
+        $userId = $user->store($request);
 
         //generate student registration
 
@@ -245,12 +268,6 @@ class StudentController extends Controller
 
     }
 
-    public function export() {
-
-        return Excel::download(new StudentExport, "students.xlsx");
-
-    }
-
     /**
      * Update the specified resource in storage.
      *
@@ -265,7 +282,11 @@ class StudentController extends Controller
 
         $student = Student::findOrFail($id);
 
+        User::findOrFail($student->user_id);
+
         $user = new UserController();
+
+        $userValidation = $user->validator($request);
 
         if ($error->fails()) {
 
@@ -278,7 +299,7 @@ class StudentController extends Controller
 
         $studentComplementError = StudentComplementController::validator($request);
 
-        if ($studentComplementError -> fails()) {
+        if ($studentComplementError->fails()) {
 
             return response()->json([
                 "error" => true,
@@ -287,16 +308,16 @@ class StudentController extends Controller
 
         }
 
-        $userId = $user->update($request, $student->user_id);
-
-        if ($userId["error"] == true) {
+        if ($userValidation->fails()) {
 
             return response()->json([
                 "error" => true,
-                "message" =>$userId["message"]
+                "message" => $userValidation->errors()->message()
             ], 400);
 
         }
+
+        $user->update($request, $student->user_id);
 
         $student->update([
             "father_name" => $request->fatherName,

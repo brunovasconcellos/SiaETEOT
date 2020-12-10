@@ -17,8 +17,13 @@
 
         <style>
             html, body {
-                background-color: #fff;
-                color: #636b6f;
+                background: url("/storage/imagesAuth/vetor1.png")!important;
+                background-size: 512px!important;
+                background-attachment: fixed!important;
+                background-position-x: right!important;
+                background-position-y: bottom!important;
+                background-repeat: no-repeat!important;
+                color: #00A3E0;
                 font-family: 'Nunito', sans-serif;
                 font-weight: 200;
                 height: 100vh;
@@ -47,6 +52,7 @@
 
             .content {
                 text-align: center;
+                color: #00A3E0;
             }
 
             .title {
@@ -54,13 +60,18 @@
             }
 
             .links > a {
-                color: #636b6f;
+                color: #00A3E0;
                 padding: 0 25px;
                 font-size: 13px;
                 font-weight: 600;
                 letter-spacing: .1rem;
                 text-decoration: none;
                 text-transform: uppercase;
+            }
+
+            .tittle span{
+                color: #000000!important;
+                font-weight: bolder!important;
             }
 
             .m-b-md {
@@ -87,7 +98,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    <span>SIA</span>eteot
                 </div>
 
                 <div class="links">

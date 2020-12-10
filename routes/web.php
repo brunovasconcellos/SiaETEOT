@@ -49,38 +49,53 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
 
         Route::resource("/student", "Student\StudentController");
 
+        Route::get("/download/excel/student", "Student\StudentController@downloadExcel")->name("excel-student");
+        
+        Route::post("/excelcreate/student", "Student\StudentController@storeExcel");
+
         Route::resource("/responsible", "Student\ResponsibleController");
-    
+
+        Route::resource('/employee', 'Employee\EmployeeController');      
+
+        Route::put("/employee/{employeeId}/{exertsId}", "Employee\EmployeeController@update");
 
         Route::resource('/studentunit', 'StudentUnit\StudentUnitController');
         
         Route::resource('/transfersu', 'StudentUnit\TransferSusController');
-        
-        Route::resource('/course', 'Course\CourseController');
 
         Route::resource('/schoolclass', 'Course\SchoolClassController');
-    
-        Route::resource("/discipline", "Course\DisciplineController");
+
+        Route::get('/schoolclassformated', "Course\SchoolClassController@select2Data");
    
         Route::resource("/disciplineschoolclass", "Course\DisciplineSchoolClassController");
+
+        Route::resource('/course', 'Course\CourseController');
+
+        Route::resource('/occupation', 'Employee\OccupationsController');
+
+        Route::get('/occupationformated', 'Employee\OccupationsController@select2Data');
+
+        Route::post('/occupationemployee/{employeId}', 'Employee\OccupationEmployeeController@store');
+
+        Route::resource("/teach", "Employee\TeachController");
         
+        Route::resource("/discipline", "Course\DisciplineController");
+        
+        Route::get("/disciplineformated", "Course\DisciplineController@select2Data");
+        
+        Route::post("/disciplineimport", "Course\DisciplineController@import");
+
+        Route::resource('/position', 'Employee\PositionController');
+
+        Route::resource('/exert', 'Employee\ExertsController');
+
     });
 
 });
 
-Route::resource('/employee', 'Employee\EmployeeController');      
-
-Route::resource('/occupation', 'Employee\OccupationsController');
-
 Route::resource('/coursediscipline', 'Course\CourseDisciplineController');
 
-Route::resource('/position', 'Employee\PositionController');
-
-Route::resource('/exerts', 'Employee\ExertsController');
-
 Route::resource('/able', 'Employee\AbleController');
-
-Route::resource("/teach", "Employee\TeachController");
 
 Route::resource('/schedule', 'Course\SchedulesController');
 
@@ -93,6 +108,8 @@ Route::resource('/lesonstatus', 'Course\LesonStatusController');
 Route::resource('/matriculated', "Course\MatriculatedController");
 
 Route::resource("/lack", "Course\LackController");
+
+Route::get("/course/all", "Course\CourseController@test");
 
 Route::get("/studentexport", "Student\StudentController@export");
 

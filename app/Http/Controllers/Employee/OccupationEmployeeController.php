@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class OccupationEmployeeController extends Controller
 {
@@ -26,7 +27,6 @@ class OccupationEmployeeController extends Controller
 
             'startDate' => ['required', 'date'],
             'finalDate' => ['required', 'date'],
-            'employeeId' => ['required', 'numeric'],
             'occupationId' => ['required', 'numeric']
 
             ]);
@@ -39,10 +39,10 @@ class OccupationEmployeeController extends Controller
         
         $OccupationEmployee = DB::table('Occupation_Employees')
         ->select(
-                "occupation_employees.occup_emp_id","occupations.occupation_name",
-                "users.name","occupation_employees.start_date",
-                "occupation_employees.final_date","employees.employee_id",
-                "occupations.occupation_id",
+            "occupation_employees.occup_emp_id","occupations.occupation_name",
+            "users.name","occupation_employees.start_date",
+            "occupation_employees.final_date","employees.employee_id",
+            "occupations.occupation_id",
             )
         ->join("employees", "occupation_employees.employee_id", "=", "employees.employee_id")
         ->join("occupations", "occupation_employees.occupation_id", "=", "occupations.occupation_id")
@@ -65,7 +65,7 @@ class OccupationEmployeeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $employeeId)
     {
 
         $error = $this->validation($request);
@@ -75,7 +75,7 @@ class OccupationEmployeeController extends Controller
 
             return response()->json([
                 "error" => true,
-                "message" => $error->errors()->all()
+                "message" => $error->errors()->all(),
             ], 400);
         }
 
@@ -83,14 +83,14 @@ class OccupationEmployeeController extends Controller
 
             "start_date" => $request->startDate,
             "final_date" => $request->finalDate,
-            "employee_id" => $request->employeeId,
+            "employee_id" => $employeeId,
             "occupation_id" => $request->occupationId
     
         ]);
     
         return response()->json([
             "error" => false,
-            "message" => "OccupationEmployee created"
+            "message" => "OccupationEmployee created",
         ], 201);
     
     }
@@ -157,8 +157,8 @@ class OccupationEmployeeController extends Controller
 
         $OccupationEmployee->update([
            
-            "start_date" => $request->startDate,
-            "final_date" => $request->finalDate,
+            "start_date" => new DateTime($request->startDate),
+            "final_date" => new DateTime($request->finalDate),
             "employee_id" => $request->employeeId,
             "occupation_id" => $request->occupationId
 

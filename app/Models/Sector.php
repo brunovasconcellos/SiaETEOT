@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Sector extends Model
 {
     use SoftDeletes;
+    
 }
