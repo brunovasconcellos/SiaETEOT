@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'Sia eteot',
+    'title' => 'SIA ETEOT',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -247,7 +247,7 @@ return [
             'url'  => 'dashboard/employee',
             "icon" => 'fas fa-user-tie',
             'can'  => 'diretoria',
-            
+
         ],
 
         [
@@ -288,7 +288,7 @@ return [
                 ]
             ]
         ],
-        
+
     ],
 
     /*
