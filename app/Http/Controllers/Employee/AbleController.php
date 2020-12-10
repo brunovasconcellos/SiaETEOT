@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Employee;
 
-use App\Able;
-use App\Discipline;
-use App\Employee;
+use App\Models\Able;
+use App\Models\Discipline;
+use App\Models\Employee;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

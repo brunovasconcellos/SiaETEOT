@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Course;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Matriculated;
-use App\Student;
-use App\SchoolClass;
-use App\Discipline;
+use App\Models\Matriculated;
+use App\Models\Student;
+use App\Models\SchoolClass;
+use App\Models\Discipline;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 

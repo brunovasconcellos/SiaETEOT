@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Course;
 
-use App\Able;
+use App\Models\Able;
 use App\Http\Controllers\Controller;
-use App\Schedule;
-use App\SchoolClass;
+use App\Models\Schedule;
+use App\Models\SchoolClass;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

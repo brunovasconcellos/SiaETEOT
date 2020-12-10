@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Student;
 
-use App\Student;
-use App\User;
+use App\Models\Student;
+use App\Models\User;
 use App\Imports\StudentImport;
 
 use App\Http\Controllers\UserController;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Employee;
 
-use App\OccupationEmployee;
+use App\Models\OccupationEmployee;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;

@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Course;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\DisciplineSchoolClass;
-use App\Discipline;
-use App\SchoolClass;
+use App\Models\DisciplineSchoolClass;
+use App\Models\Discipline;
+use App\Models\SchoolClass;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
