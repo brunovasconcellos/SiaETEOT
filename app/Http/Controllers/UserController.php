@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Contact;
-use App\Locality;
-use App\User;
+use App\Models\Contact;
+use App\Models\Locality;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;

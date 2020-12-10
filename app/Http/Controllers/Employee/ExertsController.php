@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Employee;
 
-use App\Employee;
-use App\Exerts;
+use App\Models\Employee;
+use App\Models\Exerts;
 use App\Http\Controllers\Controller;
-use App\Position;
+use App\Models\Position;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

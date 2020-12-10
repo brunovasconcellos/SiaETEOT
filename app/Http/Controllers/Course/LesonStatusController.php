@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Course;
 
 use App\Http\Controllers\Controller;
-use App\LesonStatus;
-use App\Schedule;
+use App\Models\ModelsLesonStatus;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

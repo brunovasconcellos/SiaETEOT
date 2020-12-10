@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Student;
 
-use App\StudentComplement;
-use App\Student;
+use App\Models\StudentComplement;
+use App\Models\Student;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;

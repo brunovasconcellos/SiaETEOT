@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Employee;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Teach;
-use App\Discipline;
-use App\Employee;
+use App\Models\Teach;
+use App\Models\Discipline;
+use App\Models\Employee;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;

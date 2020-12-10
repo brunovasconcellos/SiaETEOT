@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Student;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\SchoolReport;
-use App\Matriculated;
+use App\Models\SchoolReport;
+use App\Models\Matriculated;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;

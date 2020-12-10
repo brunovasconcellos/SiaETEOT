@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Course;
 
-use App\SchoolClass;
-use App\Course;
-
+use App\Models\SchoolClass;
+use App\Models\Course;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
