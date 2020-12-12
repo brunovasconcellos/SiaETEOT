@@ -44,4 +44,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function UserLocality()
+    {
+        return $this->hasOne(\App\Models\Locality::class, 'cep', 'cep_user');
+    }
+
+    public function UserContacts()
+    {
+        return $this->hasMany(\App\Models\Contact::class, 'user_id', 'user_id');
+    }
 }

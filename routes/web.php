@@ -18,6 +18,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('teste', function () {
+    return \App\Models\Employee::first()->EmployeeExerts()->create([
+            'registration'                  => '1',
+            'employee_id'                   => '1',
+            'position_id'                   => '1',
+        ]);
+});
+
 Route::get("/index", function() {
     return view('index');
 });

@@ -13,7 +13,7 @@ class EmployeeController {
         this.deleteData();
     }
 
-    
+
     createDataTables() {
 
         let columsData = [
@@ -35,15 +35,15 @@ class EmployeeController {
             }},
             {data: "contact", name: "contact"},
             {data: "sector_name", name: "sector_name"},
-            {data: "occupation_names", name: "occupation_names", render: 
+            {data: "occupation_names", name: "occupation_names", render:
             function (data, type, row) {
-                
+
                 if (data) {
 
                     let dataArray = data.split(',');
 
                     if (dataArray.length -1 == 0) {
-                        
+
                         return data;
 
                     }
@@ -55,16 +55,16 @@ class EmployeeController {
                 return `<button id="${row.id}" class="occupation btn btn-primary btn-sm">Adicionar</button>`
 
             }},
-            {data:"position_names", name: "position_names", render: 
+            {data:"position_names", name: "position_names", render:
             function (data, type, row) {
-                
-               
+
+
                 if (data) {
 
                     let dataArray = data.split(',');
 
                     if (dataArray.length -1 == 0) {
-                        
+
                         return data;
 
                     }
@@ -72,7 +72,7 @@ class EmployeeController {
                     return `<div class='col-12'>${dataArray[0]} e + ${dataArray.length - 1}</div>`
 
                 }
-                
+
             }}
             ];
 
@@ -80,7 +80,7 @@ class EmployeeController {
             {
                 data: null,  orderable: false, searchable: false,
                 render: function (data, type, row) {
-                 
+
                     return `
                             <a href="/dashboard/employee/${data.id}" title="Visualizar" class="view btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
                             <button type="button" id="${data.id}" name="add-occupation" title="Adicionar Função" class="occupation btn btn-success btn-sm"><i class="fas fa-award"></i></button>
@@ -91,8 +91,8 @@ class EmployeeController {
             }
         );
 
-        
-        
+
+
         $(document).ready(function () {
 
              $("#list").DataTable({
@@ -107,7 +107,7 @@ class EmployeeController {
                 pagingType: "full_numbers",
                 responsive: true,
                 columns: columsData,
-    
+
                 dom: "<'row'<'col-sm-12 mb-3'B>>" +
                      "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                      "<'row'<'col-sm-12'tr>>" +
@@ -120,7 +120,7 @@ class EmployeeController {
                         text: '<i class="fas fa-copy"></i> Copiar',
                         exportOptions: {columns: 'th:not(:last-child)'},
                         attr: {
-                            
+
                             id: "copy",
                             class: "btn btn-primary"
 
@@ -133,7 +133,7 @@ class EmployeeController {
                         exportOptions: {columns: 'th:not(:last-child)'},
                         title: `Listar Funcionarios`,
                         attr: {
-                            
+
                             id: "excel",
                             class: "btn btn-primary"
 
@@ -145,7 +145,7 @@ class EmployeeController {
                         exportOptions: {columns: 'th:not(:last-child)'},
                         title: `Listar Funcionarios`,
                         attr: {
-                            
+
                             id: "pdf",
                             class: "btn btn-primary"
 
@@ -177,7 +177,7 @@ class EmployeeController {
                     }
 
                 ],
-                    
+
                 language: {
                     "sEmptyTable": "Nenhum registro encontrado",
                     "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros.",
@@ -215,8 +215,8 @@ class EmployeeController {
                         }
                     }
                 }
-                
-                
+
+
             });
 
         });
@@ -240,7 +240,7 @@ class EmployeeController {
 
             $("#form-submit").removeClass("edit-data");
 
-            helper.cleanInput("#input-box");
+            //helper.cleanInput("#input-box");
 
         });
 
@@ -258,7 +258,7 @@ class EmployeeController {
 
             helper.validationForm(rule, message, form);
 
-            if (!form.valid()) return; 
+            if (!form.valid()) return;
 
             $("#modal").modal('hide');
 
@@ -291,7 +291,7 @@ class EmployeeController {
                             helper.ajaxCsrfSetting();
 
                             Swal.fire({
-                    
+
                                 title: "Formulário do professor.",
                                 html: `
                                     <input type="date" id="startDate" name="startDate" class="swal2-input">
@@ -300,9 +300,9 @@ class EmployeeController {
                                 `,
                                 confirmButtonText: 'Confirmar',
                                 didOpen: () => {
-        
+
                                     $("#disciplines").select2({
-        
+
                                         ajax: {
                                             url: '/dashboard/disciplineformated',
                                             dataType: 'json',
@@ -310,37 +310,37 @@ class EmployeeController {
                                                 return {
                                                     "results": response
                                                 };
-                                            },                             
-        
+                                            },
+
                                         },
-        
+
                                     });
-        
+
                                 },
                                 preConfirm: () => {
-        
+
                                     let data = [
-        
+
                                         Swal.getPopup().querySelector("#startDate").value,
                                         Swal.getPopup().querySelector("#endDate").value,
                                         $("#disciplines").select2('data')[0].id
-        
+
                                     ];
-                
+
                                     return data;
-                
+
                                 }
                             }).then((data) => {
-                
+
                                 let formData = new FormData();
-                
+
                                 formData.append("startDate", data.value[0]);
                                 formData.append("endDate", data.value[1]);
                                 formData.append("disciplineId", data.value[2]);
                                 formData.append("employeeId", employeeId);
-                
+
                                 $.ajax({
-                
+
                                     url:`/dashboard/teach`,
                                     method: "POST",
                                     data: formData,
@@ -349,36 +349,36 @@ class EmployeeController {
                                     processData: false,
                                     dataType: "json",
                                     success: function (response) {
-                
+
                                         Swal.fire({
-        
+
                                             title: "Professor criado com sucesso!",
                                             icon: "success"
-        
+
                                         });
-                
+
                                     },
                                     error: function (error) {
-                
+
                                         let message;
-            
+
                                         $.each(error.responseJSON.response, function (key, value) {
-            
+
                                             message += value;
-            
+
                                         });
-            
+
                                         helper.alertMessage("error", message);
-                
+
                                     }
-                
+
                                 });
                             });
 
                         }
 
                     });
-                    
+
                     $("#modal").modal("hide");
 
                     $("#list").DataTable().ajax.reload();
@@ -406,7 +406,7 @@ class EmployeeController {
 
     }
 
-   
+
 
     showModalUpdate() {
 
@@ -424,10 +424,10 @@ class EmployeeController {
 
             $("#form-submit").removeClass("create-data");
 
-            helper.cleanInput("#input-box");
-            
+            //helper.cleanInput("#input-box");
+
         });
-        
+
 
     }
 
@@ -442,7 +442,7 @@ class EmployeeController {
             btnId = $(this).attr("id");
 
         });
-        
+
         $(document).on("submit", ".edit-data", function (event) {
 
             event.preventDefault();
@@ -467,7 +467,7 @@ class EmployeeController {
                 success: function (response) {
 
                     helper.alertMessage("success", response.message);
-                    
+
                     $("#list").DataTable().ajax.reload();
 
                 },
@@ -511,7 +511,7 @@ class EmployeeController {
                 width: 'element',
 
                 ajax: {
-        
+
                     url: "/dashboard/occupationformated",
                     method: "GET",
                     dataType: "json",
@@ -519,12 +519,12 @@ class EmployeeController {
                         return {"results": response}
                     },
                     cache: true
-        
+
                 }
-        
+
             });
-            
-        });   
+
+        });
 
     }
 
@@ -566,7 +566,7 @@ class EmployeeController {
                 success: function (response) {
 
                     $("#modal-occupation").modal("hide");
-                    
+
                     $("#list").DataTable().ajax.reload();
 
                     helper.alertMessage("success", response.message);
@@ -583,13 +583,13 @@ class EmployeeController {
                         $(document).on('click', '.teacher', (e) => {
 
                             e.preventDefault();
-                           
+
                         });
 
                     });
 
                     helper.alertMessage("error", message);
-                    
+
                 }
 
             });
@@ -607,7 +607,7 @@ class EmployeeController {
         $(document).on('click', ".delete", function (e) {
 
             e.preventDefault();
-            
+
             let id = $(this).attr("id");
 
             Swal.fire({
@@ -634,7 +634,7 @@ class EmployeeController {
                             helper.alertMessage("success", response.message);
 
                             $("#list").DataTable().ajax.reload();
-        
+
                         },
                         error: function (error) {
 
@@ -647,7 +647,7 @@ class EmployeeController {
                             });
 
                             helper.alertMessage("error", message);
-                            
+
                         }
                     });
 

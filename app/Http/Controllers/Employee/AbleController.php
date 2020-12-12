@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Employee;
 
+use App\Http\Requests\AbleUpdateRequest;
 use App\Models\Able;
 use App\Models\Discipline;
 use App\Models\Employee;
@@ -47,7 +48,7 @@ class AbleController extends Controller
             "error" => false,
             "response" => $able
         ], 200);
-        
+
     }
 
     /**
@@ -89,13 +90,6 @@ class AbleController extends Controller
      */
     public function show($id)
     {
-        if(!Auth::user() || Auth::user()->level <= 7){
-            return response()->json([
-                "error" => true,
-                "message" => "Unauthorized"
-            ]);
-        }
-
         Able::findOrFail($id);
 
         return response()->json([
@@ -115,20 +109,9 @@ class AbleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AbleUpdateRequest $request, $id)
     {
-        Employee::findOrFail($request->employeeId);
-        Discipline::findOrFail($request->disciplineId);
         $able = Able::findOrFail($id);
-
-        $error = $this->validator($request);
-
-        if($error->fails()){
-            return response()->json([
-                "error" => true,
-                "message" => $error->errors()->all()
-            ], 400);
-        }
 
         $able->update([
             "school_year" => $request->schoolYear,
@@ -138,7 +121,7 @@ class AbleController extends Controller
 
         return response()->json([
             "error" => false,
-            "message" => "Able successfully update"
+            "message" => "Able successfully updated"
         ]);
     }
 
@@ -150,14 +133,8 @@ class AbleController extends Controller
      */
     public function destroy($id)
     {
-        if(!Auth::user() || Auth::user()->level <= 7){
-            return response()->json([
-                "error" => true,
-                "message" => "Unauthorized"
-            ], 401);
-        }
-
         $able = Able::findOrFail($id);
+
         $able->delete();
 
         return response()->json([
