@@ -18,14 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('teste', function () {
-    return \App\Models\Employee::first()->EmployeeExerts()->create([
-            'registration'                  => '1',
-            'employee_id'                   => '1',
-            'position_id'                   => '1',
-        ]);
-});
-
 Route::get("/index", function() {
     return view('index');
 });
@@ -76,7 +68,7 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
 
         Route::resource('/position', 'Employee\PositionController');
 
-        Route::resource('/exert', 'Employee\ExertsController');
+        Route::resource('/exert', 'Employee\ExertController');
 
     });
 

@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AbleRequest;
-use App\Models\Able;
+use App\Http\Requests\ExertRequest;
+use App\Models\Exert;
 
-class AbleController extends Controller
+class ExertController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -24,18 +24,18 @@ class AbleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(AbleRequest $request)
+    public function store(ExertRequest $request)
     {
-        Able::create([
-            "school_year"       => $request->schoolYear,
-            "employee_id"       => $request->employeeId,
-            "discipline_id"     => $request->disciplineId
+        Exert::create([
+            "registration"      => $request->registration,
+            "employee_id"       => $request->employee_id,
+            "position_id"       => $request->positionId
         ]);
 
         return response()->json([
             "error"             => false,
-            "message"           => "Able successfully created"
-        ]);
+            "message"           => "Exert successfuly created"
+        ], 201);
     }
 
     /**
@@ -56,19 +56,18 @@ class AbleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(AbleRequest $request, $id)
+    public function update(ExertRequest $request, $id)
     {
-        $able = Able::findOrFail($id);
+        $exerts = Exert::findOrFail($id);
 
-        $able->update([
-            "school_year"       => $request->schoolYear,
+        $exerts->update([
             "employee_id"       => $request->employeeId,
-            "discipline_id"     => $request->disciplineId
+            "position_id"       => $request->positionId
         ]);
 
         return response()->json([
             "error"             => false,
-            "message"           => "Able successfully updated"
+            "message"           => "Exert successfully updated"
         ]);
     }
 
@@ -80,13 +79,13 @@ class AbleController extends Controller
      */
     public function destroy($id)
     {
-        $able = Able::findOrFail($id);
+        $exerts = Exert::findOrFail($id);
 
-        $able->delete();
+        $exerts->delete();
 
         return response()->json([
             "error"             => false,
-            "message"           => "Able successfully deleted"
+            "message"           => "Exert successfully deleted"
         ]);
     }
 }
