@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\Contact;
 use App\Models\Locality;
 use App\Models\User;
@@ -47,38 +48,6 @@ class UserController extends Controller
 
         ]);
     }
-
-    protected function validatorUpdate ($request)
-    {
-        return Validator::make($request->all(), [
-
-            'name' => ['required', 'string', 'max:255'],
-            'lastName' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            "dateOfBirth" => ["required", "date", "size:10"],
-            "gender" => ["required", "string", "size:1"],
-            "cellPhone" => ["required", "size:11"],
-            "identityRg" => ["required", "size:9"],
-            "identityEmDt" => ["required", "date", "size:10"],
-            "identityAuthority" => ["required", "string", "min:4", "max:20"],
-            "cpf" => ["required", "string", "size:11"],
-            "userName" => ["required", "string", "min:2", "max:255"],
-            "level" => ["required", "size:1"],
-            "numResidence" => ["required", "string", "max:255"],
-            "complementResidence" => ["required", "string", "max:255"],
-            "cep" => ["required", "size:8"],
-            "tpPublicPlace" => ["required", "string", "max:255"],
-            "publicPlace" => ["required", "string", "max:255"],
-            "neighborhood" => ["required", "string", "max:255"],
-            "city" => ["required", "string", "max:255"],
-            "federationUnit" => ["required", "string", "size:2"],
-            "type" => ["required", "string", "max:255"],
-            "contact" => ["required ", "string", "max:255"]
-
-        ]);
-    }
-
 
     public function index()
     {
@@ -147,12 +116,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserUpdateRequest $request, $id)
     {
+        $user = User::findOrFail($id);
 
         $localityCep = Locality::validateLocality($request);
 
-        $user = [
+        $user->update([
             "name" => $request->name,
             "last_name" => $request->lastName,
             "email" => $request->email,
@@ -168,16 +138,12 @@ class UserController extends Controller
             "num_residence" => $request->numResidence,
             "complement_residence" => $request->complementResidence,
             "cep" => $localityCep,
-
-        ];
-
-        User::findOrFail($id)->update($user);
+        ]);
 
         return [
             "error" => false,
             "userId" => $id
         ];
-
     }
 
     /**
