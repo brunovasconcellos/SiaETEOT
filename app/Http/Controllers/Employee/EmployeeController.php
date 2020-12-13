@@ -6,11 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\EmployeeStoreRequest;
+use App\Http\Requests\EmployeeRequest;
 use App\Http\Requests\EmployeeUpdateRequest;
 use App\Models\User;
 use App\Models\Employee;
-use App\Models\Exerts;
+use App\Models\Exert;
 
 class EmployeeController extends Controller
 {
@@ -51,7 +51,7 @@ class EmployeeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(EmployeeStoreRequest $request)
+    public function store(EmployeeRequest $request)
     {
         $user = User::create([
             "name"                          => $request->name,
@@ -77,7 +77,7 @@ class EmployeeController extends Controller
             "sector_id"                     => $request->sectorId
         ]);
 
-        Exerts::create([
+        Exert::create([
             'registration'                  => $request->registration,
             'employee_id'                   => $employee->employee_id,
             'position_id'                   => $request->position_id,
@@ -112,7 +112,7 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(EmployeeUpdateRequest $request, $employeeId)
+    public function update(EmployeeRequest $request, $employeeId)
     {
         $employee = Employee::findOrFail($employeeId);
 
