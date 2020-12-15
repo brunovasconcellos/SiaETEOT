@@ -17,4 +17,19 @@ class Student extends Model
         "actual_situation", "user_id"
     ];
 
+    public function StudentUser () 
+    {
+
+        $this->belongsTo(App\User::class, "user_id");
+
+    }
+
+    
+    public function StudentComplement() 
+    {
+
+        $this->HasMany(App\Models\StudentComplement::class, "student_registration");
+
+    }
+
 }

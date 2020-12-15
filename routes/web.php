@@ -52,9 +52,9 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
 
         Route::resource('/course', 'Course\CourseController');
 
-        Route::resource('/occupation', 'Employee\OccupationsController');
+        Route::resource('/occupation', 'Employee\OccupationController');
 
-        Route::get('/occupationformated', 'Employee\OccupationsController@select2Data');
+        Route::get('/occupationformated', 'Employee\OccupationController@select2Data');
 
         Route::post('/occupationemployee/{employeId}', 'Employee\OccupationEmployeeController@store');
 
