@@ -69,7 +69,7 @@ class StudentController
                 return `<p>Não registrado.</p>`
 
             }},
-            {data: "contact", name: "contact"},
+            {data: "cell_phone", name: "cell_phone"}
         ];
         
         columsData.push(
@@ -323,7 +323,7 @@ class StudentController
 
             $.ajax({
 
-                url: `dashboard/student/create`,
+                url: "student",
                 method: "POST",
                 data: new FormData(this),
                 contentType: false,
@@ -484,7 +484,7 @@ class StudentController
 
             $.ajax({
 
-                url: `dashboard/student/${btnId}`,
+                url: `student/${btnId}`,
                 method: "POST",
                 data: new FormData(this),
                 contentType: false,

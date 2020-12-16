@@ -20,7 +20,7 @@ class Student extends Model
     public function StudentUser () 
     {
 
-        $this->belongsTo(App\User::class, "user_id");
+        $this->belongsTo(App\Models\User::class, "user_id");
 
     }
 

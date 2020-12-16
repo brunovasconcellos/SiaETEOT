@@ -6,8 +6,6 @@ use App\Models\Student;
 use App\Models\User;
 use App\Imports\StudentImport;
 
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\Student\StudentComplementController;
 use App\Http\Requests\StudentRequest;
 
 use App\Http\Controllers\Controller;
@@ -45,11 +43,10 @@ class StudentController extends Controller
             $students = DB::table('students')
             ->select(
                 "students.student_registration as id", "users.name", "users.last_name", "users.email",
-                "users.gender", "students.student_type", "contacts.contact", "school_classes.school_class_name",
+                "users.gender", "students.student_type", "users.cell_phone", "school_classes.school_class_name",
                 "matriculateds.call_number", "matriculateds.school_year"
              )
             ->join("users", "students.user_id", "=", "users.user_id")
-            ->join("contacts", "students.user_id", "=", "contacts.user_id")
             ->leftJoin("matriculateds", "students.student_registration", "matriculateds.student_registration")
             ->leftJoin("school_classes", "matriculateds.school_class_id", "school_classes.school_class_id")
             ->where("students.deleted_at", "=", null)
@@ -173,9 +170,8 @@ class StudentController extends Controller
             "cell_phone" => $request->cell_phone,
             "identity_rg" => $request->identity_rg,
             "identity_em_dt" => $request->identity_em_dt,
-            "identity_issuing_authority" => $request->identity_issuing_authority,
+            "identity_issuing_authority" => $request->identity_authority,
             "cpf" => $request->cpf,
-            "cep_user" => $request->cep_user,
             "level" => $request->level,
             "num_residence" => $request->num_residence,
             "complement_residence" => $request->complement_residence,
@@ -230,26 +226,6 @@ class StudentController extends Controller
     {
 
         $student = Student::findOrFail($id);
-
-        $student->studentUser->update([
-
-            "name" => $request->name,
-            "last_name" => $request->last_name,
-            "email" => $request->email,
-            "date_of_birth" => $request->date_of_birth,
-            "gender" => $request->gender,
-            "cell_phone" => $request->cell_phone,
-            "identity_rg" => $request->identity_rg,
-            "identity_em_dt" => $request->identity_em_dt,
-            "identity_issuing_authority" => $request->identity_issuing_authority,
-            "cpf" => $request->cpf,
-            "cep_user" => $request->cep_user,
-            "level" => $request->level,
-            "num_residence" => $request->num_residence,
-            "complement_residence" => $request->complement_residence,
-            "cep_user" => $request->cep_user,
-
-        ]);
 
         $student->update([
 
