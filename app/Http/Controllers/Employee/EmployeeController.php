@@ -134,7 +134,6 @@ class EmployeeController extends Controller
         ]);
 
         $employee->update([
-            "userId"                        => $employee->EmployeeUser->user_id,
             "sector_id"                     => $request->sectorId
         ]);
 

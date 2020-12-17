@@ -20,7 +20,7 @@ class Student extends Model
     public function StudentUser () 
     {
 
-        $this->belongsTo(App\Models\User::class, "user_id");
+        return $this->belongsTo(\App\Models\User::class, "user_id");
 
     }
 
@@ -28,7 +28,7 @@ class Student extends Model
     public function StudentComplement() 
     {
 
-        $this->HasMany(App\Models\StudentComplement::class, "student_registration");
+        return $this->HasMany(\App\Models\StudentComplement::class, "student_registration");
 
     }
 

@@ -545,7 +545,7 @@ class StudentController
 
                     $.ajax({
 
-                        url: `dashboard/student/${id}`,
+                        url: `student/${id}`,
                         method: "DELETE",
                         success: function (response) {
 

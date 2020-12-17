@@ -206,7 +206,7 @@ class StudentController extends Controller
     public function show($id)
     {
 
-        Student::findOrFail($id);
+        $student = Student::findOrFail($id);
 
         return response()->json([
             "error" => false,
@@ -227,14 +227,32 @@ class StudentController extends Controller
 
         $student = Student::findOrFail($id);
 
+        $student->StudentUser()->update([
+
+            "name" => $request->name,
+            "last_name" => $request->last_name,
+            "email" => $request->email,
+            "password" => $request->password,
+            "date_of_birth" => $request->date_of_birth,
+            "gender" => $request->gender,
+            "cell_phone" => $request->cell_phone,
+            "identity_rg" => $request->identity_rg,
+            "identity_em_dt" => $request->identity_em_dt,
+            "identity_issuing_authority" => $request->identity_authority,
+            "cpf" => $request->cpf,
+            "level" => $request->level,
+            "num_residence" => $request->num_residence,
+            "complement_residence" => $request->complement_residence,
+            "cep_user" => $request->cep_user,
+
+        ]);
+
         $student->update([
 
-            "student_registration" => $studentRegistration,
             "father_name" => $request->father_name,
             "mather_name" => $request->mather_name,
             "student_type" => $request->student_type,
             "actual_situation" => $request->actual_situation,
-            "user_id" => $user->user_id,
 
         ]);
 
@@ -256,9 +274,11 @@ class StudentController extends Controller
 
         $student = Student::findOrFail($id);
 
-        StudentComplement::where("student_registration", "=", $id)->delete();
+        $student->StudentComplement()->delete();
 
         $student->StudentUser()->delete();
+
+        $student->delete();
         
         return response()->json([
             "error" => false,
