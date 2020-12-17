@@ -193,6 +193,7 @@ class StudentController extends Controller
         return response()->json([
             "error" => false,
             "message" => "Student is successfully created.",
+            "studentRegistration" => $studentRegistration
         ], 201);
 
     }

@@ -334,38 +334,45 @@ class StudentController
 
                     Swal.fire({
 
-                        Title: "Complemento do estudante.",
-                        html: `<input type="text" id="ingress_type" name="ingress_type">
-                            <input type="text" id="ingress_form" name="ingress_form">
-                            <input type="text" id="last_school" name="last_school">
-                            <input type="text" id="vagacy_type" name="vagacy_type">
-                            <input type="number" id="ident_educacenso" name="ident_educacenso">
-                            <input type="number" id="year_last_grade" name="year_last_grade">
+                        title: "Complemento do estudante.",
+                        html: `<input id="student_registration" type=hidden value="${response.studentRegistration}">
+                            <input type="text" id="ingress_type" name="ingress_type" class="swal2-input">
+                            <input type="text" id="ingress_form" name="ingress_form"class="swal2-input">
+                            <input type="text" id="last_school" name="last_school" class="swal2-input">
+                            <input type="text" id="vagacy_type" name="vagacy_type" class="swal2-input">
+                            <input type="number" id="ident_educacenso" name="ident_educacenso" class="swal2-input">
+                            <input type="number" id="year_last_grade" name="year_last_grade" class="swal2-input">
                         `,
                         preConfirm: () => {
 
                             let data = [
 
-                                Swal.getPopup().querySelector("#ingress_type"),
-                                Swal.getPopup().querySelector("#ingress_form"),
-                                Swal.getPopup().querySelector("#last_school"),
-                                Swal.getPopup().querySelector("#vagacy_type"),
-                                Swal.getPopup().querySelector("#ident_educacenso"),
-                                Swal.getPopup().querySelector("#year_last_grade"),
+                                Swal.getPopup().querySelector("#student_registration").value,
+                                Swal.getPopup().querySelector("#ingress_type").value,
+                                Swal.getPopup().querySelector("#ingress_form").value,
+                                Swal.getPopup().querySelector("#last_school").value,
+                                Swal.getPopup().querySelector("#vagacy_type").value,
+                                Swal.getPopup().querySelector("#ident_educacenso").value,
+                                Swal.getPopup().querySelector("#year_last_grade").value,
 
                             ];
+
+                            return data;
 
                         }
                     }).then((data) => {
 
                         let formData = new FormData();
 
-                        formData.append("ingress_type", data[0]);
-                        formData.append("ingress_form", data[1]);
-                        formData.append("last_school", data[2]);
-                        formData.append("vagacy_type", data[3]);
-                        formData.append("ident_educacenso", data[4]);
-                        formData.append("year_last_grade", data[5]);
+                        console.log(data);
+
+                        formData.append("student_registration", data.value[0]);
+                        formData.append("ingress_type", data.value[1]);
+                        formData.append("ingress_form", data.value[2]);
+                        formData.append("last_school", data.value[3]);
+                        formData.append("vagacy_type", data.value[4]);
+                        formData.append("ident_educacenso", data.value[5]);
+                        formData.append("year_last_grade", data.value[6]);
 
                         $.ajax({
 
