@@ -332,7 +332,59 @@ class StudentController
                 dataType: "json",
                 success: function (response) {
 
-                    helper.alertMessage("success", response.message);
+                    Swal.fire({
+
+                        Title: "Complemento do estudante.",
+                        html: `<input type="text" id="ingress_type" name="ingress_type">
+                            <input type="text" id="ingress_form" name="ingress_form">
+                            <input type="text" id="last_school" name="last_school">
+                            <input type="text" id="vagacy_type" name="vagacy_type">
+                            <input type="number" id="ident_educacenso" name="ident_educacenso">
+                            <input type="number" id="year_last_grade" name="year_last_grade">
+                        `,
+                        preConfirm: () => {
+
+                            let data = [
+
+                                Swal.getPopup().querySelector("#ingress_type"),
+                                Swal.getPopup().querySelector("#ingress_form"),
+                                Swal.getPopup().querySelector("#last_school"),
+                                Swal.getPopup().querySelector("#vagacy_type"),
+                                Swal.getPopup().querySelector("#ident_educacenso"),
+                                Swal.getPopup().querySelector("#year_last_grade"),
+
+                            ];
+
+                        }
+                    }).then((data) => {
+
+                        let formData = new FormData();
+
+                        formData.append("ingress_type", data[0]);
+                        formData.append("ingress_form", data[1]);
+                        formData.append("last_school", data[2]);
+                        formData.append("vagacy_type", data[3]);
+                        formData.append("ident_educacenso", data[4]);
+                        formData.append("year_last_grade", data[5]);
+
+                        $.ajax({
+
+                            url: "studentcomplement",
+                            method: "POST",
+                            data: formData,
+                            contentType: false,
+                            cache: false,
+                            processData: false,
+                            dataType: "json",
+                            success: function (response) {
+
+                                helper.alertMessage("success", "Estudante Criado com sucesso!");
+
+                            }
+
+                        });
+
+                    });
                     
                     $("#modal").modal("hide");
 
@@ -531,7 +583,7 @@ class StudentController
 
             Swal.fire({
 
-                title: "Você realmente quer deletar isso?",
+                title: "Você realmente quer deleta-lo(a)?",
                 text: "Essa alteração não poderá ser revertida.",
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',

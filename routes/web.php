@@ -34,6 +34,8 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
 
         Route::post("/excelcreate/student", "Student\StudentController@storeExcel");
 
+        Route::resource("/studentcomplement", "Student\StudentComplementController");
+
         Route::resource("/responsible", "Student\ResponsibleController");
 
         Route::resource('/employee', 'Employee\EmployeeController');

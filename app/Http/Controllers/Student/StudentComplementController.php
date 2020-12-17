@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Student;
 
 use App\Models\StudentComplement;
 use App\Models\Student;
+use App\Http\Requests\StudentComplementRequest;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -18,21 +19,6 @@ class StudentComplementController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     static function validator (Request $request) {
-
-        return Validator::make($request->all(), [
-
-            "ingressType" => ["required", "string", "max:255"],
-            "ingressForm" => ["required", "string", "max:255"],
-            "lastSchool" => ["required", "string", "max:255"],
-            "vagacyType" => ["required", "string", "max:255"],
-            "identEducacenso" => ["required", "max:11"],
-            "yearLastGrade" => ["required", "size:4"]
-
-        ]);
-
-     }
-
     public function index()
     {
         //
@@ -44,7 +30,7 @@ class StudentComplementController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function store(StudentComplementRequest $request, $id)
     {
 
         $studentComplements = StudentComplement::create([
@@ -84,22 +70,11 @@ class StudentComplementController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StudentComplementRequest $request, $id)
     {
-        
-        $error = $this->validator($request);
 
         $studentComplement = StudentComplement::findOrFail($id);
 
-        if ($error->fails()) {
-
-            return [
-                "error" => true,
-                "message" => $error->errors()->message()
-            ];
-
-        }
-        
         $studentComplement->update([
             "ingress_type" => $request->ingressType,
             "ingress_form" => $request->ingressForm,
