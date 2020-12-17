@@ -273,13 +273,7 @@ class DataTableController {
 
                     $("#list").DataTable().ajax.reload();
 
-                }.then(() => {
-
-                    let methodAdditional = "enrollStudent";
-
-                    additionalFunction.methodAdditional;
-
-                }),
+                },
                 error: function (error) {
 
                     let message = "";

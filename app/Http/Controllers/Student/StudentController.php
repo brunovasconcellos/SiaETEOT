@@ -6,8 +6,7 @@ use App\Models\Student;
 use App\Models\User;
 use App\Imports\StudentImport;
 
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\Student\StudentComplementController;
+use App\Http\Requests\StudentRequest;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -28,19 +27,6 @@ class StudentController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function validator (Request $request) {
-
-        return  Validator::make($request->all(), [
-
-            "fatherName" => ["required", "string", "max:255"],
-            "matherName" => ["required", "string", "max:255"],
-            "studentType" => ["required", "string", "max:255"],
-            "actualSituation" => ["required", "string", "max:255"],
-
-        ]);
-
-    }
-
     public function downloadExcel() {
 
         $file = Storage::path('public\modelsExcel\student_model.xlsx');
@@ -51,21 +37,20 @@ class StudentController extends Controller
 
     public function index(Request $request)
     {
-        
-        $students = DB::table('students')
-        ->select(
-            "students.student_registration as id", "users.name", "users.last_name", "users.email",
-            "users.gender", "students.student_type", "contacts.contact", "school_classes.school_class_name",
-            "matriculateds.call_number", "matriculateds.school_year"
-         )
-        ->join("users", "students.user_id", "=", "users.user_id")
-        ->join("contacts", "students.user_id", "=", "contacts.user_id")
-        ->leftJoin("matriculateds", "students.student_registration", "matriculateds.student_registration")
-        ->leftJoin("school_classes", "matriculateds.school_class_id", "school_classes.school_class_id")
-        ->where("students.deleted_at", "=", null)
-        ->get();
 
         if ($request->ajax()) {
+
+            $students = DB::table('students')
+            ->select(
+                "students.student_registration as id", "users.name", "users.last_name", "users.email",
+                "users.gender", "students.student_type", "users.cell_phone", "school_classes.school_class_name",
+                "matriculateds.call_number", "matriculateds.school_year"
+             )
+            ->join("users", "students.user_id", "=", "users.user_id")
+            ->leftJoin("matriculateds", "students.student_registration", "matriculateds.student_registration")
+            ->leftJoin("school_classes", "matriculateds.school_class_id", "school_classes.school_class_id")
+            ->where("students.deleted_at", "=", null)
+            ->get();
 
             return DataTables()->of($students)->make(true);
         
@@ -94,45 +79,8 @@ class StudentController extends Controller
 
      }
 
-    public function store(Request $request)
+    public function store(StudentRequest $request)
     {
-
-        $error = $this->validator($request);
-
-        if ($error->fails()) {
-
-            return response()->json([
-                "error" => true,
-                "message" => $error->errors()->all()
-                ], 400);
-
-        }
-
-        $studentComplementError = StudentComplementController::validator($request);
-
-        if ($studentComplementError->fails()) {
-
-            return response()->json([
-                "error" => true,
-                "message" => $studentComplementError->errors()->all()
-            ]);
-
-        }
-
-        $user = new UserController();
-
-        $userValidation = $user->validator($request);
-
-        if ($userValidation->fails()) {
-
-            return response()->json([
-                "error" => true,
-                "message" => $userValidation->errors()->all()
-            ], 400);
-
-        }
-
-        $userId = $user->store($request);
 
         //generate student registration
 
@@ -211,18 +159,36 @@ class StudentController extends Controller
 
         //end generate student registration
 
-        Student::create([
-            "student_registration" => $studentRegistration,
-            "father_name" => $request->fatherName,
-            "mather_name" => $request->matherName,
-            "student_type" => $request->studentType,
-            "actual_situation" => $request->actualSituation,
-            "user_id" => $userId["userId"]
+        $user = User::create([
+
+            "name" => $request->name,
+            "last_name" => $request->last_name,
+            "email" => $request->email,
+            "password" => $request->password,
+            "date_of_birth" => $request->date_of_birth,
+            "gender" => $request->gender,
+            "cell_phone" => $request->cell_phone,
+            "identity_rg" => $request->identity_rg,
+            "identity_em_dt" => $request->identity_em_dt,
+            "identity_issuing_authority" => $request->identity_authority,
+            "cpf" => $request->cpf,
+            "level" => $request->level,
+            "num_residence" => $request->num_residence,
+            "complement_residence" => $request->complement_residence,
+            "cep_user" => $request->cep_user,
+
         ]);
 
-        $studentComplement = new StudentComplementController();
+        Student::create([
 
-        $studentComplement->store($request, $studentRegistration);
+            "student_registration" => $studentRegistration,
+            "father_name" => $request->father_name,
+            "mather_name" => $request->mather_name,
+            "student_type" => $request->student_type,
+            "actual_situation" => $request->actual_situation,
+            "user_id" => $user->user_id,
+
+        ]);
 
         return response()->json([
             "error" => false,
@@ -240,26 +206,7 @@ class StudentController extends Controller
     public function show($id)
     {
 
-        Student::findOrFail($id);
-
-        $student = DB::table('students')
-        ->select(
-            "students.student_registration", "users.name", "users.last_name", "users.email",
-            "users.gender", "users.date_of_birth", "users.identity_rg", "users.identity_em_dt",
-            "users.identity_issuing_authority", "users.cpf", "students.student_type", "students.mather_name",
-            "students.father_name", "students.actual_situation", "student_complements.ingress_type", "student_complements.ingress_form",
-            "student_complements.vagacy_type", "student_complements.last_school",  "student_complements.ident_educacenso",  "student_complements.year_last_grade",
-            "localities.cep", "localities.public_place", "localities.neighborhood", "users.num_residence",
-            "users.complement_residence", "localities.cep", "localities.city", "localities.federation_unit",
-            "contacts.type", "contacts.contact", "students.created_at"
-         )
-        ->join("users", "students.user_id", "=", "users.user_id")
-        ->join("student_complements","students.student_registration", "=", "student_complements.student_registration")
-        ->join("localities", "users.cep_user", "=", "localities.cep")
-        ->join("contacts", "students.user_id", "=", "contacts.user_id")
-        ->where("students.deleted_at", "=", null)
-        ->where("students.student_registration", "=", $id)
-        ->get();
+        $student = Student::findOrFail($id);
 
         return response()->json([
             "error" => false,
@@ -275,65 +222,44 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StudentRequest $request, $id)
     {
-        
-        $error = $this->validator($request);
 
         $student = Student::findOrFail($id);
 
-        User::findOrFail($student->user_id);
+        $student->StudentUser()->update([
 
-        $user = new UserController();
+            "name" => $request->name,
+            "last_name" => $request->last_name,
+            "email" => $request->email,
+            "password" => $request->password,
+            "date_of_birth" => $request->date_of_birth,
+            "gender" => $request->gender,
+            "cell_phone" => $request->cell_phone,
+            "identity_rg" => $request->identity_rg,
+            "identity_em_dt" => $request->identity_em_dt,
+            "identity_issuing_authority" => $request->identity_authority,
+            "cpf" => $request->cpf,
+            "level" => $request->level,
+            "num_residence" => $request->num_residence,
+            "complement_residence" => $request->complement_residence,
+            "cep_user" => $request->cep_user,
 
-        $userValidation = $user->validator($request);
-
-        if ($error->fails()) {
-
-            return response()->json([
-                "error" => true,
-                "message" => $error->errors()->all()
-            ], 400);
-
-        }
-
-        $studentComplementError = StudentComplementController::validator($request);
-
-        if ($studentComplementError->fails()) {
-
-            return response()->json([
-                "error" => true,
-                "message" => $studentComplementError->errors()->message()
-            ]);
-
-        }
-
-        if ($userValidation->fails()) {
-
-            return response()->json([
-                "error" => true,
-                "message" => $userValidation->errors()->message()
-            ], 400);
-
-        }
-
-        $user->update($request, $student->user_id);
-
-        $student->update([
-            "father_name" => $request->fatherName,
-            "mather_name" => $request->matherName,
-            "student_type" => $request->studentType,
-            "actual_situation" => $request->actualSituation,
         ]);
 
-        $studentComplement = new StudentComplementController();
+        $student->update([
 
-        $studentComplement->update($request, $id);
+            "father_name" => $request->father_name,
+            "mather_name" => $request->mather_name,
+            "student_type" => $request->student_type,
+            "actual_situation" => $request->actual_situation,
+
+        ]);
 
         return response()->json([
             "error" => false,
             "message" => "Student successfully updated."
-        ], 200);
+        ]);
 
     }
 
@@ -348,22 +274,16 @@ class StudentController extends Controller
 
         $student = Student::findOrFail($id);
 
-        $studentComplement = new StudentComplementController();
+        $student->StudentComplement()->delete();
 
-        $studentComplement->destroy($id);
-
-        $studentId = $student->user_id;
+        $student->StudentUser()->delete();
 
         $student->delete();
-
-        $user = new UserController();
-
-        $user->destroy($studentId);
         
         return response()->json([
             "error" => false,
             "message" => "Student successfully deleted."
-        ], 200);
+        ]);
 
     }
     

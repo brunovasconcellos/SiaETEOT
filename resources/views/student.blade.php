@@ -11,12 +11,12 @@
     <th width="10%">sobrenome</th>
     <th width="10%">e-mail</th>
     <th width="5%">genero</th>
-    <th width="10%">tipo de estudante</th>
+    <th width="7%">tipo de estudante</th>
     <th width="10%">turma</th>
-    <th width="8%">numero da chamada</th>
-    <th width="7%">ano</th>
-    <th width="8%">contato</th>
-    <th width="17%">Ação</th>
+    <th width="12%">numero da chamada</th>
+    <th width="5%">ano</th>
+    <th width="10%">celular</th>
+    <th width="10%">Ação</th>
     
 </tr>
 
@@ -27,7 +27,7 @@
 name
 <input name="name" class="form-control" type="text">
 lastName
-<input class="form-control" name="lastName" type="text">
+<input class="form-control" name="last_name" type="text">
 email
 <input name="email" class="form-control" type="text">
 password
@@ -35,68 +35,41 @@ password
 password_confirmation
 <input name="password_confirmation" type="text" class="form-control">
 dateOfBirth
-<input name="dateOfBirth" type="text" class="form-control">
+<input name="date_of_birth" type="text" class="form-control">
 gender
 <input name="gender" type="text" class="form-control">
 cellPhone
-<input name="cellPhone" type="text" class="form-control">
+<input name="cell_phone" type="text" class="form-control">
 identityRg
-<input name="identityRg" type="text" class="form-control">
+<input name="identity_rg" type="text" class="form-control">
 identityEmDt
-<input name="identityEmDt" type="text" class="form-control">
+<input name="identity_em_dt" type="text" class="form-control">
 identityAuthority
-<input name="identityAuthority" type="text" class="form-control">
+<input name="identity_authority" type="text" class="form-control">
 cpf
 <input name="cpf" type="text" class="form-control">
-userName
-<input name="userName" type="text" class="form-control">
 level
 <input name="level" type="text" class="form-control">
 numResidence
-<input name="numResidence" type="text" class="form-control">
+<input name="num_residence" type="text" class="form-control">
 complementResidence
-<input name="complementResidence" type="text" class="form-control">
+<input name="complement_residence" type="text" class="form-control">
 cep
-<input name="cep" type="text" class="form-control">
-tpPublicPlace
-<input name="tpPublicPlace" type="text" class="form-control">
-publicPlace
-<input name="publicPlace" type="text" class="form-control">
-neighborhood
-<input name="neighborhood" type="text" class="form-control">
-city<input name="city" type="text" class="form-control">
-federationUnit
-<input name="federationUnit" type="text" class="form-control">
-type
-<input name="type" type="text" class="form-control">
-contact
-<input name="contact" type="text" class="form-control">
+<input name="cep_user" type="text" class="form-control">
 fatherName
-<input name="fatherName" type="text" class="form-control">
+<input name="father_name" type="text" class="form-control">
 matherName
-<input name="matherName" type="text" class="form-control">
+<input name="mather_name" type="text" class="form-control">
 studentType
-<input name="studentType" type="text" class="form-control">
+<input name="student_type" type="text" class="form-control">
 actualSituation
-<input name="actualSituation" type="text" class="form-control">
+<input name="actual_situation" type="text" class="form-control">
 half
 <input name="half" type="text" class="form-control">
 modality
 <input name="modality" type="text" class="form-control">
 course
 <input name="course" type="text" class="form-control">
-ingressType
-<input name="ingressType" type="text" class="form-control">
-ingressForm
-<input name="ingressForm" type="text" class="form-control">
-vagacyType
-<input name="vagacyType" type="text" class="form-control">
-lastSchool
-<input name="lastSchool" type="text" class="form-control">
-identEducacenso
-<input name="identEducacenso" type="text" class="form-control">
-yearLastGrade
-<input name="yearLastGrade" type="text" class="form-control">
 
 @endsection
 
