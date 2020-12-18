@@ -427,10 +427,10 @@ class StudentController
 
                 title: "Matricular aluno",
                 text: "Preencha o formulario para matricular o aluno em uma matéria.",
-                html: `<input type='date'>
-                        <input type='number'>
-                        <input type='text'>
-                        <input type='text'>
+                html: `<input type='date' class='swal2-input'>
+                        <input type='number' class='swal2-input'>
+                        <input type='text' class='swal2-input'>
+                        <input type='text' class='swal2-input'>
                         <select id="discipline"></select>
                         <select id="school_class"></select>`,
                 confirmButtonText: 'Confirmar',

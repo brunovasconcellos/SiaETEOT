@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Course;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use app\models\Matriculated;
+use App\Models\StandartDiscipline;
 
-class MatriculatedController extends Controller
+class StandartDisciplineController extends Controller
 {
     /**
      * Display a listing of the resource.
