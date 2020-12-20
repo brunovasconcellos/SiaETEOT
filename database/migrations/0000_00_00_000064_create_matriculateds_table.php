@@ -14,15 +14,19 @@ class CreateMatriculatedsTable extends Migration
     public function up()
     {
         Schema::create('matriculateds', function (Blueprint $table) {
-            $table->bigIncrements("matriculated_id");
-            $table->timestamp("matriculation_date");
+            $table->bigIncrements('matriculated_id');
+            $table->timestamp("matriculation_date")->nullable();
+            $table->string("school_year");
+            $table->string("situation");
             $table->integer("call_number");
-            $table->timestamp("year_school_class");
             $table->bigInteger("student_registration")->unsigned();
             $table->bigInteger("school_class_id")->unsigned();
             $table->bigInteger("discipline_id")->unsigned();
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign("student_registration")->references("student_registration")->on("students");
+            $table->foreign("school_class_id")->references("school_class_id")->on("school_classes");
+            $table->foreign("discipline_id")->references("discipline_id")->on("disciplines");
         });
     }
 
