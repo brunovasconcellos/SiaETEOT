@@ -50,8 +50,6 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
 
         Route::get('/schoolclassformated', "Course\SchoolClassController@select2Data");
 
-        Route::resource("/disciplineschoolclass", "Course\DisciplineSchoolClassController");
-
         Route::resource('/course', 'Course\CourseController');
 
         Route::resource('/occupation', 'Employee\OccupationController');
@@ -76,6 +74,8 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
 
 });
 
+Route::resource('/disciplineschoolclass', 'Course\DisciplineSchoolClassController');
+
 Route::resource('/coursediscipline', 'Course\CourseDisciplineController');
 
 Route::resource('/able', 'Employee\AbleController');
@@ -91,6 +91,8 @@ Route::resource('/lesonstatus', 'Course\LesonStatusController');
 Route::resource('/matriculated', "Course\MatriculatedController");
 
 Route::resource("/lack", "Course\LackController");
+
+Route::post('/standartdiscipline', "Course\MatriculatedController@matriculateInStandardDiscipline");
 
 Route::get("/course/all", "Course\CourseController@test");
 

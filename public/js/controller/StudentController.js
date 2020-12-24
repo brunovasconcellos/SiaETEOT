@@ -434,64 +434,13 @@ class StudentController
                         <select id="discipline"></select>
                         <select id="school_class"></select>`,
                 confirmButtonText: 'Confirmar',
-                didOpen: () => {
-
-                    $("#discipline").select2({
-
-                        ajax: {
-
-                            url: "/dashboard/disciplineformated",
-                            dataType: "json",
-                            processResults: (response) => {
-
-                                console.log(response);  
-
-                                return {
-                                    "results": response 
-                                };
-                                
-                            }
-
-                        }
-
-                    });;
-
-                    $("#school_class").select2({
-
-                        ajax: {
-
-                            url: "/dashboard/schoolclassformated",
-                            dataType: "json",
-                            processResults: (response) => {
-
-                                console.log(response);  
-
-                                return {
-                                    "results": response 
-                                };
-                                
-                            }
-
-                        }
-
-                    });;
-
-                }
-
-            }).then(() => {
-
-                $.ajax({
-
-
-
-                });
 
             });
 
         });
 
     }
-   
+
 
     showModalUpdate() {
 

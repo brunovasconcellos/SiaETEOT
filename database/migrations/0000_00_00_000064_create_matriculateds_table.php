@@ -15,7 +15,8 @@ class CreateMatriculatedsTable extends Migration
     {
         Schema::create('matriculateds', function (Blueprint $table) {
             $table->bigIncrements('matriculated_id');
-            $table->timestamp("matriculation_date")->nullable();
+            $table->timestamp("matriculation_date");
+            $table->string('matriculation_type');
             $table->string("school_year");
             $table->string("situation");
             $table->integer("call_number");

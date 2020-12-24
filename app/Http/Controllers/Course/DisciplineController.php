@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Course;
 use App\Models\Discipline;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DisciplineRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -21,29 +22,18 @@ class DisciplineController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function validation(Request $request) {
-
-        return Validator::make($request->all(), [
-            
-            "disciplineName" => ["required", "string", "max:255"],
-            "disciplineAbbreviation" => ["required", "string", "max:255"],
-
-        ]);
-
-     }
-
     public function index(Request $request)
     {
-        
-        $disciplines = DB::table("disciplines")
-        ->select("disciplines.discipline_id as id", "disciplines.discipline_name", "disciplines.discipline_abbreviation")
-        ->where("disciplines.deleted_at", "=", null)
-        ->get();
 
         if ($request->ajax())
         {
 
-          return DataTables()->of($disciplines)->make(true);
+            $disciplines = DB::table("disciplines")
+            ->select("disciplines.discipline_id as id", "disciplines.discipline_name", "disciplines.discipline_abbreviation")
+            ->where("disciplines.deleted_at", "=", null)
+            ->get();
+
+            return DataTables()->of($disciplines)->make(true);
 
         }
 
@@ -76,19 +66,8 @@ class DisciplineController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DisciplineRequest $request)
     {
-
-        $error = $this->validation($request);
-
-        if ($error->fails()) {
-
-            return response()->json([
-                "error" => true,
-                "message" => $error->errors()->all()
-            ], 400);
-
-        }
 
         Discipline::create([
             "discipline_name" => $request->disciplineName,
@@ -102,7 +81,7 @@ class DisciplineController extends Controller
 
     }
 
-    public function Import (Request $request)
+    public function Import (DisciplineRequest $request)
     {
     
         Excel::import(new DisciplineImport, $request->file("excel-file"));
@@ -138,7 +117,7 @@ class DisciplineController extends Controller
         return response()->json([
             "error" => false,
             "response" => $discipline
-        ], 200);
+        ]);
 
     }
 
@@ -149,21 +128,10 @@ class DisciplineController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DisciplineRequest $request, $id)
     {
 
         $discipline = Discipline::findOrFail($id);
-
-        $error = $this->validation($request);
-
-        if ($error->fails()) {
-
-            return response()->json([
-                "error" => true,
-                "message" => $error->errors()->all()
-            ], 400);
-
-        }
 
         $discipline->update([
             "discipline_name" => $request->disciplineName,
@@ -173,7 +141,7 @@ class DisciplineController extends Controller
         return response()->json([
             "error" => false,
             "message" => "Discipline successfully updated."
-        ], 200);
+        ]);
         
     }
 
@@ -191,7 +159,7 @@ class DisciplineController extends Controller
         return response()->json([
             "error" => false,
             "Discipline successfully deleted."
-        ], 200);
+        ]);
         
     }
 }
