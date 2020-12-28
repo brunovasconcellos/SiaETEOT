@@ -26,6 +26,7 @@ class MatriculatedRequest extends FormRequest
         return [
             "matriculation_date" => ["required", "date"],
             "school_year" => ["required", "string"],
+            "matriculation_type" => ["required", "string"],
             "situation"  => ["required", "string"],
             "call_number" => ["required", "numeric", "integer"],
             "student_registration" => ["required", "numeric", "integer"],

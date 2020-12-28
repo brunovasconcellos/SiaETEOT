@@ -36,7 +36,7 @@ class StudentController
 
             }},
             {data: "student_type", name: "student_type"},
-            {data: "school_class_name", name: "school_class_name", render: function (data, type, row) {
+            {data: "school_class", name: "school_class", render: function (data, type, row) {
 
                 if (data) {
 
@@ -44,7 +44,7 @@ class StudentController
 
                 }
 
-                return `<p>Não registrado.</p>`
+                return `<button class="btn btn-primary" data-id="matriculation">Matricular</button>`;
 
             }},
             {data: "call_number", name: "call_number", render: function (data, type, row) {

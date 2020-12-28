@@ -28,7 +28,7 @@ class MatriculatedController extends Controller
         $matriculateds = DB::table("matriculateds")
         ->select(
             "matriculateds.matriculated_id", "matriculateds.matriculation_date", "matriculateds.school_year as matriculated_school_year", "matriculateds.call_number",
-            "students.student_registration","users.name", "users.last_name", "school_classes.school_class_name",
+            "matriculateds.matriculation_type", "students.student_registration","users.name", "users.last_name", "school_classes.school_class_name",
             "school_classes.school_class_type", "school_classes.school_year as school_class_school_year", "disciplines.discipline_name"
         )
         ->join("students", "matriculateds.student_registration", "=", "students.student_registration")
@@ -58,6 +58,7 @@ class MatriculatedController extends Controller
 
             "matriculation_date" => $request->matriculation_date,
             "school_year" => $request->school_year,
+            "matriculation_type" => $request->matriculation_type,
             "situation" => $request->situation,
             "call_number" => $request->call_number,
             "student_registration" => $request->student_registration,
