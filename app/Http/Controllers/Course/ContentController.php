@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Course;
 
-use App\Content;
+use App\Models\Content;
 use App\Http\Controllers\Controller;
-use App\Schedule;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

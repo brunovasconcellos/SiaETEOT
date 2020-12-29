@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Contact;
-use App\Locality;
-use App\User;
+use App\Http\Requests\UserUpdateRequest;
+use App\Models\Contact;
+use App\Models\Locality;
+use App\Models\User;
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,7 +18,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    protected function validator ($request)
+    public function validator (Request $request)
     {
         return Validator::make($request->all(), [
 
@@ -26,11 +26,11 @@ class UserController extends Controller
             'lastName' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            "dateOfBirth" => ["required", "date", "size:10"],
+            "dateOfBirth" => ["required", "date"],
             "gender" => ["required", "string", "size:1"],
             "cellPhone" => ["required", "size:11"],
             "identityRg" => ["required", "size:9"],
-            "identityEmDt" => ["required", "date", "size:10"],
+            "identityEmDt" => ["required", "date"],
             "identityAuthority" => ["required", "string", "min:4", "max:20"],
             "cpf" => ["required", "string", "size:11"],
             "userName" => ["required", "string", "min:2", "max:255"],
@@ -48,38 +48,6 @@ class UserController extends Controller
 
         ]);
     }
-
-    protected function validatorUpdate ($request)
-    {
-        return Validator::make($request->all(), [
-
-            'name' => ['required', 'string', 'max:255'],
-            'lastName' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            "dateOfBirth" => ["required", "date", "size:10"],
-            "gender" => ["required", "string", "size:1"],
-            "cellPhone" => ["required", "size:11"],
-            "identityRg" => ["required", "size:9"],
-            "identityEmDt" => ["required", "date", "size:10"],
-            "identityAuthority" => ["required", "string", "min:4", "max:20"],
-            "cpf" => ["required", "string", "size:11"],
-            "userName" => ["required", "string", "min:2", "max:255"],
-            "level" => ["required", "size:1"],
-            "numResidence" => ["required", "string", "max:255"],
-            "complementResidence" => ["required", "string", "max:255"],
-            "cep" => ["required", "size:8"],
-            "tpPublicPlace" => ["required", "string", "max:255"],
-            "publicPlace" => ["required", "string", "max:255"],
-            "neighborhood" => ["required", "string", "max:255"],
-            "city" => ["required", "string", "max:255"],
-            "federationUnit" => ["required", "string", "size:2"],
-            "type" => ["required", "string", "max:255"],
-            "contact" => ["required ", "string", "max:255"]
-
-        ]);
-    }
-
 
     public function index()
     {
@@ -94,18 +62,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-
-        $error = $this->validator($request);
-
-        if ($error->fails()) {
-
-            return [
-                "error" => true,
-                "message" => $error->errors()->all(),
-                "userId" => null
-                ];
-
-        }
 
         $localityCep = Locality::validateLocality($request);
 
@@ -160,27 +116,17 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserUpdateRequest $request, $id)
     {
-        
-        $error = $this->validator($request);
-
-        if ($error->fails()) {
-
-            return [
-                "error" => true,
-                "message" => $error->errors()->all()
-            ];
-
-        }
+        $user = User::findOrFail($id);
 
         $localityCep = Locality::validateLocality($request);
 
-        $user = [
+        $user->update([
             "name" => $request->name,
             "last_name" => $request->lastName,
             "email" => $request->email,
-            "password" => $request->password,
+            "password" => Hash::make($request->password),
             "date_of_birth" => $request->dateOfBirth,
             "cell_phone" => $request->cellPhone,
             "identity_rg" => $request->identityRg,
@@ -192,16 +138,12 @@ class UserController extends Controller
             "num_residence" => $request->numResidence,
             "complement_residence" => $request->complementResidence,
             "cep" => $localityCep,
-
-        ];
-
-        User::findOrFail($id)->update($user);
+        ]);
 
         return [
             "error" => false,
             "userId" => $id
         ];
-
     }
 
     /**
@@ -215,22 +157,14 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
 
-        if (isset($user)){
+        $contact = Contact::where("user_id", "=", $id)->delete();
 
-            $contact = Contact::where("user_id", "=", $id)->delete();
-         
-            $user->delete();
-
-            return [
-                "error" => false
-            ];
-
-        }
+        $user->delete();
 
         return [
-            "error" => true
+            "error" => false
         ];
-      
+
     }
 
 }

@@ -1,17 +1,16 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Authenticatable
 {
-    use Notifiable;
-
-    use SoftDeletes;
+    use HasFactory, SoftDeletes, Notifiable;
 
     protected $primaryKey = "user_id";
 
@@ -44,4 +43,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function UserLocality()
+    {
+        return $this->hasOne(\App\Models\Locality::class, 'cep', 'cep_user');
+    }
+
+    public function UserContacts()
+    {
+        return $this->hasMany(\App\Models\Contact::class, 'user_id', 'user_id');
+    }
 }

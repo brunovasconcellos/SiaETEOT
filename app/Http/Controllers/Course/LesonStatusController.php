@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Course;
 
 use App\Http\Controllers\Controller;
-use App\LesonStatus;
-use App\Schedule;
+use App\Models\ModelsLesonStatus;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -32,15 +32,7 @@ class LesonStatusController extends Controller
         ->join('schedules', 'leson_statuses.schedule_id', '=', 'schedules.schedule_id')
         ->where('leson_statuses.deleted_at', null)
         ->select('leson_statuses.leson_status_id', 'leson_statuses.status', 'leson_statuses.leson_date', 'leson_statuses.schedule_id','schedules.week_day', 'schedules.start_date', 'schedules.end_date', 'schedules.amount_time', 'schedules.school_class_id', 'schedules.able_id')
-        ->paginate(5);
-
-        if(empty($lesonStatus["data"] == false)){
-            return response()->json([
-                "error" => true,
-                "message" => "No registered Leson Status",
-                "response" => null
-            ]);
-        }
+        ->get();
 
         return response()->json([
             "error" => false,

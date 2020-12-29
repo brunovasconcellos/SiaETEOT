@@ -4,12 +4,8 @@ namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
-use App\Teach;
-use App\Discipline;
-use App\Employee;
-
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\TeachRequest;
+use App\Models\Teach;
 use Illuminate\Support\Facades\DB;
 
 class TeachController extends Controller
@@ -17,70 +13,33 @@ class TeachController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-
-    public function validation(Request $request) {
-
-        return Validator::make($request->all(), [
-            "startDate" => ["required", "date", "size:10"],
-            "endDate" => ["required", "date", "size:10"],
-            "disciplineId" => ["required", "numeric"],
-            "employeeId" => ["required", "numeric"]
-        ]);
-
-     }
-     
-    public function index()
+    public function index(Request $request)
     {
-        
-       $teaches = DB::table("teaches")
-        ->select(
-            "teaches.teach_id", "teaches.start_date", "teaches.end_date", "teaches.discipline_id",
-            "disciplines.discipline_name", "disciplines.discipline_abbreviation", "teaches.employee_id", "employees.sector_id"
-            )
-        ->join("disciplines", "teaches.discipline_id", "=", "disciplines.discipline_id")
-        ->join("employees", "teaches.employee_id", "=", "employees.employee_id")
-        ->where("teaches.deleted_at", "=", null)
-        ->paginate(5);
-
-        return response()->json([
-            "error" => false,
-            "response" => $teaches
-        ], 200);
-
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(TeachRequest $request)
     {
-        
-        $error = $this->validation($request);
-
-        if ($error->fails()) {
-
-            return response()->json([
-                "error" => true,
-                "message" => $error->errors()->all()
-            ], 400);
-
-        }
-
         Teach::create([
-            "start_date" => $request->startDate,
-            "end_date" => $request->endDate,
+            "start_date"    => $request->startDate,
+            "end_date"      => $request->endDate,
             "discipline_id" => $request->disciplineId,
-            "employee_id" => $request->employeeId,
+            "employee_id"   => $request->employeeId,
         ]);
 
         return response()->json([
-            "error" => false,
-            "message" => "Teach successfully created."
+            "error"         => false,
+            "message"       => "Teach successfully created."
         ], 201);
 
     }
@@ -89,28 +48,11 @@ class TeachController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-
-        Teach::findOrFail($id);
-        
-        $teach = DB::table("teaches")
-        ->select(
-            "teaches.teach_id", "teaches.start_date", "teaches.end_date", "teaches.discipline_id",
-            "disciplines.discipline_name", "disciplines.discipline_abbreviation", "teaches.employee_id", "employees.sector_id"
-            )
-        ->join("disciplines", "teaches.discipline_id", "=", "disciplines.discipline_id")
-        ->join("employees", "teaches.employee_id", "=", "employees.employee_id")
-        ->where("teaches.teach_id", "=", $id)
-        ->get();
-
-        return response()->json([
-            "error" => false,
-            "response" => $teach
-        ], 200);
-
+        //
     }
 
     /**
@@ -118,35 +60,23 @@ class TeachController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(TeachRequest $request, $id)
     {
-
         $teach = Teach::findOrFail($id);
-        
-        $error = $this->validation($request);
-
-        if ($error->fails()) {
-
-            return response()->json([
-                "error" => true,
-                "message" => $error->errors()->all()
-            ], 400);
-
-        }
 
         $teach->update([
-            "start_date" => $request->startDate,
-            "end_date" => $request->endDate,
+            "start_date"    => $request->startDate,
+            "end_date"      => $request->endDate,
             "discipline_id" => $request->disciplineId,
-            "employee_id" => $request->employeeId,
+            "employee_id"   => $request->employeeId,
         ]);
 
         return response()->json([
-            "error" => false,
-            "message" => "Teach successfully created."
-        ], 200);
+            "error"         => false,
+            "message"       => "Teach successfully created."
+        ]);
 
     }
 
@@ -154,17 +84,17 @@ class TeachController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        
-        Teach::findOrFail($id)->delete();
+        $teach = Teach::findOrFail($id);
+
+        $teach->delete();
 
         return response()->json([
-            "error" => false,
-            "message" => "Teach successfully deleted."
-        ], 200);
-
+            "error"         => false,
+            "message"       => "Teach successfully deleted."
+        ]);
     }
 }

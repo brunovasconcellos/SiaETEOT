@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Employee;
 
-use App\Employee;
-use App\User;
-use App\Locality;
-
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\EmployeeRequest;
+use App\Http\Requests\EmployeeUpdateRequest;
+use App\Models\User;
+use App\Models\Employee;
+use App\Models\Exert;
 
 class EmployeeController extends Controller
 {
@@ -19,99 +19,72 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
-    protected function validator(Request $request){
-
-        return Validator::make($request->all(), [
-            "sectorId" => ["required", "numeric"]
-        ]);
-      
-    }
-
-    public function index()
+    public function index(Request $request)
     {
-        
-        $employees = DB::table('employees')
-        ->select(
-            "employees.employee_id", "users.name", "users.last_name", "users.email",
-            "users.gender", "contacts.contact", "sectors.sector_name"
-         )
-        ->join("users", "employees.user_id", "=", "users.user_id")
-        ->join("contacts", "employees.user_id", "=", "contacts.user_id")
-        ->join("sectors", "employees.sector_id", "=", "sectors.sector_id")
-        ->where("employees.deleted_at", "=", null)
-        ->paginate(5);
+        if ($request->ajax())
+        {
+            $employees = DB::table('employees')
+                ->select("employees.employee_id as id", "exerts.registration","users.name",
+                    "users.last_name", "users.email", "users.gender", "users.cell_phone as contact", "sectors.sector_name")
+                ->selectRaw("GROUP_CONCAT(DISTINCT occupations.occupation_name) as occupation_names")
+                ->selectRaw("GROUP_CONCAT(DISTINCT positions.position_name) as position_names")
+                ->join("users", "employees.user_id", "=", "users.user_id")
+                ->join("sectors", "employees.sector_id", "=", "sectors.sector_id")
+                #->leftJoin("contacts", "employees.user_id", "=", "contacts.user_id")
+                ->leftJoin("exerts", "employees.employee_id", "=", "exerts.employee_id")
+                ->leftJoin("positions", "exerts.position_id", "=", "positions.position_id")
+                ->leftJoin("occupation_employees", "occupation_employees.employee_id", "=", "employees.employee_id")
+                ->leftJoin("occupations", "occupations.occupation_id", "=", "occupation_employees.occupation_id")
+                ->where("employees.deleted_at", "=", null)
+                ->groupBy("users.user_id")
+                ->get();
 
-        if (empty($employees["data"] == false)) {
-
-            return response()->json([
-                "error" => false,
-                "message" => "no registered discipline.",
-                "response" => null
-            ]);
-
+            return DataTables()->of($employees)->make(true);
         }
 
-        return response()->json([
-            "error" => false,
-            "response" => $employees
-        ], 200);
-
+        return view("employee");
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(EmployeeRequest $request)
     {
-        $error = $this->validator($request);
+        $user = User::create([
+            "name"                          => $request->name,
+            "last_name"                     => $request->last_name,
+            "email"                         => $request->email,
+            "password"                      => Hash::make($request->password),
+            "date_of_birth"                 => $request->dateOfBirth,
+            "gender"                        => $request->gender,
+            "cell_phone"                    => $request->cellPhone,
+            "identity_rg"                   => $request->identityRg,
+            "identity_em_dt"                => $request->identityEmDt,
+            "identity_issuing_authority"    => $request->identityAuthority,
+            "cpf"                           => $request->cpf,
+            "level"                         => $request->level,
+            "num_residence"                 => $request->numResidence,
+            "complement_residence"          => $request->complementResidence,
+            "cep_user"                      => $request->cep,
+        ]);
 
-        $user = new UserController;
+        $employee = Employee::create([
+            "user_id"                       => $user->user_id,
+            "sector_id"                     => $request->sectorId
+        ]);
 
-        $userId = $user->store($request);
-
-        if ($error->fails() && $userId["error"] == false) {
-
-            return response()->json([
-                "error" => true,
-                "message" => $error->errors()->all()
-            ], 400);
-
-        }
-
-        if ($userId["error"] == true && count($error->errors()) == 0) {
-
-           return response()->json([
-                "error" => $userId["error"],
-                "message" => $userId["message"]
-            ], 400);
-          
-        }
-
-        if ($userId["error"] == true && $error->fails()) {
-
-            return response()->json([
-                "error" => true,
-                "message" => [$userId["message"], $error->errors()->all()]
-            ], 400);
- 
-        }
-
-        Employee::create([
-
-            "user_id" => $userId["userId"],
-            "sector_id" => $request->sectorId
-
+        Exert::create([
+            'registration'                  => $request->registration,
+            'employee_id'                   => $employee->employee_id,
+            'position_id'                   => $request->position_id,
         ]);
 
         return response()->json([
-
             "error" => false,
-            "message" => "Employee successfully created."
-
+            "message" => "Employee successfully created.",
         ], 201);
     }
 
@@ -123,29 +96,12 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        
-        Employee::findOrFail($id);
-
-        $employee = DB::table("employees")
-        ->select("employees.employee_id", "users.name", "users.last_name", "users.email",
-        "users.gender", "users.date_of_birth", "users.identity_rg", "users.identity_em_dt",
-        "users.identity_issuing_authority", "users.cpf","sectors.sector_name", "localities.cep",
-        "localities.public_place", "localities.neighborhood", "users.num_residence","users.complement_residence",
-        "localities.cep", "localities.city", "localities.federation_unit","contacts.type",
-        "contacts.contact")
-        ->join("users", "employees.user_id", "=", "users.user_id")
-        ->join("sectors", "employees.sector_id", "=", "sectors.sector_id")
-        ->join("localities", "users.cep_user", "=", "localities.cep")
-        ->join("contacts", "employees.user_id", "=", "contacts.user_id")
-        ->where("employees.deleted_at", "=", null)
-        ->where("employees.employee_id", "=", $id)
-        ->get();
+        $employee = Employee::findOrFail($id);
 
         return response()->json([
             "error" => false,
             "response" => $employee
         ]);
-
     }
 
     /**
@@ -153,108 +109,60 @@ class EmployeeController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(EmployeeRequest $request, $employeeId)
     {
-        
-        $employee = Employee::findOrFail($id);
+        $employee = Employee::findOrFail($employeeId);
 
-        $error = $this->validator($request);
+        $employee->EmployeeUser()->update([
+            "name"                          => $request->name,
+            "last_name"                     => $request->last_name,
+            "email"                         => $request->email,
+            "password"                      => Hash::make($request->password),
+            "date_of_birth"                 => $request->dateOfBirth,
+            "gender"                        => $request->gender,
+            "cell_phone"                    => $request->cellPhone,
+            "identity_rg"                   => $request->identityRg,
+            "identity_em_dt"                => $request->identityEmDt,
+            "identity_issuing_authority"    => $request->identityAuthority,
+            "cpf"                           => $request->cpf,
+            "level"                         => $request->level,
+            "num_residence"                 => $request->numResidence,
+            "complement_residence"          => $request->complementResidence,
+            "cep_user"                      => $request->cep,
+        ]);
 
-        $user = new UserController();
-
-        $userId = $user->update($request, $employee->user_id);
-
-        
-        if ($error->fails()) {
-
-            return response()->json([
-
-                "error" => true,
-                "message" => $error->errors()->all()
-
-            ], 400);
-
-        }
-        
-        if (!$employee) {
-
-            return response()->json([
-                
-                "error" => true,
-                "message" => ["Employe not exist"]
-
-            ], 400);
-
-        }
-        
-        if ($userId["error"] == true) {
-
-            return response()->json([
-                
-                "error" => true,
-                "message" => $userId["message"]
-    
-            ], 400);
-    
-        }
-        
-        if ($error->fails() && $userId["error"]) {
-    
-            return response()->json([
-                
-                "error" => true,
-                "message" => [$error->errors()->all(), $userId["message"]]
-    
-            ], 400);
-    
-        }
-
-        $employee->user_id = $userId["userId"];
-        $employee->sector_id = $request->sectorId;
+        $employee->update([
+            "sector_id"                     => $request->sectorId
+        ]);
 
         return response()->json([
-
             "error" => false,
-            "message" => ["Employee updated"]
-
-        ], 200);
-        
+            "message" => "Employee successfully updated.",
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function destroy($id)
     {
-        
         $employee = Employee::findOrFail($id);
 
-        $user = new UserController;
+        $employee->EmployeeOcupations()->delete();
 
-        $userId = $employee->user_id;
+        $employee->EmployeeUser()->delete();
 
-        if (isset($employee)) {
-
-            $employee->delete();
-
-            $user->destroy($userId);
-
-            return response()->json([
-                "error" => false,
-                "message" => ["Employee deleted"]
-            ], 200);
-
-        }
+        $employee->delete();
 
         return response()->json([
-            "error" => true,
-            "message" => ["Error when deleting employee"]
-        ], 400);
-
+            "error" => false,
+            "message" => "Employee successfully deleted."
+        ]);
     }
 }

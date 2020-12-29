@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Course;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Lack;
-use App\Matriculated;
-use App\LesonStatus;
+use App\Models\Lack;
+use App\Models\Matriculated;
+use App\ModelsLesonStatus;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;

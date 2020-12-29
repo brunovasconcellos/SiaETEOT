@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers\StudentUnit;
 
-use App\Student;
-use App\StudentUnit;
-use App\TransferSu;
+use App\Models\Student;
+use App\Models\StudentUnit;
+use App\Models\TransferSu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
-
-
 
 class TransferSusController extends Controller
 {
