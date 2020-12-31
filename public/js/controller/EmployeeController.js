@@ -300,9 +300,7 @@ class EmployeeController {
                                 `,
                                 confirmButtonText: 'Confirmar',
                                 didOpen: () => {
-
                                     $("#disciplines").select2({
-
                                         ajax: {
                                             url: '/dashboard/disciplineformated',
                                             dataType: 'json',
@@ -315,7 +313,6 @@ class EmployeeController {
                                         },
 
                                     });
-
                                 },
                                 preConfirm: () => {
 

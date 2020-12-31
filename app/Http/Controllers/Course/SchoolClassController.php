@@ -52,18 +52,19 @@ class SchoolClassController extends Controller
      {
         
         $schoolClasses = DB::table("school_classes")
-        ->select("school_classes.school_class_id as id", "school_classes.school_class_name as name")
+        ->select("school_classes.school_class_id", "school_classes.school_class_name")
+        ->whereNull("school_classes.deleted_at")
         ->get();
 
         $schoolClassesFormated = [];
 
         foreach ($schoolClasses as $schoolClass) {
 
-            $schoolClasses = ["id" => $schoolClasses->id, "name" => $schoolClass->name];
-
-            return response()->json($schoolClasses);
+            $schoolClassesFormated[] = ["id" => $schoolClass->school_class_id, "text" => $schoolClass->school_class_name];
 
         }
+
+        return response()->json($schoolClassesFormated);
 
      }
 

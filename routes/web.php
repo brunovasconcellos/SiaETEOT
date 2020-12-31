@@ -72,7 +72,7 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
    
         Route::resource('/disciplineschoolclass', 'Course\DisciplineSchoolClassController');
         
-        Route::post('/standartdiscipline', "Course\MatriculatedController@matriculateInStandardDiscipline");
+        Route::post('/standarddiscipline', "Course\MatriculatedController@matriculateInStandardDiscipline");
 
         Route::resource('/matriculated', "Course\MatriculatedController");
 

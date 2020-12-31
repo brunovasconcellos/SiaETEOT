@@ -1,13 +1,26 @@
 @extends("adminlte::page")
 @section('css')
-    <link rel="stylesheet" href="{{asset('css/app.css')}}"
+    <link rel="stylesheet" href="{{asset('css/app.css')}}">
 @stop
 
 @section('js')
 
     <script src="{{asset('js/app.js')}}"></script>
 
+<script>
+
+    $(document).ready(function () {
+
+        $("#discipline").select2({})
+
+    });
+    
+</script>
+
 @stop
 
 
 @section('content')
+
+<select name="" id="discipline"></select>
+@stop

@@ -9,7 +9,7 @@ use App\Models\Student;
 use App\Models\SchoolClass;
 use App\Models\Discipline;
 use App\Models\DisciplineSchoolClass;
-use App\Http\Requests\StandartDisciplineRequest;
+use App\Http\Requests\StandardDisciplineRequest;
 use App\Http\Requests\MatriculatedRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -24,25 +24,7 @@ class MatriculatedController extends Controller
 
     public function index()
     {
-        
-        $matriculateds = DB::table("matriculateds")
-        ->select(
-            "matriculateds.matriculated_id", "matriculateds.matriculation_date", "matriculateds.school_year as matriculated_school_year", "matriculateds.call_number",
-            "matriculateds.matriculation_type", "students.student_registration","users.name", "users.last_name", "school_classes.school_class_name",
-            "school_classes.school_class_type", "school_classes.school_year as school_class_school_year", "disciplines.discipline_name"
-        )
-        ->join("students", "matriculateds.student_registration", "=", "students.student_registration")
-        ->join("users", "students.user_id", "=", "users.user_id")
-        ->join("school_classes", "matriculateds.school_class_id", "=", "school_classes.school_class_id")
-        ->join("disciplines", "matriculateds.discipline_id", "=", "disciplines.discipline_id")
-        ->where("matriculateds.deleted_at", "=", null)
-        ->get();
-
-        return response()->json([
-            "error" => false,
-            "response" => $matriculateds
-        ], 200);
-
+        //
     }
 
     /**
@@ -57,8 +39,8 @@ class MatriculatedController extends Controller
         Matriculated::create([
 
             "matriculation_date" => $request->matriculation_date,
-            "school_year" => $request->school_year,
             "matriculation_type" => $request->matriculation_type,
+            "school_year" => $request->school_year,
             "situation" => $request->situation,
             "call_number" => $request->call_number,
             "student_registration" => $request->student_registration,
@@ -74,7 +56,7 @@ class MatriculatedController extends Controller
 
     }
 
-    public function matriculateInStandardDiscipline(StandartDisciplineRequest $request)  
+    public function matriculateInStandardDiscipline(StandardDisciplineRequest $request)  
     {
 
         $disciplineSchoolClasses = DisciplineSchoolClass::where("school_class_id", $request->school_class_id)
@@ -85,6 +67,7 @@ class MatriculatedController extends Controller
             Matriculated::create([
 
                 "matriculation_date" => $request->matriculation_date,
+                "matriculation_type" => "Standard",
                 "school_year" => $request->school_year,
                 "situation" => $request->situation,
                 "call_number" => $request->call_number,
@@ -95,6 +78,11 @@ class MatriculatedController extends Controller
             ]);
 
         }
+
+        return response()->json([
+            "error" => false,
+            "response" => "Student Successfully Matriculated."
+        ], 201);
 
     }
 

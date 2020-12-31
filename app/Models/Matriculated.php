@@ -13,7 +13,7 @@ class Matriculated extends Model
     protected $primaryKey = "matriculated_id";
 
     protected $fillable = [
-        "matriculation_date", "school_year", "situation", "call_number",
+        "matriculation_date", "matriculation_type", "school_year", "situation", "call_number",
         "student_registration", "school_class_id", "discipline_id"
     ];
 }

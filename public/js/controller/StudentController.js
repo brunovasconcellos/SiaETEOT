@@ -26,13 +26,17 @@ class StudentController
             {data: "email", name: "email"},
             {data: "gender", name: "gender",  render: function (data, type, row) {
 
-                if (data == "f") {
+                if (data && data == "f") {
 
                     return "Feminino";
 
                 }
 
-                return "Masculino";
+                if (data && data == "m") {
+
+                    return "Masculino";
+
+                }
 
             }},
             {data: "student_type", name: "student_type"},
@@ -40,11 +44,13 @@ class StudentController
 
                 if (data) {
 
-                    return data;
+                    let schoolClass = data.split(",");
+
+                    return schoolClass[0];
 
                 }
 
-                return `<button class="btn btn-primary" data-id="matriculation">Matricular</button>`;
+                return `<button class="btn btn-primary matriculate" data-id="${row.id}">Matricular</button>`;
 
             }},
             {data: "call_number", name: "call_number", render: function (data, type, row) {
@@ -313,7 +319,7 @@ class StudentController
 
             e.preventDefault();
 
-            let form  = $(this);
+            let form = $(this);
 
             helper.validationForm(rule, message, form);
 
@@ -421,26 +427,127 @@ class StudentController
 
     matriculateStudent() {
 
-        $(document).on("click", ".matriculate", () => {
+        let btnId;
+
+        $(document).on("click", ".matriculate", function () {
+
+            btnId = $(this).attr("data-id");
+
+        });
+
+        $(document).on("click", ".matriculate", function (e) {
+       
+            e.preventDefault();
 
             Swal.fire({
 
                 title: "Matricular aluno",
                 text: "Preencha o formulario para matricular o aluno em uma matéria.",
-                html: `<input type='date' class='swal2-input'>
-                        <input type='number' class='swal2-input'>
-                        <input type='text' class='swal2-input'>
-                        <input type='text' class='swal2-input'>
-                        <select id="discipline"></select>
-                        <select id="school_class"></select>`,
+                html: `<div class="form-group">
+                            <labe>Data da Matrícula</label>
+                            <input type='date' id='matriculation_date' class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <labe>Série</label>
+                            <input type='number' id='school_year' class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <labe>Situação</label>
+                            <input type='text' id='situation' class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <labe>Número da chamada</label>
+                            <input type='number' id='call_number' class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <labe>Turma</label>
+                            <select id="school_class"></select>
+                        </div>`,
                 confirmButtonText: 'Confirmar',
+                didOpen: () => {
+                    $("#school_class").select2({
+                        ajax: {
+                            url: "schoolclassformated",
+                            method: "GET",
+                            dataType: 'json',
+                            processResults: (response) => {
+                                return {"results": response}
+                            },
+                            cache: true
+                        }
+                    });
+                    $("#school_class").val("1");
+                    $("#school_class").trigger("change");
+                },
+                preConfirm: () => {
+
+                    let data = [
+
+                        Swal.getPopup().querySelector("#matriculation_date").value,
+                        Swal.getPopup().querySelector("#school_year").value,
+                        Swal.getPopup().querySelector("#situation").value,
+                        Swal.getPopup().querySelector("#call_number").value,
+                        $("#school_class").select2("data")[0].id,                      
+                        
+                    ];
+
+                    return data;
+                    
+                }
+
+            }).then((data) => {
+
+                let helper = new Helper();
+
+                helper.ajaxCsrfSetting();
+
+                let formData = new FormData();
+
+                formData.append("matriculation_date", data.value[0]);
+                formData.append("school_year", data.value[1]);
+                formData.append("situation", data.value[2]);
+                formData.append("call_number", data.value[3]);
+                formData.append("school_class_id", data.value[4]);
+                formData.append("student_registration", btnId);
+
+                $.ajax({
+
+                    url: "standarddiscipline",
+                    method: "POST",
+                    data: formData,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    dataType: "json",
+                    success: function (response) {
+    
+                        helper.alertMessage("success", response.response);
+    
+                    },
+                    error: function (error) {
+
+                        let errors = Object.values(error.responseJSON.errors);
+
+                        let errorsFormated;
+
+                        errors.forEach((data) => {
+
+                            errorsFormated += ` ${data}`;
+
+                        });
+                       
+
+                        helper.alertMessage("error", errorsFormated);
+
+                    }
+                    
+                });
 
             });
 
         });
 
     }
-
 
     showModalUpdate() {
 
@@ -504,6 +611,8 @@ class StudentController
                     helper.alertMessage("success", response.message);
                     
                     $("#list").DataTable().ajax.reload();
+
+                    $("#list").DataTable().ajax.reload;
 
                 },
                 error: function (error) {

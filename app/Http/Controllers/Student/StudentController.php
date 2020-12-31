@@ -46,14 +46,15 @@ class StudentController extends Controller
                 "users.gender", "students.student_type", "users.cell_phone",
                 "matriculateds.call_number", "matriculateds.school_year"
              )
-            ->selectRaw("GROUP_CONCAT(DISTINCT school_classes.school_class_name) as school_class")
+            ->selectRaw("GROUP_CONCAT( school_classes.school_class_name) as school_class")
             ->join("users", "students.user_id", "=", "users.user_id")
             ->leftJoin("matriculateds", function ($join) {
                 $join->on("matriculateds.student_registration", "students.student_registration")
                 ->where("matriculateds.matriculation_type", "standard");
             })
             ->leftJoin("school_classes", "matriculateds.school_class_id", "school_classes.school_class_id")
-            ->where("students.deleted_at", "=", null)
+            ->whereNull("students.deleted_at")
+            ->groupBy("students.student_registration")
             ->get();
 
             return DataTables()->of($students)->make(true);
