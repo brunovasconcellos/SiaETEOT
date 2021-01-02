@@ -85,8 +85,8 @@ class StudentController
                     
                     return `<a href="${route}/${data.id}" title="Visualizar" class="view btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
                             <button type="button" data-id="${data.id}" name="edit" title="Editar" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
-                            <button type="button" data-id="${data.id}" name="delete" title="Excluir" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
-                            <button type="button" data-id="${data.id}" name="delete" title="matricular" class="matriculate btn btn-warning btn-sm"><i class="fas fa-plus"></i></button>`
+                            <button type="button" data-id="${data.id}" name="delete" title="Excluir" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>`
+
                 }
             }
         );
@@ -476,8 +476,6 @@ class StudentController
                             cache: true
                         }
                     });
-                    $("#school_class").val("1");
-                    $("#school_class").trigger("change");
                 },
                 preConfirm: () => {
 
@@ -522,6 +520,8 @@ class StudentController
                     success: function (response) {
     
                         helper.alertMessage("success", response.response);
+
+                        $("#list").DataTable().ajax.reload();
     
                     },
                     error: function (error) {
@@ -536,7 +536,6 @@ class StudentController
 
                         });
                        
-
                         helper.alertMessage("error", errorsFormated);
 
                     }
@@ -612,20 +611,21 @@ class StudentController
                     
                     $("#list").DataTable().ajax.reload();
 
-                    $("#list").DataTable().ajax.reload;
-
                 },
                 error: function (error) {
+                    
+                    let errors = Object.values(error.responseJSON.errors);
 
-                    let message = "";
+                    let errorsFormated;
 
-                    $.each(error.responseJSON.message, function (key, value) {
+                    errors.forEach((data) => {
 
-                        message += value;
+                        errorsFormated += ` ${data}`;
 
                     });
-
-                    helper.alertMessage("error", message);
+                   
+                    helper.alertMessage("error", errorsFormated);
+                    
                 }
 
             });
@@ -672,19 +672,19 @@ class StudentController
         
                         },
                         error: function (error) {
-
-                            let message;
                             
-                            console.log(error)
+                            let errors = Object.values(error.responseJSON.errors);
 
-                            $.each(error.responseJSON.response, function (key, value) {
+                            let errorsFormated;
 
-                                message += value;
+                            errors.forEach((data) => {
+
+                                errorsFormated += ` ${data}`;
 
                             });
+                        
+                            helper.alertMessage("error", errorsFormated);
 
-                            helper.alertMessage("error", message);
-                            
                         }
                     });
 

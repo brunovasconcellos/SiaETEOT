@@ -13,7 +13,7 @@
     <th width="5%">genero</th>
     <th width="7%">tipo de estudante</th>
     <th width="10%">turma</th>
-    <th width="12%">numero da chamada</th>
+    <th width="8%">numero da chamada</th>
     <th width="5%">ano</th>
     <th width="10%">celular</th>
     <th width="10%">Ação</th>
