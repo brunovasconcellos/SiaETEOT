@@ -26,25 +26,31 @@ class StudentController
             {data: "email", name: "email"},
             {data: "gender", name: "gender",  render: function (data, type, row) {
 
-                if (data == "f") {
+                if (data && data == "f") {
 
                     return "Feminino";
 
                 }
 
-                return "Masculino";
+                if (data && data == "m") {
 
-            }},
-            {data: "student_type", name: "student_type"},
-            {data: "school_class_name", name: "school_class_name", render: function (data, type, row) {
-
-                if (data) {
-
-                    return data;
+                    return "Masculino";
 
                 }
 
-                return `<p>Não registrado.</p>`
+            }},
+            {data: "student_type", name: "student_type"},
+            {data: "school_class", name: "school_class", render: function (data, type, row) {
+
+                if (data) {
+
+                    let schoolClass = data.split(",");
+
+                    return schoolClass[0];
+
+                }
+
+                return `<button class="btn btn-primary matriculate" data-id="${row.id}">Matricular</button>`;
 
             }},
             {data: "call_number", name: "call_number", render: function (data, type, row) {
@@ -79,8 +85,8 @@ class StudentController
                     
                     return `<a href="${route}/${data.id}" title="Visualizar" class="view btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
                             <button type="button" data-id="${data.id}" name="edit" title="Editar" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
-                            <button type="button" data-id="${data.id}" name="delete" title="Excluir" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
-                            <button type="button" data-id="${data.id}" name="delete" title="matricular" class="matriculate btn btn-warning btn-sm"><i class="fas fa-plus"></i></button>`
+                            <button type="button" data-id="${data.id}" name="delete" title="Excluir" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>`
+
                 }
             }
         );
@@ -313,7 +319,7 @@ class StudentController
 
             e.preventDefault();
 
-            let form  = $(this);
+            let form = $(this);
 
             helper.validationForm(rule, message, form);
 
@@ -332,7 +338,66 @@ class StudentController
                 dataType: "json",
                 success: function (response) {
 
-                    helper.alertMessage("success", response.message);
+                    Swal.fire({
+
+                        title: "Complemento do estudante.",
+                        html: `<input id="student_registration" type=hidden value="${response.studentRegistration}">
+                            <input type="text" id="ingress_type" name="ingress_type" class="swal2-input">
+                            <input type="text" id="ingress_form" name="ingress_form"class="swal2-input">
+                            <input type="text" id="last_school" name="last_school" class="swal2-input">
+                            <input type="text" id="vagacy_type" name="vagacy_type" class="swal2-input">
+                            <input type="number" id="ident_educacenso" name="ident_educacenso" class="swal2-input">
+                            <input type="number" id="year_last_grade" name="year_last_grade" class="swal2-input">
+                        `,
+                        preConfirm: () => {
+
+                            let data = [
+
+                                Swal.getPopup().querySelector("#student_registration").value,
+                                Swal.getPopup().querySelector("#ingress_type").value,
+                                Swal.getPopup().querySelector("#ingress_form").value,
+                                Swal.getPopup().querySelector("#last_school").value,
+                                Swal.getPopup().querySelector("#vagacy_type").value,
+                                Swal.getPopup().querySelector("#ident_educacenso").value,
+                                Swal.getPopup().querySelector("#year_last_grade").value,
+
+                            ];
+
+                            return data;
+
+                        }
+                    }).then((data) => {
+
+                        let formData = new FormData();
+
+                        console.log(data);
+
+                        formData.append("student_registration", data.value[0]);
+                        formData.append("ingress_type", data.value[1]);
+                        formData.append("ingress_form", data.value[2]);
+                        formData.append("last_school", data.value[3]);
+                        formData.append("vagacy_type", data.value[4]);
+                        formData.append("ident_educacenso", data.value[5]);
+                        formData.append("year_last_grade", data.value[6]);
+
+                        $.ajax({
+
+                            url: "studentcomplement",
+                            method: "POST",
+                            data: formData,
+                            contentType: false,
+                            cache: false,
+                            processData: false,
+                            dataType: "json",
+                            success: function (response) {
+
+                                helper.alertMessage("success", "Estudante Criado com sucesso!");
+
+                            }
+
+                        });
+
+                    });
                     
                     $("#modal").modal("hide");
 
@@ -362,69 +427,119 @@ class StudentController
 
     matriculateStudent() {
 
-        $(document).on("click", ".matriculate", () => {
+        let btnId;
+
+        $(document).on("click", ".matriculate", function () {
+
+            btnId = $(this).attr("data-id");
+
+        });
+
+        $(document).on("click", ".matriculate", function (e) {
+       
+            e.preventDefault();
 
             Swal.fire({
 
                 title: "Matricular aluno",
                 text: "Preencha o formulario para matricular o aluno em uma matéria.",
-                html: `<input type='date'>
-                        <input type='number'>
-                        <input type='text'>
-                        <input type='text'>
-                        <select id="discipline"></select>
-                        <select id="school_class"></select>`,
+                html: `<div class="form-group">
+                            <labe>Data da Matrícula</label>
+                            <input type='date' id='matriculation_date' class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <labe>Série</label>
+                            <input type='number' id='school_year' class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <labe>Situação</label>
+                            <input type='text' id='situation' class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <labe>Número da chamada</label>
+                            <input type='number' id='call_number' class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <labe>Turma</label>
+                            <select id="school_class"></select>
+                        </div>`,
                 confirmButtonText: 'Confirmar',
                 didOpen: () => {
-
-                    $("#discipline").select2({
-
-                        ajax: {
-
-                            url: "/dashboard/disciplineformated",
-                            dataType: "json",
-                            processResults: (response) => {
-
-                                console.log(response);  
-
-                                return {
-                                    "results": response 
-                                };
-                                
-                            }
-
-                        }
-
-                    });;
-
                     $("#school_class").select2({
-
                         ajax: {
-
-                            url: "/dashboard/schoolclassformated",
-                            dataType: "json",
+                            url: "schoolclassformated",
+                            method: "GET",
+                            dataType: 'json',
                             processResults: (response) => {
-
-                                console.log(response);  
-
-                                return {
-                                    "results": response 
-                                };
-                                
-                            }
-
+                                return {"results": response}
+                            },
+                            cache: true
                         }
+                    });
+                },
+                preConfirm: () => {
 
-                    });;
+                    let data = [
 
+                        Swal.getPopup().querySelector("#matriculation_date").value,
+                        Swal.getPopup().querySelector("#school_year").value,
+                        Swal.getPopup().querySelector("#situation").value,
+                        Swal.getPopup().querySelector("#call_number").value,
+                        $("#school_class").select2("data")[0].id,                      
+                        
+                    ];
+
+                    return data;
+                    
                 }
 
-            }).then(() => {
+            }).then((data) => {
+
+                let helper = new Helper();
+
+                helper.ajaxCsrfSetting();
+
+                let formData = new FormData();
+
+                formData.append("matriculation_date", data.value[0]);
+                formData.append("school_year", data.value[1]);
+                formData.append("situation", data.value[2]);
+                formData.append("call_number", data.value[3]);
+                formData.append("school_class_id", data.value[4]);
+                formData.append("student_registration", btnId);
 
                 $.ajax({
 
+                    url: "standarddiscipline",
+                    method: "POST",
+                    data: formData,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    dataType: "json",
+                    success: function (response) {
+    
+                        helper.alertMessage("success", response.response);
 
+                        $("#list").DataTable().ajax.reload();
+    
+                    },
+                    error: function (error) {
 
+                        let errors = Object.values(error.responseJSON.errors);
+
+                        let errorsFormated;
+
+                        errors.forEach((data) => {
+
+                            errorsFormated += ` ${data}`;
+
+                        });
+                       
+                        helper.alertMessage("error", errorsFormated);
+
+                    }
+                    
                 });
 
             });
@@ -432,7 +547,6 @@ class StudentController
         });
 
     }
-   
 
     showModalUpdate() {
 
@@ -499,16 +613,19 @@ class StudentController
 
                 },
                 error: function (error) {
+                    
+                    let errors = Object.values(error.responseJSON.errors);
 
-                    let message = "";
+                    let errorsFormated;
 
-                    $.each(error.responseJSON.message, function (key, value) {
+                    errors.forEach((data) => {
 
-                        message += value;
+                        errorsFormated += ` ${data}`;
 
                     });
-
-                    helper.alertMessage("error", message);
+                   
+                    helper.alertMessage("error", errorsFormated);
+                    
                 }
 
             });
@@ -531,7 +648,7 @@ class StudentController
 
             Swal.fire({
 
-                title: "Você realmente quer deletar isso?",
+                title: "Você realmente quer deleta-lo(a)?",
                 text: "Essa alteração não poderá ser revertida.",
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -555,19 +672,19 @@ class StudentController
         
                         },
                         error: function (error) {
-
-                            let message;
                             
-                            console.log(error)
+                            let errors = Object.values(error.responseJSON.errors);
 
-                            $.each(error.responseJSON.response, function (key, value) {
+                            let errorsFormated;
 
-                                message += value;
+                            errors.forEach((data) => {
+
+                                errorsFormated += ` ${data}`;
 
                             });
+                        
+                            helper.alertMessage("error", errorsFormated);
 
-                            helper.alertMessage("error", message);
-                            
                         }
                     });
 

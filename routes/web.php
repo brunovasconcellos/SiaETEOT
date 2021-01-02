@@ -34,6 +34,8 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
 
         Route::post("/excelcreate/student", "Student\StudentController@storeExcel");
 
+        Route::resource("/studentcomplement", "Student\StudentComplementController");
+
         Route::resource("/responsible", "Student\ResponsibleController");
 
         Route::resource('/employee', 'Employee\EmployeeController');
@@ -47,8 +49,6 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
         Route::resource('/schoolclass', 'Course\SchoolClassController');
 
         Route::get('/schoolclassformated', "Course\SchoolClassController@select2Data");
-
-        Route::resource("/disciplineschoolclass", "Course\DisciplineSchoolClassController");
 
         Route::resource('/course', 'Course\CourseController');
 
@@ -69,6 +69,12 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
         Route::resource('/position', 'Employee\PositionController');
 
         Route::resource('/exert', 'Employee\ExertController');
+   
+        Route::resource('/disciplineschoolclass', 'Course\DisciplineSchoolClassController');
+        
+        Route::post('/standarddiscipline', "Course\MatriculatedController@matriculateInStandardDiscipline");
+
+        Route::resource('/matriculated', "Course\MatriculatedController");
 
     });
 
@@ -85,8 +91,6 @@ Route::resource('/content', 'Course\ContentController');
 Route::resource('/schoolreport', "Student\SchoolReportController");
 
 Route::resource('/lesonstatus', 'Course\LesonStatusController');
-
-Route::resource('/matriculated', "Course\MatriculatedController");
 
 Route::resource("/lack", "Course\LackController");
 

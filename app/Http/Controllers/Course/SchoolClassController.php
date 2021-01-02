@@ -6,6 +6,7 @@ use App\Models\SchoolClass;
 use App\Models\Course;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\SchoolClassRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
@@ -17,27 +18,12 @@ class SchoolClassController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function validator(Request $request) {
-
-        return Validator::make($request->all(), [
-
-            "schoolClassName" => ["required", "max:255"],
-            "schoolClassType" => ["required", "max:255"],
-            "schoolYear" => ["required", "size:4"],
-            "situation" => ["required", "max:255"],
-            "shift" => ["required", "size:4"],
-            "startDate" => ["required", "date"],
-            "endDate" => ["required", "date"],
-            "modality" => ["required", "max:255"],
-            "course" => ["required", "max:255"]
-
-        ]);
-
-     }
-
     public function index(Request $request)
     {
-        
+
+        if ($request->ajax())
+        {
+
         $schoolClasses = DB::table("school_classes")
         ->select(
             "school_classes.school_class_id as id", "school_classes.school_class_name", "school_classes.school_class_type", "school_classes.school_year",
@@ -47,15 +33,10 @@ class SchoolClassController extends Controller
         ->where("school_classes.deleted_at", "=", null)
         ->get();
 
-
-        if ($request->ajax())
-        {
-
           return DataTables()->of($schoolClasses)->make(true);
 
         }
         
-
         return view("schoolclass");
         
     }
@@ -71,36 +52,24 @@ class SchoolClassController extends Controller
      {
         
         $schoolClasses = DB::table("school_classes")
-        ->select("school_classes.school_class_id as id", "school_classes.school_class_name as name")
+        ->select("school_classes.school_class_id", "school_classes.school_class_name")
+        ->whereNull("school_classes.deleted_at")
         ->get();
 
         $schoolClassesFormated = [];
 
         foreach ($schoolClasses as $schoolClass) {
 
-            $schoolClasses = ["id" => $schoolClasses->id, "name" => $schoolClass->name];
-
-            return response()->json($schoolClasses);
+            $schoolClassesFormated[] = ["id" => $schoolClass->school_class_id, "text" => $schoolClass->school_class_name];
 
         }
+
+        return response()->json($schoolClassesFormated);
 
      }
 
-    public function store(Request $request)
+    public function store(SchoolClassRequest $request)
     {
-
-        Course::findOrFail($request->course);
-        
-        $error = $this->validator($request);
-
-        if ($error->fails()) {
-
-            return response()->json([
-                "error" => true,
-                "message" => $error->errors()->all()
-            ]);
-
-        }
 
         SchoolClass::create([
             "school_class_name" => $request->schoolClassName,
@@ -161,19 +130,6 @@ class SchoolClassController extends Controller
     {
 
         $schoolClass = SchoolClass::findOrFail($id);
-
-        Course::findOrFail($request->course);
-
-        $error = $this->validator($request);
-
-        if ($error->fails()) {
-
-            return response()->json([
-                "error" => true,
-                "message" => $error->errors()->all()
-            ]);
-
-        }
 
         $schoolClass->update([
             "school_class_name" => $request->schoolClassName,

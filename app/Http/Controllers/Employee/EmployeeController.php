@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\EmployeeRequest;
-use App\Http\Requests\EmployeeUpdateRequest;
 use App\Models\User;
 use App\Models\Employee;
 use App\Models\Exert;

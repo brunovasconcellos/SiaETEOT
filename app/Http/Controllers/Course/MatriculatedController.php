@@ -8,6 +8,9 @@ use App\Models\Matriculated;
 use App\Models\Student;
 use App\Models\SchoolClass;
 use App\Models\Discipline;
+use App\Models\DisciplineSchoolClass;
+use App\Http\Requests\StandardDisciplineRequest;
+use App\Http\Requests\MatriculatedRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
@@ -19,43 +22,9 @@ class MatriculatedController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function validation(Request $request) {
-
-        return Validator::make($request->all(), [
-
-            "matriculationDate" => ["required", "date"],
-            "schoolYear" => ["required", "string"],
-            "situation"  => ["required", "string"],
-            "callNumber" => ["required", "numeric", "integer"],
-            "studentRegistration" => ["required", "numeric", "integer"],
-            "schoolClassId" => ["required", "numeric", "integer"],
-            "disciplineId" => ["required", "numeric", "integer"]
-
-        ]);
-
-     }
-
     public function index()
     {
-        
-        $matriculateds = DB::table("matriculateds")
-        ->select(
-            "matriculateds.matriculated_id", "matriculateds.matriculation_date", "matriculateds.school_year as matriculated_school_year", "matriculateds.call_number",
-            "students.student_registration","users.name", "users.last_name", "school_classes.school_class_name",
-            "school_classes.school_class_type", "school_classes.school_year as school_class_school_year", "disciplines.discipline_name"
-        )
-        ->join("students", "matriculateds.student_registration", "=", "students.student_registration")
-        ->join("users", "students.user_id", "=", "users.user_id")
-        ->join("school_classes", "matriculateds.school_class_id", "=", "school_classes.school_class_id")
-        ->join("disciplines", "matriculateds.discipline_id", "=", "disciplines.discipline_id")
-        ->where("matriculateds.deleted_at", "=", null)
-        ->paginate(5);
-
-        return response()->json([
-            "error" => false,
-            "response" => $matriculateds
-        ], 200);
-
+        //
     }
 
     /**
@@ -64,41 +33,55 @@ class MatriculatedController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MatriculatedRequest $request)
     {
-        
-        Student::findOrFail($request->studentRegistration);
-
-        SchoolClass::findOrFail($request->schoolClassId);
-
-        Discipline::findOrFail($request->disciplineId);
-
-        $error = $this->validation($request);
-
-        if ($error->fails()) {
-
-            return response()->json([
-                "error" => true,
-                "message" => $error->errors()->all()
-            ], 400);
-
-        }
 
         Matriculated::create([
-        
-            "matriculation_date" => $request->matriculationDate,
-            "school_year" => $request->schoolYear,
+
+            "matriculation_date" => $request->matriculation_date,
+            "matriculation_type" => $request->matriculation_type,
+            "school_year" => $request->school_year,
             "situation" => $request->situation,
-            "call_number" => $request->callNumber,
-            "student_registration" => $request->studentRegistration,
-            "school_class_id" => $request->schoolClassId,
-            "discipline_id" => $request->disciplineId
+            "call_number" => $request->call_number,
+            "student_registration" => $request->student_registration,
+            "school_class_id" => $request->school_class_id,
+            "discipline_id" => $request->discipline_id
 
         ]);
 
         return response()->json([
             "error" => false,
             "message" => "Matriculated successfully created."
+        ], 201);
+
+    }
+
+    public function matriculateInStandardDiscipline(StandardDisciplineRequest $request)  
+    {
+
+        $disciplineSchoolClasses = DisciplineSchoolClass::where("school_class_id", $request->school_class_id)
+        ->get();
+
+        foreach ($disciplineSchoolClasses as $data) {
+
+            Matriculated::create([
+
+                "matriculation_date" => $request->matriculation_date,
+                "matriculation_type" => "Standard",
+                "school_year" => $request->school_year,
+                "situation" => $request->situation,
+                "call_number" => $request->call_number,
+                "student_registration" => $request->student_registration,
+                "school_class_id" => $request->school_class_id,
+                "discipline_id" => $data->discipline_id,
+    
+            ]);
+
+        }
+
+        return response()->json([
+            "error" => false,
+            "response" => "Student Successfully Matriculated."
         ], 201);
 
     }
@@ -111,22 +94,8 @@ class MatriculatedController extends Controller
      */
     public function show($id)
     {
-        
-        Matriculated::findOrFail($id);
 
-        $matriculated = DB::table("matriculateds")
-        ->select(
-            "matriculateds.matriculated_id", "matriculateds.matriculation_date", "matriculateds.school_year as matriculated_school_year", "matriculateds.call_number",
-            "matriculateds.situation", "students.student_registration", "users.name", "users.last_name",
-            "school_classes.school_class_name", "school_classes.school_class_type", "school_classes.school_year as school_class_school_year", "disciplines.discipline_name"
-        )
-        ->join("students", "matriculateds.student_registration", "=", "students.student_registration")
-        ->join("school_classes", "matriculateds.school_class_id", "=", "school_classes.school_class_id")
-        ->join("disciplines", "matriculateds.discipline_id", "=", "disciplines.discipline_id")
-        ->join("users", "students.user_id", "=", "users.user_id")
-        ->where("matriculateds.matriculated_id", "=", $id)
-        ->where("matriculateds.deleted_at", "=", null)
-        ->get();
+        $matriculated = Matriculated::findOrFail($id);
 
         return response()->json([
             "error" => false,
@@ -142,43 +111,25 @@ class MatriculatedController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(MatriculatedRequest $request, $id)
     {
         $matriculated = Matriculated::findOrFail($id);
 
-        Student::findOrFail($request->studentRegistration);
-
-        SchoolClass::findOrFail($request->schoolClassId);
-
-        Discipline::findOrFail($request->disciplineId);
-
-        $error = $this->validation($request);
-
-        if ($error->fails()) {
-
-            return response()->json([
-                "error" => true,
-                "message" => $error->errors()->all()
-            ], 400);
-
-        }
-
         $matriculated->update([
         
-        "matriculation_date" => $request->matriculationDate,
-        "school_year" => $request->schoolYear,
-        "situation" => $request->situation,
-        "call_number" => $request->callNumber,
-        "student_registration" => $request->studentRegistration,
-        "school_class_id" => $request->schoolClassId,
-        "discipline_id" => $request->disciplineId
+            "matriculation_date" => $request->matriculation_date,
+            "school_year" => $request->school_year,
+            "situation" => $request->situation,
+            "call_number" => $request->call_number,
+            "student_registration" => $request->student_registration,
+            "school_class_id" => $request->school_class_id,
+            "discipline_id" => $request->discipline_id
 
         ]);
 
         return response()->json([
             "error" => false,
             "message" => "Matriculated successfully updated.",
-            $matriculated->school_year
         ], 200);
 
     }

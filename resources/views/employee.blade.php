@@ -43,7 +43,7 @@
 
     Complemento <input name="complementResidence" class="form-control" type="text" value="Teste">
     CEP <input name="cep" class="form-control" type="number" value="20010000">
-    ID da Seção <input name="sectorId" class="form-control" type="text" value="19">
+    ID da Setor <input name="sectorId" class="form-control" type="text" value="19">
 
     Matricula <input name="registration" class="form-control" type="text" value="1000">
     Posição <input name="position_id" class="form-control" type="text" value="3">

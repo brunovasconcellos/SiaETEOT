@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\DisciplineSchoolClass;
 use App\Models\Discipline;
 use App\Models\SchoolClass;
+use App\Http\Requests\DisciplineSchoolClassRequest;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -20,36 +21,9 @@ class DisciplineSchoolClassController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function validation (Request $request) {
-
-        return Validator::make($request->all(), [
-
-            "disciplineId" => ["required", "integer"],
-            "schoolClassId" => ["required", "integer"]
-
-        ]);
-
-     }
-
     public function index()
     {
-        
-        $disciplineSchoolClasses = DB::table("discipline_school_classes")
-        ->select(
-            "discipline_school_classes.discipline_schoolClass_id", "school_classes.school_class_name", "school_classes.school_class_type", "disciplines.discipline_name",
-            "courses.course_name", 
-        )
-        ->join("disciplines", "discipline_school_classes.discipline_id", "=", "disciplines.discipline_id")
-        ->join("school_classes", "discipline_school_classes.school_class_id", "=", "school_classes.school_class_id")
-        ->join("courses", "school_classes.course_id", "=", "courses.course_id")
-        ->where("discipline_school_classes.deleted_at", "=", null)
-        ->paginate(5);
-
-        return response()->json([
-            "error" => false,
-            "message" => $disciplineSchoolClasses
-        ], 200);
-
+        //
     }
 
     /**
@@ -58,27 +32,12 @@ class DisciplineSchoolClassController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DisciplineSchoolClassRequest $request)
     {
 
-        Discipline::findOrFail($request->disciplineId);
-        
-        SchoolClass::findOrFail($request->schoolClassId);
-        
-        $error = $this->validation($request);
-
-        if ($error->fails()) {
-
-            return response()->json([
-                "error" => true,
-                "message" => $error->errors()->all()
-            ], 400);
-
-        }
-
         DisciplineSchoolClass::create([
-            "discipline_id" => $request->disciplineId,
-            "school_class_id" => $request->schoolClassId
+            "discipline_id" => $request->discipline_id,
+            "school_class_id" => $request->school_class_id
         ]);
 
         return response()->json([
@@ -96,25 +55,7 @@ class DisciplineSchoolClassController extends Controller
      */
     public function show($id)
     {
-
-        $disciplineSchoolClasses = DB::table("discipline_school_classes")
-        ->select(
-            "discipline_school_classes.discipline_schoolClass_id", "school_classes.school_class_name", "school_classes.school_class_type", "school_classes.school_year",
-            "school_classes.situation", "school_classes.shift", "school_classes.start_date", "school_classes.end_date",
-            "school_classes.modality", "courses.course_name", "courses.course_workload", "disciplines.discipline_id",
-            "disciplines.discipline_name", "disciplines.discipline_abbreviation"
-        )
-        ->join("disciplines", "discipline_school_classes.discipline_id", "=", "disciplines.discipline_id")
-        ->join("school_classes", "discipline_school_classes.school_class_id", "=", "school_classes.school_class_id")
-        ->join("courses", "school_classes.course_id", "=", "courses.course_id")
-        ->where("discipline_school_classes.deleted_at", "=", null)
-        ->paginate(5);
-
-        return response()->json([
-            "error" => false,
-            "message" => $disciplineSchoolClasses
-        ], 200);
-
+        //
     }
 
     /**
@@ -124,35 +65,20 @@ class DisciplineSchoolClassController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DisciplineSchoolClassRequest $request, $id)
     {
 
         $disciplineSchoolClass = DisciplineSchoolClass::findOrFail($id);
 
-        Discipline::findOrFail($request->disciplineId);
-        
-        SchoolClass::findOrFail($request->schoolClassId);
-        
-        $error = $this->validation($request);
-
-        if ($error->fails()) {
-
-            return response()->json([
-                "error" => true,
-                "message" => $error->errors()->all()
-            ], 400);
-
-        }
-
         $disciplineSchoolClass->update([
-            "discipline_id" => $request->disciplineId,
-            "school_class_id" => $request->schoolClassId
+            "discipline_id" => $request->discipline_id,
+            "school_class_id" => $request->school_class_id
         ]);
 
         return response()->json([
             "error" => false,
             "message" => "Discipline School Class successfully."
-        ], 200);
+        ]);
 
     }
 
@@ -170,7 +96,7 @@ class DisciplineSchoolClassController extends Controller
         return response()->json([
             "error" => false,
             "message" => "Discipline school class delete."
-        ], 200);
+        ]);
 
     }
 }
