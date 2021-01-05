@@ -94,14 +94,7 @@ class MatriculatedController extends Controller
      */
     public function show($id)
     {
-
-        $matriculated = Matriculated::findOrFail($id);
-
-        return response()->json([
-            "error" => false,
-            "response" => $matriculated
-        ], 200);
-
+        //
     }
 
     /**
@@ -130,7 +123,7 @@ class MatriculatedController extends Controller
         return response()->json([
             "error" => false,
             "message" => "Matriculated successfully updated.",
-        ], 200);
+        ]);
 
     }
 
@@ -148,7 +141,7 @@ class MatriculatedController extends Controller
         return response()->json([
             "error" => false,
             "message" => "Matriculated successfully deleted."
-        ], 200);
+        ]);
 
     }
 }

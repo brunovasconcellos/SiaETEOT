@@ -8,7 +8,7 @@ class StudentController
 
         this.createDataTables(route);
         this.showModalCreate();
-        this.createDataExcel( "/excelcreate/student");
+        this.createDataExcel("/excelcreate/student");
         this.createData(route, rule, message);
         this.showModalUpdate();
         this.updateData(route, rule, message);

@@ -76,6 +76,8 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
 
         Route::resource('/matriculated', "Course\MatriculatedController");
 
+        Route::resource('/schoolreport', "Course\SchoolReportController");
+
     });
 
 });
@@ -87,8 +89,6 @@ Route::resource('/able', 'Employee\AbleController');
 Route::resource('/schedule', 'Course\SchedulesController');
 
 Route::resource('/content', 'Course\ContentController');
-
-Route::resource('/schoolreport', "Student\SchoolReportController");
 
 Route::resource('/lesonstatus', 'Course\LesonStatusController');
 
