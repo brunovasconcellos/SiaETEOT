@@ -10,6 +10,19 @@
   background-position: left bottom;
   background-size: 50%;
   background-repeat: no-repeat;
+  animation: slide-right-login .6s ease;
+}
+
+@keyframes slide-right-login {
+  0%{
+    transform: translateX(-120px);
+    opacity: 0;
+  }
+
+  100%{
+    transform: translateX(0px);
+    opacity: 1;
+  }
 }
 
 .login-container {
@@ -47,7 +60,8 @@
     /* margin: 0 auto;
     margin-top: 20px;
     display: flex;  */
-}
+  }
+
   
   .login-img h3 {
     font-weight: bolder;
@@ -119,8 +133,20 @@
     margin-top: 20px;
     font-size: 16px;
     box-shadow: 12px 12px 20px $shadow-blue-active;
-    /* border-bottom: 5px solid #00a3e0; */
-    /*border-radius: 10px;*/
+    animation: slide-up-cubic .7s cubic-bezier(0,.73,.53,1.5);
+
+  }
+
+  @keyframes slide-up-cubic{
+    0%{
+      transform: translateY(100px);
+      // opacity: 0;
+    }
+
+    100%{
+      transform: translateY(0);
+      // opacity: 1;
+    }
   }
   
   .col-2-login .login-form input[type="submit"]:hover {
@@ -144,7 +170,20 @@
   .topo-login img{
     width: 100%;
     margin: 0 auto;
+    animation: scale-up-login .6s cubic-bezier(0,.73,.53,1.5);
+    transition-delay: 2.5s;
   }
+
+  @keyframes scale-up-login{
+    0%{
+      transform: scale(0);
+    }
+
+    100%{
+      transform: scale(1);
+    }
+  }
+  
   
   .rodape-login {
     background: rgba(200, 200, 200, 0.4);

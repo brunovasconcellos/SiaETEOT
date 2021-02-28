@@ -26381,10 +26381,6 @@ iframe.uk-cover {
   box-shadow: 0px 5px 30px 0px rgba(0, 0, 0, 0.3);
 }
 
-.sidebar-background {
-  background: red !important;
-}
-
 .nav-left {
   padding-top: 10px;
   background: url("/storage/imagesAuth/wave-blue-3.png") !important;
@@ -26577,6 +26573,32 @@ iframe.uk-cover {
   background-position: left bottom;
   background-size: 50%;
   background-repeat: no-repeat;
+  -webkit-animation: slide-right-login 0.6s ease;
+          animation: slide-right-login 0.6s ease;
+}
+
+@-webkit-keyframes slide-right-login {
+  0% {
+    transform: translateX(-120px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-right-login {
+  0% {
+    transform: translateX(-120px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
 }
 
 .login-container {
@@ -26678,8 +26700,28 @@ iframe.uk-cover {
   margin-top: 20px;
   font-size: 16px;
   box-shadow: 12px 12px 20px #ccd2f4;
-  /* border-bottom: 5px solid #00a3e0; */
-  /*border-radius: 10px;*/
+  -webkit-animation: slide-up-cubic 0.7s cubic-bezier(0, 0.73, 0.53, 1.5);
+          animation: slide-up-cubic 0.7s cubic-bezier(0, 0.73, 0.53, 1.5);
+}
+
+@-webkit-keyframes slide-up-cubic {
+  0% {
+    transform: translateY(100px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up-cubic {
+  0% {
+    transform: translateY(100px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
 }
 
 .col-2-login .login-form input[type=submit]:hover {
@@ -26703,6 +26745,29 @@ iframe.uk-cover {
 .topo-login img {
   width: 100%;
   margin: 0 auto;
+  -webkit-animation: scale-up-login 0.6s cubic-bezier(0, 0.73, 0.53, 1.5);
+          animation: scale-up-login 0.6s cubic-bezier(0, 0.73, 0.53, 1.5);
+  transition-delay: 2.5s;
+}
+
+@-webkit-keyframes scale-up-login {
+  0% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes scale-up-login {
+  0% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .rodape-login {
