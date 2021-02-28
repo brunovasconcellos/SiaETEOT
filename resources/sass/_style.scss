@@ -6,48 +6,48 @@
 //login
 
 .login-body {
-    background: url("../storage/imagesAuth/vetor2.png");
-    background-position: left bottom;
-    background-size: 50%;
-    background-repeat: no-repeat;
-  }
-  
-  .login-container {
-    position: relative;
-    height: 100%;
-    min-height: 100%;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-align-items: center;
-    align-items: center;
-    -webkit-justify-content: center;
-    justify-content: center;
-  }
-  
-  .login-quadrado {
-  }
-  
-  .logo-menu img {
-    width: 40px;
-    margin-right: 20px;
-    margin-left: 10px;
-  }
-  
-  .login-img {
-    width: 100%;
-    /* background: linear-gradient(to right, #00a3e0, #16d9cf); */
-    /* background: url("../storage/imagesAuth/login-img.jpg"); */
-    background-size: cover;
-    /* box-shadow: 5px 0px 20px 0px rgba(0, 0, 0, 0.2); */
-    z-index: 99;
-  }
-  
-  .login-img img {
-    width: 250px;
+  background: url("/images/vetor2.png");
+  background-position: left bottom;
+  background-size: 50%;
+  background-repeat: no-repeat;
+}
+
+.login-container {
+  position: relative;
+  height: 100%;
+  min-height: 100%;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+.login-quadrado {
+}
+
+.logo-menu img {
+  width: 40px;
+  margin-right: 20px;
+  margin-left: 10px;
+}
+
+.login-img {
+  width: 100%;
+  /* background: linear-gradient(to right, #00a3e0, #16d9cf); */
+  /* background: url("../storage/imagesAuth/login-img.jpg"); */
+  background-size: cover;
+  /* box-shadow: 5px 0px 20px 0px rgba(0, 0, 0, 0.2); */
+  z-index: 99;
+}
+
+.login-img img {
+  width: 250px;
     /* margin: 0 auto;
     margin-top: 20px;
     display: flex;  */
-  }
+}
   
   .login-img h3 {
     font-weight: bolder;
@@ -142,8 +142,8 @@
   }
   
   .topo-login img{
-      width: 100%;
-      margin: 0 auto;
+    width: 100%;
+    margin: 0 auto;
   }
   
   .rodape-login {
@@ -154,7 +154,7 @@
     padding-bottom: 1px;
     padding-left: 15px;
     padding-right: 15px;
-  
+
   }
   
   .rodape-login p {
@@ -262,7 +262,7 @@
       rgba(0, 0, 0, 0),
       rgba(200, 200, 200, 0.4),
       rgba(0, 0, 0, 0)
-    );
+      );
     padding: 10px;
   }
   
@@ -300,9 +300,10 @@
     /* background: -webkit-linear-gradient(75deg, rgb(0, 163, 224,0.4), rgb(22, 217, 207,0.6)); */
     /* background: -webkit-linear-gradient(75deg, #16d9cf,#00A3E0); */
     /* -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent; */
+    -webkit-text-fill-color: transparent; */
     /* text-shadow: 0px 3px 8px rgb(0, 0, 0, .05); */
   }
+  
   
   @media (max-width: 1200px) {
     .sidebar {
@@ -311,13 +312,13 @@
     .sidebar.toggled {
       margin-left: 0;
     }
-  
+
     .login-img {
       width: 100%;
       /* background: url("../storage/imagesAuth/login-img-escuro.jpg"); */
       /* background-size: cover; */
     }
-  
+
     .login-img img {
       display: none;
       display: flex;
@@ -329,30 +330,30 @@
       height: 250px;
       width: 250px;
     }
-  
+
     .login-img h3 {
       text-shadow: 5px 0px 20px 10px rgba(0, 0, 0, 1);
       margin-top: 20px;
     }
-  
+
     .col-1-esqueceu-div {
       height: 100%;
       width: 100%;
     }
-  
+
     .col-2-esqueceu-div {
       height: 100%;
       width: 100%;
     }
-  
+
     .login-body{
       background: white;
-  }
-  
-  .login-img h3{
+    }
+
+    .login-img h3{
       font-size: 25px;
       text-align: center;
       /* margin-bottom: 60px; */
       display: none;
-  }
+    }
   }

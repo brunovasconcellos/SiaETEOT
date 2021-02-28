@@ -21,6 +21,7 @@
   background-attachment: fixed !important;
   background-position-y: bottom !important;
   background-repeat: no-repeat !important;
+
 }
 
 .nav-left .brand-text {
@@ -39,9 +40,12 @@
   padding-bottom: 10px;
   // color: #4ad2fe!important;
   color: #acbdc2 !important;
-  border: solid 2px rgb(255, 255, 255);
+  // border: solid 2px rgb(255, 255, 255);
   // border: 1px solid rgb(255, 255, 255);
-  margin-bottom: 14px !important;
+  margin-bottom: 8px !important;
+  font-size: 18px;
+  padding-left: 23px;
+  margin-right: 10px;
 }
 
 .nav-left ul li a i {
@@ -49,8 +53,9 @@
 }
 
 .nav-left ul li a:hover {
-  background: #d5f1fb;
-  border-radius: 100px;
+  // background: #d5f1fb;
+  transition: .3s ease;
+  // border-radius: 100px;
   // color:#00A3E0!important ;
   color: #67b0ff !important;
   // box-shadow: 0px 0px 15px 0px rgba(0, 164, 224, 0.048);
@@ -62,13 +67,15 @@
 .nav-left ul li .active {
   background: $blue-active !important;
   border: none;
-  border-radius: 100px;
+  // border-radius: 100px;
+  border-bottom-right-radius: 100px;
+  border-top-right-radius: 100px;
   box-shadow:0px 6px 8px $shadow-blue-active;
   color: white !important;
 }
 
 .nav-left ul li .active:hover {
-  color: white !important;
+  color: black!important;
 }
 
 @keyframes border-animate1 {
@@ -111,18 +118,20 @@
 .nav-top {
   border: none;
   // box-shadow: 20px 0 5px 0 #e7eef1 !important;
-  background: #edf0f2 !important;
+  // background: #edf0f2 !important;
+  background: #fff;
 }
 
 .nav-top ul li a i {
-  color: #acbdc2 !important;
+  // color: #acbdc2 !important;
+  color: #c5c5cf !important;
+
+  margin-right: 18px;
 }
 
 .nav-treeview {
-  // padding-left: 20px!important;
-  // background: #f6f9fb!important;
   transition: none;
-  // background: #edf0f2;
+  overflow: hidden;
 }
 
 .nav-treeview li{
@@ -130,18 +139,37 @@
 }
 
 .menu-open {
-  transition: none;
+  background: #acbdc22b;
+  color: white;
+  overflow: hidden;
 }
 
-.table {
-  border-radius: 60px !important;
+.menu-open .nav-treeview{
+  margin-left: 10px;
+}
+
+.sidebar-collapse .menu-open .nav-treeview{
+  margin-left: 0px;
 }
 
 .brand-image {
-  transform: scale(1);
+  transform: scale(1.2);
 }
 
 .brand-image:hover {
-  transform: scale(1.1);
+  transform: scale(1);
   transition: ease 0.3s;
+}
+
+.sidebar{
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.nav-header{
+  color: #00cfff;
+}
+
+.sidebar-open{
+  background:white;
 }

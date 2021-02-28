@@ -126,7 +126,7 @@ return [
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => 'background-dashboard',
-    'classes_sidebar' => 'elevation-4 sidebar-no-expand nav-left nav-left-border',
+    'classes_sidebar' => 'sidebar-light elevation-4 sidebar-no-expand nav-left nav-left-border',
     'classes_sidebar_nav' => '',
     'classes_topnav' => 'navbar-white navbar-light nav-top',
     'classes_topnav_nav' => 'navbar-expand',
@@ -152,7 +152,7 @@ return [
     'sidebar_scrollbar_theme' => 'os-theme-light',
     'sidebar_scrollbar_auto_hide' => '1',
     'sidebar_nav_accordion' => true,
-    'sidebar_nav_animation_speed' => 300,
+    'sidebar_nav_animation_speed' => 0,
 
     /*
     |--------------------------------------------------------------------------
@@ -236,10 +236,15 @@ return [
         //     'can'  => 'diretoria',
         // ],
 
+        [
+            'text' => 'Home',
+            'url'  => 'dashboard/',
+            "icon" => "fas fa-home",
+        ],
 
         [
-            'header' => 'FUNCIONARIO',
-            'can'  => 'diretoria',
+            // 'header' => 'FUNCIONARIO',
+            // 'can'  => 'diretoria',
         ],
 
         [
@@ -251,8 +256,8 @@ return [
         ],
 
         [
-            'header' => 'CURSO',
-            'can'  => 'diretoria',
+            // 'header' => 'CURSO',
+            // 'can'  => 'diretoria',
         ],
 
         [
@@ -282,7 +287,7 @@ return [
                 ],
 
                 [
-                    'text' => '➥Transferência de unidade',
+                    'text' => '➥Transferência de unt.',
                     'url'  => 'dashboard/transfersus',
                     'icon' => 'fa fa-exchange-alt'
                 ]
