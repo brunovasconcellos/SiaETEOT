@@ -50,6 +50,7 @@
 @section('js')
 
     <script src="{{asset('js/helpers/Helper.js')}}"></script>
+    <script src="{{asset('js/modal_stepbystep.js')}}"></script>
     
     @yield('scripts')
 

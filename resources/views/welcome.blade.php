@@ -98,8 +98,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    <span>Bruno viado</span> eteot
-                    <img src="/storage/imagesAuth/enzo.jpg" alt="login-logo" class="img-fluid">
+                    <span></span> eteot
                 </div>
 
                 <div class="links">
