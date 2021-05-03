@@ -69,14 +69,16 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
         Route::resource('/position', 'Employee\PositionController');
 
         Route::resource('/exert', 'Employee\ExertController');
-   
+
         Route::resource('/disciplineschoolclass', 'Course\DisciplineSchoolClassController');
-        
+
         Route::post('/standarddiscipline', "Course\MatriculatedController@matriculateInStandardDiscipline");
 
         Route::resource('/matriculated', "Course\MatriculatedController");
 
         Route::resource('/schoolreport', "Course\SchoolReportController");
+
+        Route::resource('/studentocurrence', "Employee\StudentOcurrenceController");
 
     });
 
