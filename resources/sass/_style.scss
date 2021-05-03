@@ -396,3 +396,37 @@
       display: none;
     }
   }
+
+  .menu-open {
+    background: #acbdc22b;
+    background: linear-gradient(to bottom, #acbdc22b, #f9f9f9);
+    border-bottom: 2px solid #007bff;
+    color: white;
+    overflow: hidden;
+  }
+
+  .sidebar-collapse .menu-open .nav-treeview {
+    margin-left: 0px;
+    margin-left: 0px!important;
+  }
+
+  .menu-open .nav-treeview{
+    margin-left: 0;
+  }
+  
+  .nav-item a{
+    font-size: 16px!important;
+  }
+  
+  
+  .brand-link{
+    border-bottom: 2px solid red;
+    margin-bottom: 15px;
+    margin-top: 5px;
+  }
+  
+  .active:hover{
+    color: red;
+  }
+  
+  
