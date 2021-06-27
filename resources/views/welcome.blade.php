@@ -98,7 +98,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    <span>Bruno viado</span>eteot
+                    <span></span> eteot
                 </div>
 
                 <div class="links">

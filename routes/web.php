@@ -77,6 +77,9 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
         Route::resource('/matriculated', "Course\MatriculatedController");
 
         Route::resource('/schoolreport', "Course\SchoolReportController");
+
+        Route::resource('/studentocurrence', "Employee\StudentOcurrenceController");
+
     });
 });
 

@@ -26381,10 +26381,6 @@ iframe.uk-cover {
   box-shadow: 0px 5px 30px 0px rgba(0, 0, 0, 0.3);
 }
 
-.sidebar-background {
-  background: red !important;
-}
-
 .nav-left {
   padding-top: 10px;
   background: url("/storage/imagesAuth/wave-blue-3.png") !important;
@@ -26419,10 +26415,6 @@ iframe.uk-cover {
   border-top-right-radius: 100px;
   box-shadow: 0px 6px 8px #ccd2f4;
   color: white !important;
-}
-
-.nav-left ul li .active:hover {
-  color: black !important;
 }
 
 @-webkit-keyframes border-animate1 {
@@ -26537,6 +26529,37 @@ iframe.uk-cover {
   background: white;
 }
 
+.menu-open {
+  background: #acbdc22b;
+  background: linear-gradient(to bottom, #acbdc22b, #f9f9f9);
+  border-bottom: 2px solid #007bff;
+  color: white;
+  overflow: hidden;
+}
+
+.sidebar-collapse .menu-open .nav-treeview {
+  margin-left: 0px;
+  margin-left: 0px !important;
+}
+
+.menu-open .nav-treeview {
+  margin-left: 0;
+}
+
+.nav-item a {
+  font-size: 16px !important;
+}
+
+.brand-link {
+  border-bottom: 2px solid red;
+  margin-bottom: 15px;
+  margin-top: 5px;
+}
+
+.active:hover {
+  color: red;
+}
+
 .footer {
   background: #18191a;
   color: white;
@@ -26577,6 +26600,32 @@ iframe.uk-cover {
   background-position: left bottom;
   background-size: 50%;
   background-repeat: no-repeat;
+  -webkit-animation: slide-right-login 0.6s ease;
+          animation: slide-right-login 0.6s ease;
+}
+
+@-webkit-keyframes slide-right-login {
+  0% {
+    transform: translateX(-120px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-right-login {
+  0% {
+    transform: translateX(-120px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
 }
 
 .login-container {
@@ -26678,8 +26727,28 @@ iframe.uk-cover {
   margin-top: 20px;
   font-size: 16px;
   box-shadow: 12px 12px 20px #ccd2f4;
-  /* border-bottom: 5px solid #00a3e0; */
-  /*border-radius: 10px;*/
+  -webkit-animation: slide-up-cubic 0.7s cubic-bezier(0, 0.73, 0.53, 1.5);
+          animation: slide-up-cubic 0.7s cubic-bezier(0, 0.73, 0.53, 1.5);
+}
+
+@-webkit-keyframes slide-up-cubic {
+  0% {
+    transform: translateY(100px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up-cubic {
+  0% {
+    transform: translateY(100px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
 }
 
 .col-2-login .login-form input[type=submit]:hover {
@@ -26703,6 +26772,29 @@ iframe.uk-cover {
 .topo-login img {
   width: 100%;
   margin: 0 auto;
+  -webkit-animation: scale-up-login 0.6s cubic-bezier(0, 0.73, 0.53, 1.5);
+          animation: scale-up-login 0.6s cubic-bezier(0, 0.73, 0.53, 1.5);
+  transition-delay: 2.5s;
+}
+
+@-webkit-keyframes scale-up-login {
+  0% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes scale-up-login {
+  0% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .rodape-login {
@@ -26856,7 +26948,6 @@ iframe.uk-cover {
 
 @media (max-width: 1200px) {
   .sidebar {
-    margin-left: -230px;
   }
 
   .sidebar.toggled {
@@ -26908,3 +26999,38 @@ iframe.uk-cover {
   }
 }
 
+.menu-open {
+  background: #acbdc22b;
+  background: linear-gradient(to bottom, #acbdc22b, #f9f9f9);
+  border-bottom: 2px solid #007bff;
+  color: white;
+  overflow: hidden;
+}
+
+.sidebar-collapse .menu-open .nav-treeview {
+  margin-left: 0px;
+  margin-left: 0px !important;
+}
+
+.menu-open .nav-treeview {
+  margin-left: 0;
+}
+
+.nav-item a {
+  font-size: 16px !important;
+}
+
+.brand-link {
+  border-bottom: 2px solid red;
+  margin-bottom: 15px;
+  margin-top: 5px;
+}
+
+.active:hover {
+  color: red;
+}
+
+aside.main-sidebar.sidebar-light.elevation-4.sidebar-no-expand.nav-left.nav-left-border{
+  background: #ffffff!important;
+  color: #6c757d!important;
+}

@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
             'identity_issuing_authority'    => '1234',
             'cpf'                           => '1234567890',
             'cep_user'                      => '20010000',
-            'level'                         => 9,
+            'level'                         => 10,
             'num_residence'                 => '100',
         ]);
     }

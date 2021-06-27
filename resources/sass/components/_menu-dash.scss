@@ -5,10 +5,6 @@
   box-shadow: 0px 5px 30px 0px rgba(0, 0, 0, 0.3);
 }
 
-.sidebar-background {
-  background: red !important;
-}
-
 .content-wrapper {
   // background: url("/storage/imagesAuth/wave-blue-one.png")!important;
   // background-size:;
@@ -21,7 +17,6 @@
   background-attachment: fixed !important;
   background-position-y: bottom !important;
   background-repeat: no-repeat !important;
-
 }
 
 .nav-left .brand-text {
@@ -72,10 +67,6 @@
   border-top-right-radius: 100px;
   box-shadow:0px 6px 8px $shadow-blue-active;
   color: white !important;
-}
-
-.nav-left ul li .active:hover {
-  color: black!important;
 }
 
 @keyframes border-animate1 {
@@ -172,4 +163,35 @@
 
 .sidebar-open{
   background:white;
+}
+
+.menu-open {
+  background: #acbdc22b;
+  background: linear-gradient(to bottom, #acbdc22b, #f9f9f9);
+  border-bottom: 2px solid #007bff;
+  color: white;
+  overflow: hidden;
+}
+
+.sidebar-collapse .menu-open .nav-treeview {
+  margin-left: 0px;
+  margin-left: 0px !important;
+}
+
+.menu-open .nav-treeview {
+  margin-left: 0;
+}
+
+.nav-item a {
+  font-size: 16px !important;
+}
+
+.brand-link {
+  border-bottom: 2px solid red;
+  margin-bottom: 15px;
+  margin-top: 5px;
+}
+
+.active:hover {
+  color: red;
 }
