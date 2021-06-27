@@ -239,6 +239,7 @@ return [
 
         [
             'text' => 'Home',
+            'can'  => ['diretoria'],
             'url'  => 'dashboard/',
             "icon" => "fas fa-home",
         ],
