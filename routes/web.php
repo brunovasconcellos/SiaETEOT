@@ -18,7 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get("/index", function() {
+Route::get("/index", function () {
     return view('index');
 });
 
@@ -69,17 +69,15 @@ Route::middleware(["auth"])->prefix("dashboard")->group(function () {
         Route::resource('/position', 'Employee\PositionController');
 
         Route::resource('/exert', 'Employee\ExertController');
-   
+
         Route::resource('/disciplineschoolclass', 'Course\DisciplineSchoolClassController');
-        
+
         Route::post('/standarddiscipline', "Course\MatriculatedController@matriculateInStandardDiscipline");
 
         Route::resource('/matriculated', "Course\MatriculatedController");
 
         Route::resource('/schoolreport', "Course\SchoolReportController");
-
     });
-
 });
 
 Route::resource('/coursediscipline', 'Course\CourseDisciplineController');
@@ -97,6 +95,8 @@ Route::resource("/lack", "Course\LackController");
 Route::get("/course/all", "Course\CourseController@test");
 
 Route::get("/studentexport", "Student\StudentController@export");
+
+Route::resource('/ocurrence', "Employee\OcurrenceStudentController");
 
 Route::get("/lte", function () {
     return view("lte");

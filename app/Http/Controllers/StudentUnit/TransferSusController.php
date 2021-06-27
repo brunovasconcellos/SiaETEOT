@@ -8,7 +8,7 @@ use App\Models\TransferSu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\TransferSusRequest;
 use App\Http\Controllers\Controller;
 
 class TransferSusController extends Controller
@@ -19,24 +19,14 @@ class TransferSusController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    protected function validator(Request $request){
-        return Validator::make($request->all(), [
-            "processNumber" => ["required", "numeric"], 
-            "transferDate" => ["required", "date"], 
-            "transferType" => ["required"], 
-            "studentRegistration" => ["required", "numeric"],
-            "suId" => ["required", "numeric"]
-        ]);
-    }
-
     public function index()
     {
         $transferSus = DB::table('transfer_sus')
-        ->join("students", "transfer_sus.student_registration", "=", "students.student_registration")
-        ->join("student_units", "transfer_sus.su_id", "=", "student_units.su_id")
-        ->join('users', "students.user_id", "=", "users.user_id")
-        ->where('transfer_sus.deleted_at', null)
-        ->select('transfer_sus.trans_id', 'transfer_sus.process_number', 'transfer_sus.transfer_date', 'transfer_sus.transfer_type', 'transfer_sus.student_registration', 'transfer_sus.su_id', 'student_units.su_name', 'users.name', 'users.last_name')->paginate(5);
+            ->join("students", "transfer_sus.student_registration", "=", "students.student_registration")
+            ->join("student_units", "transfer_sus.su_id", "=", "student_units.su_id")
+            ->join('users', "students.user_id", "=", "users.user_id")
+            ->where('transfer_sus.deleted_at', null)
+            ->select('transfer_sus.trans_id', 'transfer_sus.process_number', 'transfer_sus.transfer_date', 'transfer_sus.transfer_type', 'transfer_sus.student_registration', 'transfer_sus.su_id', 'student_units.su_name', 'users.name', 'users.last_name')->paginate(5);
 
         if (empty($transferSus["data"] == false)) {
 
@@ -45,7 +35,6 @@ class TransferSusController extends Controller
                 "message" => "No registered Transfer Sus.",
                 "response" => null
             ]);
-
         }
 
         return response()->json([
@@ -60,25 +49,25 @@ class TransferSusController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TransferSusRequest $request)
     {
         $error = $this->validator($request);
         Student::findOrFail($request->studentRegistration);
         StudentUnit::findOrFail($request->suId);
 
 
-        if($error->fails()){
+        if ($error->fails()) {
             return response()->json([
                 "error" => true,
                 "message" => $error->errors()->all()
             ], 400);
         }
-    
+
         TransferSu::create([
-            "process_number" => $request->processNumber, 
-            "transfer_date" => $request->transferDate, 
-            "transfer_type" => $request->transferType, 
-            "student_registration" => $request->studentRegistration, 
+            "process_number" => $request->processNumber,
+            "transfer_date" => $request->transferDate,
+            "transfer_type" => $request->transferType,
+            "student_registration" => $request->studentRegistration,
             "su_id" => $request->suId
         ]);
 
@@ -96,7 +85,7 @@ class TransferSusController extends Controller
      */
     public function show($id)
     {
-        if(!Auth::user() || Auth::user()->level <= 7){
+        if (!Auth::user() || Auth::user()->level <= 7) {
             return response()->json([
                 "error" => true,
                 "message" => "Unauthorized"
@@ -126,7 +115,7 @@ class TransferSusController extends Controller
 
         $error = $this->validator($request);
 
-        if($error->fails()){
+        if ($error->fails()) {
             return response()->json([
                 "error" => true,
                 "message" => $error->errors()->all()
@@ -134,10 +123,10 @@ class TransferSusController extends Controller
         }
 
         $transferSus->update([
-            "process_number" => $request->processNumber, 
-            "transfer_date" => $request->transferDate, 
-            "transfer_type" => $request->transferType, 
-            "student_registration" => $request->studentRegistration, 
+            "process_number" => $request->processNumber,
+            "transfer_date" => $request->transferDate,
+            "transfer_type" => $request->transferType,
+            "student_registration" => $request->studentRegistration,
             "su_id" => $request->suId
         ]);
 
@@ -155,7 +144,7 @@ class TransferSusController extends Controller
      */
     public function destroy($id)
     {
-        if(!Auth::user() || Auth::user()->level <= 7){
+        if (!Auth::user() || Auth::user()->level <= 7) {
             return response()->json([
                 "error" => true,
                 "message" => "Unauthorized"

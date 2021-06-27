@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ResponsibleController extends Controller
 {
@@ -18,32 +19,31 @@ class ResponsibleController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    protected function validator(Request $request){
+    protected function validator(Request $request)
+    {
         return Validator::make($request->all(), [
             "userId" => ["required", "numeric"]
         ]);
     }
-    
+
     public function index(Request $request)
     {
         $responsible = DB::table('responsibles') //group concat
-        ->join("users", "responsibles.user_id", "=", "users.user_id")
-        ->leftjoin("responsible_students", "responsibles.responsible_id", "=", "responsible_students.responsible_id")
-        ->leftjoin("students", "responsible_students.student_registration", "=", "students.student_registration")
-        ->join("contacts", "responsibles.user_id", "=", "contacts.user_id")
-        ->select('responsibles.responsible_id as id', 'users.name', 'users.last_name', 'users.email', 'users.gender')
-        ->where('responsibles.deleted_at', null)
-        // ->select('students.user_id')->where('students.user_id',)
-        ->get();
+            ->join("users", "responsibles.user_id", "=", "users.user_id")
+            ->leftjoin("responsible_students", "responsibles.responsible_id", "=", "responsible_students.responsible_id")
+            ->leftjoin("students", "responsible_students.student_registration", "=", "students.student_registration")
+            ->join("contacts", "responsibles.user_id", "=", "contacts.user_id")
+            ->select('responsibles.responsible_id as id', 'users.name', 'users.last_name', 'users.email', 'users.gender')
+            ->where('responsibles.deleted_at', null)
+            // ->select('students.user_id')->where('students.user_id',)
+            ->get();
 
         if ($request->ajax()) {
 
             return DataTables()->of($responsible)->make(true);
-
         }
 
         return view('responsible');
-
     }
 
     /**
@@ -60,26 +60,22 @@ class ResponsibleController extends Controller
 
         $userId = $user->store($request);
 
-        if($error->fails()){
+        if ($error->fails()) {
             return response()->json([
-            "error" => true,
-            "message" => $error->errors()->all()
+                "error" => true,
+                "message" => $error->errors()->all()
             ], 400);
-
-        }
-        else if($userId["error"]){
+        } else if ($userId["error"]) {
             return response()->json([
-            "error" => $userId["error"],
-            "message" => $userId["message"]
-        ], 400);
-        }
-        elseif ($userId["error"] && $error->fails()) {
+                "error" => $userId["error"],
+                "message" => $userId["message"]
+            ], 400);
+        } elseif ($userId["error"] && $error->fails()) {
 
             return response()->json([
                 "error" => true,
                 "message" => [$userId["message"], $error->errors()->message()]
             ], 400);
-
         }
 
         Responsible::create([
@@ -109,6 +105,9 @@ class ResponsibleController extends Controller
         ]);
     }
 
+    public function storeExcel(Request $request)
+    {
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -131,14 +130,11 @@ class ResponsibleController extends Controller
                 "error" => true,
                 "message" => $error->errors()->all()
             ], 400);
-
-        }
-        elseif ($userId["error"] == true) {
+        } elseif ($userId["error"] == true) {
             return response()->json([
                 "error" => true,
-                "message" =>$userId["message"]
+                "message" => $userId["message"]
             ], 400);
-
         }
 
         $responsible->update([
@@ -160,7 +156,7 @@ class ResponsibleController extends Controller
      */
     public function destroy($id)
     {
-        if(!Auth::user() || Auth::user()->level <= 7){
+        if (!Auth::user() || Auth::user()->level <= 7) {
             return response()->json([
                 "error" => true,
                 "message" => "Unauthorized"

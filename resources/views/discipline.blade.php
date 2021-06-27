@@ -59,7 +59,7 @@
 
     
     new DataTableController("/dashboard/discipline", colunnsData, 'Discipline', ruleDiscipline, messagesSchoolClass);
-
+    
     </script>
 
 @endsection

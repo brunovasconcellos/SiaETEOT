@@ -78,9 +78,18 @@
 
                 }},
             ];
+        
+        let button = {
+            text: "<i class='fa fa-plus'></i> Novo(Excel)",
+            attr: {
+                id: "new-excel",
+                class: "btn btn-primary"
+            }
+        }
+        
+        let dataTable = new DataTableController("/dashboard/responsible", columsData, 'Responsible', "", "", button);
 
-        new DataTableController("/dashboard/responsible", columsData, 'Responsible', "", "");
-
+        dataTable.createDataExcel("responsible", "Responsável", "excelcreate/responsible");
     </script>
 
 @endsection
