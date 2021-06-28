@@ -273,7 +273,10 @@ class EmployeeController {
                 dataType: "json",
                 success: function (response) {
 
-                    let employeeId = response.employeeId;
+
+                    console.log(response.EmployeeId);
+
+                    var employeeId = response.EmployeeId;
 
                     Swal.fire({
 
@@ -359,7 +362,7 @@ class EmployeeController {
 
                                         let message;
 
-                                        $.each(error.responseJSON.response, function (key, value) {
+                                        $.each(error.response, function (key, value) {
 
                                             message += value;
 
@@ -386,7 +389,7 @@ class EmployeeController {
 
                     let message = "";
 
-                    $.each(error.responseJSON.message, function (key, value) {
+                    $.each(error.message, function (key, value) {
 
                         message += value;
 
@@ -573,7 +576,7 @@ class EmployeeController {
 
                     let message = "";
 
-                    $.each(error.responseJSON.message, function (key, value) {
+                    $.each(error.message, function (key, value) {
 
                         message += value;
 
@@ -637,7 +640,7 @@ class EmployeeController {
 
                             let message;
 
-                            $.each(error.responseJSON.response, function (key, value) {
+                            $.each(error.response, function (key, value) {
 
                                 message += value;
 

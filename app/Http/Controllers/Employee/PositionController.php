@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Employee;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PositionRequest;
 use App\Models\Position;
+use Illuminate\Http\Request;
 
 class PositionController extends Controller
 {
@@ -31,6 +32,8 @@ class PositionController extends Controller
      */
     public function store(PositionRequest $request)
     {
+        $request->validated();
+
         Position::create([
             "position_name" => $request->positionName,
             "workload"      => $request->workload,

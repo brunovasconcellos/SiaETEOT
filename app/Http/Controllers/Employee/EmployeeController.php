@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
+use App\Models\Locality;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -52,6 +53,10 @@ class EmployeeController extends Controller
      */
     public function store(EmployeeRequest $request)
     {
+
+        $localityCep = Locality::validateLocality($request);
+
+
         $user = User::create([
             "name"                          => $request->name,
             "last_name"                     => $request->last_name,
@@ -67,7 +72,7 @@ class EmployeeController extends Controller
             "level"                         => $request->level,
             "num_residence"                 => $request->numResidence,
             "complement_residence"          => $request->complementResidence,
-            "cep_user"                      => $request->cep,
+            "cep_user"                      => $localityCep,
         ]);
 
         $employee = Employee::create([
@@ -84,6 +89,7 @@ class EmployeeController extends Controller
         return response()->json([
             "error" => false,
             "message" => "Employee successfully created.",
+            "EmployeeId" => $employee->employee_id
         ], 201);
     }
 
@@ -114,6 +120,8 @@ class EmployeeController extends Controller
     {
         $employee = Employee::findOrFail($employeeId);
 
+        $localityCep = Locality::validateLocality($request);
+
         $employee->EmployeeUser()->update([
             "name"                          => $request->name,
             "last_name"                     => $request->last_name,
@@ -129,7 +137,7 @@ class EmployeeController extends Controller
             "level"                         => $request->level,
             "num_residence"                 => $request->numResidence,
             "complement_residence"          => $request->complementResidence,
-            "cep_user"                      => $request->cep,
+            "cep_user"                      => $localityCep,
         ]);
 
         $employee->update([

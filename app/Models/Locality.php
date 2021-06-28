@@ -42,7 +42,7 @@ class Locality extends Model
         return $localityId;
 
     }
-    
+
     static function insertLocalityExcel ($data) {
 
         if ($data) {
@@ -71,10 +71,10 @@ class Locality extends Model
             return $locality->cep;
         }
 
-        $locality = ($insertType == "excel") ? Locality::insertLocalityExcel($data): Locality::insertLocality($data); 
+        $locality = ($insertType == "excel") ? Locality::insertLocalityExcel($data): Locality::insertLocality($data);
 
         return $locality;
-        
+
     }
 
 }
