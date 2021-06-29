@@ -126,8 +126,8 @@ return [
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => 'background-dashboard',
-    'classes_sidebar' => ' sidebar-light elevation-4 sidebar-no-expand nav-left nav-left-border', 
-    // 
+    'classes_sidebar' => ' sidebar-light elevation-4 sidebar-no-expand nav-left nav-left-border',
+    //
     'classes_sidebar_nav' => '',
     'classes_topnav' => 'navbar-white navbar-light nav-top',
     'classes_topnav_nav' => 'navbar-expand',
@@ -272,7 +272,7 @@ return [
         [
             'text' => 'Turmas',
             'url'  => 'dashboard/schoolclass',
-            "icon" => "fa fa-book-open",
+            "icon" => "fa fa-users",
             'can'  => 'diretoria',
         ],
 
