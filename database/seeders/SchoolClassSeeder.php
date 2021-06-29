@@ -26,6 +26,28 @@ class SchoolClassSeeder extends Seeder
                 "end_date" => Carbon::now(),
                 "modality" => "Técnico", 
                 "course_id" => 1
+            ],
+            [
+                "school_class_name" => "1231",
+                "school_class_type" => "Integrada",
+                "school_year" => 1,
+                "situation" => "Ativa", 
+                "shift" => "Diurno", 
+                "start_date" => Carbon::now(),
+                "end_date" => Carbon::now(),
+                "modality" => "Técnico", 
+                "course_id" => 2
+            ],
+            [
+                "school_class_name" => "2311",
+                "school_class_type" => "Integrada",
+                "school_year" => 1,
+                "situation" => "Ativa", 
+                "shift" => "Diurno", 
+                "start_date" => Carbon::now(),
+                "end_date" => Carbon::now(),
+                "modality" => "Técnico", 
+                "course_id" => 3
             ]
 
         ]);
