@@ -239,7 +239,6 @@ return [
 
         [
             'text' => 'Home',
-            'can'  => ['diretoria'],
             'url'  => 'dashboard/',
             "icon" => "fas fa-home",
         ],
@@ -253,7 +252,6 @@ return [
             'text' => 'Funcionarios',
             'url'  => 'dashboard/employee',
             "icon" => 'fas fa-user-tie',
-            'can'  => 'diretoria',
 
         ],
 
@@ -266,33 +264,28 @@ return [
             'text' => 'Cursos',
             'url'  => 'dashboard/course',
             "icon" => "fa fa-book-open",
-            'can'  => 'diretoria',
         ],
 
         [
             'text' => 'Turmas',
             'url'  => 'dashboard/schoolclass',
             "icon" => "fas fa-chalkboard-teacher",
-            'can'  => ['diretoria', 'orientacao_educacional'],
         ],
 
         [
             'text' => 'Disciplinas',
             'url'  => 'dashboard/discipline',
             "icon" => "fa fa-graduation-cap",
-            'can'  => 'diretoria',
         ],
 
         [
             'text' => 'Ocupação',
             'url'  => 'dashboard/occupation',
             "icon" => "fa fa-sign-language",
-            'can'  => 'diretoria',
         ],
 
         [
             'text' => 'Aluno',
-            'can'  => 'diretoria',
             'icon' => 'fa fa-users',
             'submenu' => [
 
