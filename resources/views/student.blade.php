@@ -2,6 +2,10 @@
 
 @extends('layouts.dashboard')
 
+@section('content2')
+<h3 class="ml-4">Alunos</h3>
+@endsection
+
 @section('th')
 
 
@@ -17,7 +21,7 @@
     <th width="5%">ano</th>
     <th width="10%">celular</th>
     <th width="10%">Ação</th>
-    
+
 </tr>
 
 @endsection
@@ -79,7 +83,7 @@ course
     <script src="{{asset('js/controller/StudentController.js')}}"></script>
 
     <script>
-        
+
 
         let dataTable = new StudentController("", "");
 

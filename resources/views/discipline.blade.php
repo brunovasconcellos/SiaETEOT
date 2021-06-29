@@ -1,6 +1,10 @@
 <?
 @extends('layouts.dashboard')
 
+@section('content2')
+<h3 class="ml-4">Disciplinas</h3>
+@endsection
+
 @section('th')
 
 <tr>
@@ -15,7 +19,7 @@
 @section('input')
 
         <input type="text" class="form-control" name="disciplineName">
-        <input type="text" class="form-control" name="disciplineAbbreviation">  
+        <input type="text" class="form-control" name="disciplineAbbreviation">
 
 @endsection
 
@@ -32,7 +36,7 @@
             {data:"discipline_abbreviation", name:"discipline_abbreviation"}
     ];
 
-    
+
     let ruleDiscipline = {
 
         disciplineName: {
@@ -57,9 +61,9 @@
 
 
 
-    
+
     new DataTableController("/dashboard/discipline", colunnsData, 'Discipline', ruleDiscipline, messagesSchoolClass);
-    
+
     </script>
 
 @endsection

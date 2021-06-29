@@ -1,6 +1,10 @@
 <?
 @extends('layouts.dashboard')
 
+@section('content2')
+<h3 class="ml-4">Responsável</h3>
+@endsection
+
 @section('th')
 
 <tr>
@@ -50,7 +54,7 @@
 
     ID do Usuário <input type="number" class="form-control" name="userId">
 
-    
+
 @endsection
 
 
@@ -78,7 +82,7 @@
 
                 }},
             ];
-        
+
         let button = {
             text: "<i class='fa fa-plus'></i> Novo(Excel)",
             attr: {
@@ -86,7 +90,7 @@
                 class: "btn btn-primary"
             }
         }
-        
+
         let dataTable = new DataTableController("/dashboard/responsible", columsData, 'Responsible', "", "", button);
 
         dataTable.createDataExcel("responsible", "Responsável", "excelcreate/responsible");

@@ -1,6 +1,10 @@
 <?
 @extends('layouts.dashboard')
 
+@section('content2')
+<h3 class="ml-4">Turmas</h3>
+@endsection
+
 @section('th')
 
 <tr>
@@ -24,8 +28,8 @@
         <input type="text" class="form-control" name="schoolClassName">
         <input type="text" class="form-control" name="schoolClassType">
         <input type="number" class="form-control" name="schoolYear">
-        <input type="text" class="form-control" name="situation"> 
-        <input type="text" class="form-control" name="shift"> 
+        <input type="text" class="form-control" name="situation">
+        <input type="text" class="form-control" name="shift">
         <input type="number" class="form-control" name="course">
 
 @endsection
