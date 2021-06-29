@@ -9,7 +9,7 @@
         <div class="login-quadrado">
             <div class="row">
                 <div class="col-md-6 login-img">
-                    <h3>Acesse a Plataforma para ter acesso</h3>
+                    <h3>Seja bem-vindo(a) à plataforma.</h3>
                     {{-- <img src="/storage/imagesAuth/Sia-Gradient.png" alt="login-logo" class="img-fluid"> --}}
 
                 </div>

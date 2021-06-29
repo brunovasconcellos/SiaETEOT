@@ -81,9 +81,14 @@
     </head>
     <body> 
     
-        <div class="menu-top-welcome">
+        <div class="menu-top-welcome-index">
+            <div class="left-menu">
+                <img src="/storage/imagesAuth/sia-gradient.png" alt="login-logo">
+                <h2>SIA ETEOT</h2>
+            </div>
+
             @if (Route::has('login'))
-                <div class="menu-top-welcome top-right">
+                <div class="menu-top-welcome btn-welcome">
                     @auth
                         <a href="{{ url('/dashboard') }}">Home</a>
                     @else
@@ -98,8 +103,10 @@
                 
             @endif
 
-            <h1>Siaeteot</h1>
+        </div>
 
+        <div class="content-index">
+            <div class="img-banner"><span></span></div>
         </div>
 
         <script src="{{asset("js/app.js")}}"></script>
