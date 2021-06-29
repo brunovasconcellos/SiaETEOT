@@ -26,13 +26,13 @@ class StudentController
             {data: "email", name: "email"},
             {data: "gender", name: "gender",  render: function (data, type, row) {
 
-                if (data && data == "f") {
+                if (data && data == "F") {
 
                     return "Feminino";
 
                 }
 
-                if (data && data == "m") {
+                if (data && data == "M") {
 
                     return "Masculino";
 
