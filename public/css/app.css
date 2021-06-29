@@ -27090,3 +27090,9 @@ iframe.uk-cover {
   background-position: center;
 }
 
+.modal-header {
+  border-top: 4px solid #007bff;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+

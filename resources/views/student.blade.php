@@ -24,8 +24,10 @@
 
 @section("input")
 
-name
-<input name="name" class="form-control" type="text">
+<div class="row">
+    <div class="col-6">
+    name
+    <input name="name" class="form-control" type="text">
 lastName
 <input class="form-control" name="last_name" type="text">
 email
@@ -36,7 +38,9 @@ password_confirmation
 <input name="password_confirmation" type="text" class="form-control">
 dateOfBirth
 <input name="date_of_birth" type="text" class="form-control">
-gender
+    </div>
+    <div class="col-6">
+    gender
 <input name="gender" type="text" class="form-control">
 cellPhone
 <input name="cell_phone" type="text" class="form-control">
@@ -70,6 +74,12 @@ modality
 <input name="modality" type="text" class="form-control">
 course
 <input name="course" type="text" class="form-control">
+
+    </div>
+</div>
+
+
+
 
 @endsection
 

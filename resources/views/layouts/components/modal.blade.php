@@ -3,7 +3,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Adicionar</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -15,14 +15,13 @@
           <input id="{{$methodId}}" name="_method" type="hidden" value="">
           <div id="input-box" class="form-group">
             {{$inputs}}
-
           </div>
         </div>
 
         
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" id="{{$modalId}}" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Descartar alterações</button>
+          <button type="submit" id="{{$modalId}}" class="btn btn-primary">Salvar alterações</button>
         </div>
       </form>
     </div>
