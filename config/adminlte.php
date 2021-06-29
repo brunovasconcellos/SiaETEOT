@@ -273,7 +273,7 @@ return [
             'text' => 'Turmas',
             'url'  => 'dashboard/schoolclass',
             "icon" => "fas fa-chalkboard-teacher",
-            'can'  => 'diretoria',
+            'can'  => ['diretoria', 'orientacao_educacional'],
         ],
 
         [

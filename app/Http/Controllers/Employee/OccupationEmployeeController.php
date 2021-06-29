@@ -25,12 +25,12 @@ class OccupationEmployeeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(OccupationEmployeeRequest $request)
+    public function store($id, OccupationEmployeeRequest $request)
     {
         OccupationEmployee::create([
             "start_date"        => $request->startDate,
             "final_date"        => $request->finalDate,
-            "employee_id"       => $request->employee_id,
+            "employee_id"       => $id,
             "occupation_id"     => $request->occupationId
         ]);
 
