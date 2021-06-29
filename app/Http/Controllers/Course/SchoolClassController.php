@@ -36,9 +36,9 @@ class SchoolClassController extends Controller
           return DataTables()->of($schoolClasses)->make(true);
 
         }
-        
+
         return view("schoolclass");
-        
+
     }
 
     /**
@@ -50,7 +50,7 @@ class SchoolClassController extends Controller
 
     public function select2Data()
      {
-        
+
         $schoolClasses = DB::table("school_classes")
         ->select("school_classes.school_class_id", "school_classes.school_class_name")
         ->whereNull("school_classes.deleted_at")
@@ -96,27 +96,24 @@ class SchoolClassController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
-        
-        SchoolClass::findOrFail($id);
+        $schoolClass = DB::table("matriculateds")
+            ->join('students', 'students.student_registration', 'matriculateds.student_registration')
+            ->join('users', 'students.user_id', 'users.user_id')
+            ->where("matriculateds.school_class_id", "=", $id)
+            ->where("matriculateds.deleted_at", "=", null)
+            ->get();
 
-        $schoolClass = DB::table("school_classes")
-        ->select(
-            "school_classes.school_class_id", "school_classes.school_class_name", "school_classes.school_class_type", "school_classes.school_year",
-            "school_classes.situation", "school_classes.shift", "school_classes.start_date", "school_classes.end_date",
-            "school_classes.modality", "courses.course_name", "courses.course_workload"
-            )
-        ->join("courses", "school_classes.course_id", "=", "courses.course_id")
-        ->where("school_classes.school_class_id", "=", $id)
-        ->where("school_classes.deleted_at", "=", null)
-        ->get();
+        if ($request->ajax())
+        {
 
-        return response()->json([
-            "error" => false,
-            "response" => $schoolClass
-        ]);
 
+
+            return DataTables()->of($schoolClass)->make(true);
+
+        }
+        return view("class")->with(compact('schoolClass'));
     }
 
     /**
@@ -159,7 +156,7 @@ class SchoolClassController extends Controller
     public function destroy($id)
     {
         $schoolClass = SchoolClass::findOrFail($id)->delete();
-        
+
         return response()->json([
             "error" => false,
             "School Class successfully deleted."
