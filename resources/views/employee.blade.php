@@ -2,6 +2,9 @@
 
 @extends("layouts.dashboard")
 
+@section('content2')
+<h3 class="ml-4">Funcionários</h3>
+@endsection
 
 @section("th")
 

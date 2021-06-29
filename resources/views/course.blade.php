@@ -1,6 +1,10 @@
 <?
 @extends('layouts.dashboard')
 
+@section('content2')
+<h3 class="ml-4">Cursos</h3>
+@endsection
+
 @section('th')
 
 <tr>
@@ -15,7 +19,7 @@
 @section('input')
 
         <input type="text" class="form-control" name="courseName">
-        <input type="number" min="0" max="9999" class="form-control" name="courseWorkload">  
+        <input type="number" min="0" max="9999" class="form-control" name="courseWorkload">
 
 @endsection
 
@@ -56,7 +60,7 @@ let messagesSchoolClass = {
 }
 
 
-    
+
     new DataTableController("/dashboard/course", colunnsData, 'Course', ruleCourse, messagesSchoolClass);
 
 

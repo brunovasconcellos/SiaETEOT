@@ -1,6 +1,9 @@
 <?
-
 @extends("layouts.dashboard")
+
+@section('content2')
+<h3 class="ml-4">Ocupação</h3>
+@endsection
 
 @section('th')
 <tr>
@@ -24,13 +27,13 @@
 <script>
 
     let colunnsData = [
-        {data:"occupationid", name:"occupationid"},
+        {data:"id", name:"id"},
         {data:"occupation_name", name:"occupation_name"},
 ];
 
     let ruleOccupation = {
 
-                occupationname: {
+                occupationName: {
                     required: true,
                     minlength: 1,
                 },
@@ -38,6 +41,11 @@
 
 let messagesOccupation = {
 
-        schoolClassName: "O campo deve ser preenchido com no minimo 1 letra",
+        occupationName: "O campo deve ser preenchido com no minimo 1 letra",
 
 }
+
+new DataTableController("/dashboard/occupation", colunnsData, 'Occupation', ruleOccupation, messagesOccupation);
+
+</script>
+@endsection

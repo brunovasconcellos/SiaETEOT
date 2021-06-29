@@ -272,7 +272,7 @@ return [
         [
             'text' => 'Turmas',
             'url'  => 'dashboard/schoolclass',
-            "icon" => "fa fa-users",
+            "icon" => "fas fa-chalkboard-teacher",
             'can'  => 'diretoria',
         ],
 
@@ -280,6 +280,13 @@ return [
             'text' => 'Disciplinas',
             'url'  => 'dashboard/discipline',
             "icon" => "fa fa-graduation-cap",
+            'can'  => 'diretoria',
+        ],
+
+        [
+            'text' => 'Ocupação',
+            'url'  => 'dashboard/occupation',
+            "icon" => "fa fa-sign-language",
             'can'  => 'diretoria',
         ],
 
