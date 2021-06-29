@@ -9,22 +9,11 @@
 
 @section('js')
 
-    <script src="{{asset('js/app.js')}}"></script>
 
-<script>
-
-    $(document).ready(function () {
-
-        $("#discipline").select2({})
-
-    });
-
-</script>
 
 @stop
 
 
 @section('content')
 
-<select name="" id="discipline"></select>
 @stop
