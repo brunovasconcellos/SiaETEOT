@@ -98,22 +98,18 @@ class SchoolClassController extends Controller
      */
     public function show($id, Request $request)
     {
-        $schoolClass = DB::table("matriculateds")
-            ->join('students', 'students.student_registration', 'matriculateds.student_registration')
-            ->join('users', 'students.user_id', 'users.user_id')
-            ->where("matriculateds.school_class_id", "=", $id)
-            ->where("matriculateds.deleted_at", "=", null)
-            ->get();
-
         if ($request->ajax())
         {
-
-
+            $schoolClass = DB::table("matriculateds")
+                ->join('students', 'students.student_registration', 'matriculateds.student_registration')
+                ->join('users', 'students.user_id', 'users.user_id')
+                ->where("matriculateds.school_class_id", "=", $id)
+                ->where("matriculateds.deleted_at", "=", null)
+                ->get();
 
             return DataTables()->of($schoolClass)->make(true);
-
         }
-        return view("class")->with(compact('schoolClass'));
+        return view("class");
     }
 
     /**

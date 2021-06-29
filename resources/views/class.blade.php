@@ -13,7 +13,7 @@
      <th width="10%">Sobrenome</th>
      <th width="10%">E-mail</th>
      <th width="15%">CPF</th>
-
+    <th width="15%">Número na Chamada</th>
     <th width="10%">Ação</th>
 </tr>
 
@@ -36,9 +36,10 @@
         {data:"last_name", name:"last_name"},
         {data:"email", name:"email"},
         {data:"cpf", name:"cpf"},
+        {data:"call_number", name:"call_number"},
     ];
 
-        new DataTableController(window.location.pathname, colunnsData, 'SchoolClass');
+        new DataTableController(window.location.pathname, colunnsData, 'Class');
 
 </script>
 
