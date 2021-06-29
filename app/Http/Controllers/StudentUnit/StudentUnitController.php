@@ -27,28 +27,25 @@ class StudentUnitController extends Controller
 
     }
     
-    public function index()
+    public function index(Request $request)
     {
         $studentUnit = DB::table('student_units')
         ->select('su_id', 'su_name', 'su_phone')
         ->where('deleted_at', null)
-        ->paginate(5);
+        ->get();
     
-        if (empty($studentUnit["data"] == false)) {
+       
 
-            return response()->json([
-                "error" => true,
-                "message" => "no registered Student Units.",
-                "response" => null
-            ]);
+    if ($request->ajax())
+        {
+
+          return DataTables()->of($studentUnit)->make(true);
 
         }
+        
 
-        return response()->json([
-            "error" => false,
-            "response" => $studentUnit
-        ], 200);
-
+        return view("studentunit");
+        
     }
 
     /**
