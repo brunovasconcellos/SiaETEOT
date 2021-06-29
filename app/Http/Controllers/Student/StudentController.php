@@ -38,12 +38,12 @@ class StudentController extends Controller
     public function index(Request $request)
     {
 
+        if ($request->ajax()) {
 
-
-            return $students = DB::table('students')
+            $students = DB::table('students')
             ->select(
                 "students.student_registration as id", "users.name", "users.last_name", "users.email",
-                "users.gender", "students.student_type", "users.cell_phone", "matriculateds.matriculated_id as school",
+                "users.gender", "students.student_type", "users.cell_phone",
                 "matriculateds.call_number", "matriculateds.school_year"
              )
             ->selectRaw("GROUP_CONCAT( school_classes.school_class_name) as school_class")
@@ -59,7 +59,7 @@ class StudentController extends Controller
 
             return DataTables()->of($students)->make(true);
 
-
+        }
 
         return view("student");
 
