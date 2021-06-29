@@ -18,7 +18,8 @@ class SchoolReportController extends Controller
      */
     public function index()
     {
-        //
+        
+        return view("schoolreport");
     }
 
     /**
@@ -35,7 +36,7 @@ class SchoolReportController extends Controller
      */
     public function store(SchoolReportCreateRequest $request)
     {
-        
+
         SchoolReport::create([
 
             "matriculated_id" => $request->matriculated_id,
@@ -61,7 +62,6 @@ class SchoolReportController extends Controller
             "error" => false,
             "response" => "School report successfully created."
         ]);
-
     }
 
     /**
@@ -81,7 +81,7 @@ class SchoolReportController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    
+
     /**
      * Update the specified resource in storage.
      *
@@ -118,7 +118,6 @@ class SchoolReportController extends Controller
             "error" => false,
             "response" => "School report successfully updated."
         ]);
-
     }
 
     /**
@@ -129,7 +128,7 @@ class SchoolReportController extends Controller
      */
     public function destroy($id)
     {
-        
+
         $schoolReport = SchoolReport::findOrFail($id);
 
         $schoolReport->delete();
@@ -138,6 +137,5 @@ class SchoolReportController extends Controller
             "error" => false,
             "response" => "School report successfully deleted."
         ]);
-
     }
 }

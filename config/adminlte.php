@@ -277,6 +277,13 @@ return [
         ],
 
         [
+            'text' => 'Disciplinas',
+            'url'  => 'dashboard/discipline',
+            "icon" => "fa fa-graduation-cap",
+            'can'  => 'diretoria',
+        ],
+
+        [
             'text' => 'Aluno',
             'can'  => 'diretoria',
             'icon' => 'fa fa-users',
@@ -302,7 +309,6 @@ return [
                 ]
             ]
         ],
-
     ],
 
     /*
