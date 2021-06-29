@@ -18,17 +18,16 @@ class PositionController extends Controller
     public function index(Request $request)
     {
 
-        if ($request->ajax()){
-        $position = DB::table('positions')
-        ->select('position_id as id', 'position_name', 'workload', 'type')
-        ->where('deleted_at', null)
-        ->get();
+        if ($request->ajax()) {
+            $position = DB::table('positions')
+                ->select('position_id as id', 'position_name', 'workload', 'type')
+                ->where('deleted_at', null)
+                ->get();
 
-    }
+            return DataTables()->of($position)->make(true);
+        }
 
         return view('position');
-
-       
     }
 
     /**

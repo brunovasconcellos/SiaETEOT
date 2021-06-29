@@ -7,7 +7,8 @@
     <th width="10%">ID</th>
 
      <th width="15%">Nome</th>
-     <th width="10%">carga horária</th>
+     <th width="10%">Carga Horária</th>
+     <th width="10%">Tipo</th>
 
 
     <th width="10%">Ação</th>
@@ -26,7 +27,7 @@
 @endsection
 
 @section('scripts')
-
+as
 <script src="{{ asset('js/controller/DataTableController.js') }}"></script>
 
 
@@ -79,9 +80,3 @@ new DataTableController("/dashboard/position", colunnsData, 'Position', rulePosi
 
 
 @endsection
-
-
-
-
-
-?>

@@ -285,6 +285,20 @@ return [
         ],
 
         [
+            'text' => 'Exerce',
+            'url'  => 'dashboard/exert',
+            "icon" => "fa fa-sitemap",
+            'can'  => 'diretoria',
+        ],
+
+        [
+            'text' => 'Cargo',
+            'url'  => 'dashboard/position',
+            "icon" => "fa fa-wrench",
+            'can'  => 'diretoria',
+        ],
+
+        [
             'text' => 'Aluno',
             'icon' => 'fa fa-users',
             'submenu' => [
