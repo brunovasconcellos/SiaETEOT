@@ -7,7 +7,7 @@ class Helper {
         Swal.fire({
 
             title: (type == "success") ? "Tudo certo!" : "Erro!",
-            text: message,
+            html: message,
             confirmButtonText:"<i class='fa fa-check'><i/> Confirmar!",
             confirmButtonAriaLabel: 'Thumbs up, great!',
             icon: type

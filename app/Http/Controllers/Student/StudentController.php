@@ -180,7 +180,7 @@ class StudentController extends Controller
             "level" => $request->level,
             "num_residence" => $request->num_residence,
             "complement_residence" => $request->complement_residence,
-            "cep_user" => $request->cep_user,
+            "cep_user" => $localityCep,
 
         ]);
 

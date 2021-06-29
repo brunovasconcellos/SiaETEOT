@@ -12,7 +12,10 @@ body {
   font-family: "Roboto" !important;
 }
 
-
+.swal-overlay
+{
+  z-index: 100000000000; !important
+}
 
 
 

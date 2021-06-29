@@ -20,7 +20,6 @@ class Locality extends Model
     ];
 
     static function insertLocality ($data) {
-
         if ($data) {
 
             $localityId = DB::table("localities")->insertGetId([

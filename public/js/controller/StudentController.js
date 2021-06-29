@@ -608,8 +608,6 @@ class StudentController
 
             if (!form.valid()) return;
 
-            $("#modal").modal("hide");
-
             $.ajax({
 
                 url: `student/${btnId}`,
@@ -620,7 +618,7 @@ class StudentController
                 processData: false,
                 dataType: "json",
                 success: function (response) {
-
+                    $("#modal").modal("hide");
                     helper.alertMessage("success", response.message);
 
                     $("#list").DataTable().ajax.reload();
@@ -628,13 +626,14 @@ class StudentController
                 },
                 error: function (error) {
 
+
                     let errors = Object.values(error.responseJSON.errors);
 
                     let errorsFormated;
 
                     errors.forEach((data) => {
 
-                        errorsFormated += ` ${data}`;
+                        errorsFormated += ` ${data}</br>`;
 
                     });
 
