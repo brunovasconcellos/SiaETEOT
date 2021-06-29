@@ -17,16 +17,16 @@ class OccupationSeeder extends Seeder
     {
         Occupation::insert([
             [
-                "occupation_name" => "professor"
+                "occupation_name" => "Professor"
             ],
             [
-                "occupation_name" => "coordenador"
+                "occupation_name" => "Coordenador"
             ],
             [
-                "occupation_name" => "diretor"
+                "occupation_name" => "Diretor"
             ],
             [
-                "occupation_name" => "mother_name"
+                "occupation_name" => "Mother_name"
             ]
         ]);
     }

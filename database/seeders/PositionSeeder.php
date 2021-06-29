@@ -17,17 +17,17 @@ class PositionSeeder extends Seeder
     {
         Position::insert([
             [
-                "position_name" => "professor",
+                "position_name" => "Professor",
                 "workload" => "1000",
                 "type" => "1"
             ],
             [
-                "position_name" => "limpeza",
+                "position_name" => "Limpeza",
                 "workload" => "2000",
                 "type" => "2"
             ],
             [
-                "position_name" => "rh",
+                "position_name" => "RH",
                 "workload" => "3000",
                 "type" => "3"
             ]

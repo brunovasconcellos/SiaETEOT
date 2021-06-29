@@ -21,15 +21,15 @@ class DisciplineSeeder extends Seeder
                 "discipline_abbreviation" => "mat"
             ],
             [
-                "discipline_name" => "historia",
+                "discipline_name" => "Historia",
                 "discipline_abbreviation" => "hist"
             ],
             [
-                "discipline_name" => "portugues",
+                "discipline_name" => "Portugues",
                 "discipline_abbreviation" => "port"
             ],
             [
-                "discipline_name" => "filosofia",
+                "discipline_name" => "Filosofia",
                 "discipline_abbreviation" => "filo"
             ]
         ]);
