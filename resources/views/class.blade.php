@@ -7,7 +7,7 @@
 
 @section('th')
 <tr>
-    <th width="10%">Student Registration</th>
+    <th width="10%">Matrícula</th>
 
      <th width="10%">Nome</th>
      <th width="10%">Sobrenome</th>
