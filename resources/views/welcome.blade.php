@@ -79,11 +79,11 @@
             }
         </style>
     </head>
-    <body>
-        <h1>{{ csrf_token() }}</h1>
-        <div class="flex-center position-ref full-height">
+    <body> 
+    
+        <div class="menu-top-welcome">
             @if (Route::has('login'))
-                <div class="top-right links">
+                <div class="menu-top-welcome top-right">
                     @auth
                         <a href="{{ url('/dashboard') }}">Home</a>
                     @else
@@ -94,24 +94,12 @@
                         @endif
                     @endauth
                 </div>
+
+                
             @endif
 
-            <div class="content">
-                <div class="title m-b-md">
-                    <span></span> eteot
-                </div>
+            <h1>Siaeteot</h1>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
         </div>
 
         <script src="{{asset("js/app.js")}}"></script>

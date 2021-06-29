@@ -429,3 +429,25 @@
     color: red;
   }
   
+  .menu-top-welcome{
+    padding-top: 30px;
+    padding-right: 30px;
+    border: 1px solid rgba(128, 128, 128, 0.267);
+  }  
+
+  .menu-top-welcome a{
+    background: #007bff;
+    border: none;
+    color: white;
+    padding: 0;
+    padding: 15px;
+    padding-right: 110px;
+    padding-left: 110px;
+    margin-top: 20px;
+    font-size: 16px;
+    box-shadow: 12px 12px 20px #ccd2f4;
+    -webkit-animation: slide-up-cubic 0.7s cubic-bezier(0, 0.73, 0.53, 1.5);
+    animation: slide-up-cubic 0.7s cubic-bezier(0, 0.73, 0.53, 1.5);
+    border-radius: 13px;
+  }
+
