@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Student;
 
+use App\Models\Locality;
 use App\Models\Student;
 use App\Models\User;
 use App\Imports\StudentImport;
@@ -160,6 +161,8 @@ class StudentController extends Controller
         $studentRegistration = $fixedNumber.$sequentialNumber;
 
         //end generate student registration
+
+        $localityCep = Locality::validateLocality($request);
 
         $user = User::create([
 
