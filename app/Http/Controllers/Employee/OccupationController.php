@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Employee;
 
+use Illuminate\Http\Request;
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OccupationRequest;
 use App\Models\Occupation;
+use Illuminate\Support\Facades\DB;
 
 class OccupationController extends Controller
 {
@@ -13,14 +16,22 @@ class OccupationController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        $occupation = Occupation::get();
+        if ($request->ajax()) {
 
-        return response()->json([
-            "error"             => false,
-            "message"           => $occupation
-        ]);
+            $occupation = DB::table("occupations")
+                ->select(
+                    "occupation_id as id",
+                    "occupation_name"
+                )
+                ->where("deleted_at", "=", null)
+                ->get();
+
+            return DataTables()->of($occupation)->make(true);
+        }
+
+        return view("occupation");
     }
 
     public function select2Data()
@@ -32,11 +43,9 @@ class OccupationController extends Controller
         foreach ($occupations as $occupation) {
 
             $occupationsFormated[] = ["id" => $occupation->occupation_id, "text" => $occupation->occupation_name];
-
         }
 
         return response()->json($occupationsFormated);
-
     }
 
     /**
