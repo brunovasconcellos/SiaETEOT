@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Employee;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PositionRequest;
 use App\Models\Position;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class PositionController extends Controller
@@ -14,14 +15,20 @@ class PositionController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        $position = Position::get();
 
-        return response()->json([
-            "error"         => false,
-            "message"      => $position
-        ]);
+        if ($request->ajax()){
+        $position = DB::table('positions')
+        ->select('position_id as id', 'position_name', 'workload', 'type')
+        ->where('deleted_at', null)
+        ->get();
+
+    }
+
+        return view('position');
+
+       
     }
 
     /**
