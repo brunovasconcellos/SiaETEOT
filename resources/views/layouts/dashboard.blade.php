@@ -19,6 +19,8 @@
 @stop
 
 @section('content')
+
+    @yield('content2')
     
 <div class="list-div p-4">
 <table id="list" class="table table-striped table-bordered" style="width:100%">

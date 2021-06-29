@@ -19,4 +19,9 @@ class SchoolClass extends Model
         "modality", "course_id"
     ];
 
+    public function students()
+    {
+        return $this->belongsToMany(Student::class, 'matriculateds', 'student_registration', 'school_class_id', 'student_registration');
+    }
+
 }

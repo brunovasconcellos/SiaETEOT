@@ -270,6 +270,13 @@ return [
         ],
 
         [
+            'text' => 'Turmas',
+            'url'  => 'dashboard/schoolclass',
+            "icon" => "fa fa-book-open",
+            'can'  => 'diretoria',
+        ],
+
+        [
             'text' => 'Aluno',
             'can'  => 'diretoria',
             'icon' => 'fa fa-users',
