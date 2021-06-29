@@ -234,7 +234,7 @@ class DataTableController {
 
             $("#form-submit").removeClass("edit-data");
 
-            helper.cleanInput("#input-box");
+            //helper.cleanInput("#input-box");
 
         });
 
