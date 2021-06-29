@@ -4,11 +4,11 @@ namespace App\Imports;
 
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToModel;
-use App\User;
-use App\Student;
-use App\StudentComplement;
-use App\Locality;
-use App\Contact;
+use App\Models\User;
+use App\Models\Student;
+use App\Models\StudentComplement;
+use App\Models\Locality;
+use App\Models\Contact;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Hash;
@@ -18,7 +18,7 @@ class StudentImport implements ToModel, WithHeadingRow
     /**
     * @param Collection $collection
     */
-    
+
     public function model(array $row)
     {
         $locality = Locality::validateLocality($row, "excel");
@@ -35,7 +35,6 @@ class StudentImport implements ToModel, WithHeadingRow
             "identity_em_dt" => $row["data_emissao"],
             "identity_issuing_authority" => $row["orgao_emissor"],
             "cpf" => $row["cpf"],
-            "user_name" => $row["nome_usuario"],
             "level" => $row["level"],
             "num_residence" => $row["numero_residencia"],
             "complement_residence" => $row["complemento"],
@@ -75,7 +74,7 @@ class StudentImport implements ToModel, WithHeadingRow
     public function rules(): array
     {
         return [
-            
+
             'cep' => ["required", "size:11"],
             "matricula" => ["required", "unique:students"],
             "nome" => ["required", "string", "max:255"],
@@ -89,7 +88,6 @@ class StudentImport implements ToModel, WithHeadingRow
             "data_emissao" =>  ["required", "date"],
             "orgao_emissor" => ["required", "string", "min:4", "max:20"],
             "cpf" => ["required", "string", "size:11"],
-            "nome_usuario" => ["required", "string", "max:255"],
             "level" => ["required", "size:1"],
             "numero_residencia" => ["required", "string", "max:255"],
             "complemento" => ["required", "string", "max:255"],
@@ -101,7 +99,7 @@ class StudentImport implements ToModel, WithHeadingRow
             "unidade_federacao" => ["required", "string", "size:2"],
             "tipo" => ["required", "string", "max:255"],
             "contato" => ["required", "string"],
-            "nome_pai" => ["required", "string", "max:255"],	
+            "nome_pai" => ["required", "string", "max:255"],
             "nome_mae" => ["required", "string", "max:255"],
             "tipo_estudante" => ["required", "string", "max:255"],
             "situacao_atual" => ["required", "string", "max:255"],

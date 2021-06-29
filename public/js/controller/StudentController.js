@@ -1,5 +1,5 @@
 "use strict";
-class StudentController 
+class StudentController
 {
 
     constructor (rule, message) {
@@ -16,9 +16,9 @@ class StudentController
         this.deleteData(route);
     }
 
-    
+
     createDataTables(route) {
-        
+
         let columsData = [
             {data: "id", name: "id"},
             {data: "name", name: "name"},
@@ -41,6 +41,8 @@ class StudentController
             }},
             {data: "student_type", name: "student_type"},
             {data: "school_class", name: "school_class", render: function (data, type, row) {
+
+                console.log(data);
 
                 if (data) {
 
@@ -77,12 +79,12 @@ class StudentController
             }},
             {data: "cell_phone", name: "cell_phone"}
         ];
-        
+
         columsData.push(
             {
                 data: null,  orderable: false, searchable: false,
                 render: function (data, type, row,) {
-                    
+
                     return `<a href="${route}/${data.id}" title="Visualizar" class="view btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
                             <button type="button" data-id="${data.id}" name="edit" title="Editar" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
                             <button type="button" data-id="${data.id}" name="delete" title="Excluir" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>`
@@ -91,7 +93,7 @@ class StudentController
             }
         );
 
-            
+
         let buttonsTable = [
             {
                 extend: 'excel',
@@ -99,7 +101,7 @@ class StudentController
                 exportOptions: {columns: 'th:not(:last-child)'},
                 title: `Listar Estudantes`,
                 attr: {
-                    
+
                     id: "excel",
                     class: "btn btn-primary"
 
@@ -111,7 +113,7 @@ class StudentController
                 exportOptions: {columns: 'th:not(:last-child)'},
                 title: `Listar Estudantes`,
                 attr: {
-                    
+
                     id: "pdf",
                     class: "btn btn-primary"
 
@@ -155,7 +157,7 @@ class StudentController
         ];
 
         $(document).ready(function () {
-            
+
 
             $("#list").DataTable({
                 processing: true,
@@ -169,14 +171,14 @@ class StudentController
                 pagingType: "full_numbers",
                 responsive: true,
                 columns: columsData,
-    
+
                 dom: "<'row'<'col-sm-12 mb-3'B>>" +
                      "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                      "<'row'<'col-sm-12'tr>>" +
                      "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
 
                 buttons: buttonsTable,
-                    
+
                 language: {
                     "sEmptyTable": "Nenhum registro encontrado",
                     "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros.",
@@ -214,18 +216,18 @@ class StudentController
                         }
                     }
                 }
-                
+
             });
-    
+
         });
-    
+
 
     }
 
     createDataExcel (routeExcel, routeExcelPost) {
 
        $(document).on("click", "#new-excel", () => {
-        
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -237,14 +239,14 @@ class StudentController
                 text: `Insira uma planilha excel para criar um(a) novo(a) Estudantes`,
                 html: ` <a href='/dashboard/download/excel/student' download>Baixar modelo.</a>
                 <form id="form-excel" enctype="multipart/form-data">
-                    <input type="file" id="excel-file" name="excel-file"> 
+                    <input type="file" id="excel-file" name="excel-file">
                 </form>`,
                 confirmButtonText: 'Confirmar',
                 showCancelButton: true,
                 cancelButtonText: "Fechar",
             }).then((result) => {
 
-                if (result.value) {   
+                if (result.value) {
 
                     $.ajax({
 
@@ -398,7 +400,7 @@ class StudentController
                         });
 
                     });
-                    
+
                     $("#modal").modal("hide");
 
                     $("#list").DataTable().ajax.reload();
@@ -436,7 +438,7 @@ class StudentController
         });
 
         $(document).on("click", ".matriculate", function (e) {
-       
+
             e.preventDefault();
 
             Swal.fire({
@@ -458,6 +460,14 @@ class StudentController
                         <div class="form-group">
                             <labe>Número da chamada</label>
                             <input type='number' id='call_number' class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <labe>Disciplina</label>
+                            <input type='number' id='discipline_id' class='form-control'>
+                        </div>
+                        <div class="form-group">
+                            <labe>Tipo de matricula</label>
+                            <input type='number' id='matriculation_type' class='form-control'>
                         </div>
                         <div class="form-group">
                             <labe>Turma</label>
@@ -485,12 +495,14 @@ class StudentController
                         Swal.getPopup().querySelector("#school_year").value,
                         Swal.getPopup().querySelector("#situation").value,
                         Swal.getPopup().querySelector("#call_number").value,
-                        $("#school_class").select2("data")[0].id,                      
-                        
+                        Swal.getPopup().querySelector("#matriculation_type").value,
+                        Swal.getPopup().querySelector("#discipline_id").value,
+                        $("#school_class").select2("data")[0].id,
+
                     ];
 
                     return data;
-                    
+
                 }
 
             }).then((data) => {
@@ -506,11 +518,13 @@ class StudentController
                 formData.append("situation", data.value[2]);
                 formData.append("call_number", data.value[3]);
                 formData.append("school_class_id", data.value[4]);
+                formData.append("discipline_id", data.value[4]);
+                formData.append("matriculation_type", data.value[4]);
                 formData.append("student_registration", btnId);
 
                 $.ajax({
 
-                    url: "standarddiscipline",
+                    url: "matriculated",
                     method: "POST",
                     data: formData,
                     contentType: false,
@@ -518,11 +532,11 @@ class StudentController
                     processData: false,
                     dataType: "json",
                     success: function (response) {
-    
+
                         helper.alertMessage("success", response.response);
 
                         $("#list").DataTable().ajax.reload();
-    
+
                     },
                     error: function (error) {
 
@@ -535,11 +549,11 @@ class StudentController
                             errorsFormated += ` ${data}`;
 
                         });
-                       
+
                         helper.alertMessage("error", errorsFormated);
 
                     }
-                    
+
                 });
 
             });
@@ -565,9 +579,9 @@ class StudentController
             $("#form-submit").removeClass("create-data");
 
             helper.cleanInput("#input-box");
-            
+
         });
-        
+
 
     }
 
@@ -582,7 +596,7 @@ class StudentController
             btnId = $(this).attr("data-id");
 
         });
-        
+
 
         $(document).on("submit", ".edit-data", function (event) {
 
@@ -608,12 +622,12 @@ class StudentController
                 success: function (response) {
 
                     helper.alertMessage("success", response.message);
-                    
+
                     $("#list").DataTable().ajax.reload();
 
                 },
                 error: function (error) {
-                    
+
                     let errors = Object.values(error.responseJSON.errors);
 
                     let errorsFormated;
@@ -623,9 +637,9 @@ class StudentController
                         errorsFormated += ` ${data}`;
 
                     });
-                   
+
                     helper.alertMessage("error", errorsFormated);
-                    
+
                 }
 
             });
@@ -643,7 +657,7 @@ class StudentController
         $(document).on('click', ".delete", function (e) {
 
             e.preventDefault();
-            
+
             let id = $(this).attr("data-id");
 
             Swal.fire({
@@ -669,10 +683,10 @@ class StudentController
                             helper.alertMessage("success", response.message);
 
                             $("#list").DataTable().ajax.reload();
-        
+
                         },
                         error: function (error) {
-                            
+
                             let errors = Object.values(error.responseJSON.errors);
 
                             let errorsFormated;
@@ -682,7 +696,7 @@ class StudentController
                                 errorsFormated += ` ${data}`;
 
                             });
-                        
+
                             helper.alertMessage("error", errorsFormated);
 
                         }

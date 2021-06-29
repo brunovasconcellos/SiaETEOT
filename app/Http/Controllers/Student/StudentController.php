@@ -38,12 +38,12 @@ class StudentController extends Controller
     public function index(Request $request)
     {
 
-        if ($request->ajax()) {
 
-            $students = DB::table('students')
+
+            return $students = DB::table('students')
             ->select(
                 "students.student_registration as id", "users.name", "users.last_name", "users.email",
-                "users.gender", "students.student_type", "users.cell_phone",
+                "users.gender", "students.student_type", "users.cell_phone", "matriculateds.matriculated_id as school",
                 "matriculateds.call_number", "matriculateds.school_year"
              )
             ->selectRaw("GROUP_CONCAT( school_classes.school_class_name) as school_class")
@@ -58,8 +58,8 @@ class StudentController extends Controller
             ->get();
 
             return DataTables()->of($students)->make(true);
-        
-        }
+
+
 
         return view("student");
 
@@ -120,7 +120,7 @@ class StudentController extends Controller
             case "computing":
                 $fixedNumber .= 44;
                 break;
-        
+
             case "health_management":
                 $fixedNumber .= 39;
                 break;
@@ -144,7 +144,7 @@ class StudentController extends Controller
 
         $lastRegistration = DB::table("students")->select("student_registration")->orderByDesc("created_at")->first();
 
-        $lastRegistration != null ? $registrationYear = Str::substr((string) $lastRegistration->student_registration, -12, 2) : $registrationYear = null; 
+        $lastRegistration != null ? $registrationYear = Str::substr((string) $lastRegistration->student_registration, -12, 2) : $registrationYear = null;
 
         if ($registrationYear == date("y")) {
 
@@ -215,7 +215,7 @@ class StudentController extends Controller
 
         return response()->json([
             "error" => false,
-            "response" => $student 
+            "response" => $student
         ]);
 
     }
@@ -284,12 +284,12 @@ class StudentController extends Controller
         $student->StudentUser()->delete();
 
         $student->delete();
-        
+
         return response()->json([
             "error" => false,
             "message" => "Student successfully deleted."
         ]);
 
     }
-    
+
 }
