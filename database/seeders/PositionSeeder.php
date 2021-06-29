@@ -22,12 +22,12 @@ class PositionSeeder extends Seeder
                 "type" => "1"
             ],
             [
-                "position_name" => "Limpeza",
+                "position_name" => "Auxiliar de limpeza",
                 "workload" => "2000",
                 "type" => "2"
             ],
             [
-                "position_name" => "RH",
+                "position_name" => "Auxiliar administrativo RH",
                 "workload" => "3000",
                 "type" => "3"
             ]
