@@ -2,7 +2,7 @@
 @extends("layouts.dashboard")
 
 @section('content2')
-<h3 class="ml-4">Ocupação</h3>
+<h3 class="ml-4">Função</h3>
 @endsection
 
 @section('th')
@@ -15,7 +15,7 @@
 
 @section('input')
 
-        <input type="text" class="form-control" name="occupationName">
+        Nome da função <input type="text" class="form-control" name="occupationName">
 
 @endsection
 

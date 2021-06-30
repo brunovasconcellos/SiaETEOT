@@ -21,24 +21,28 @@ class SchoolClassController extends Controller
     public function index(Request $request)
     {
 
-        if ($request->ajax())
-        {
+        if ($request->ajax()) {
 
-        $schoolClasses = DB::table("school_classes")
-        ->select(
-            "school_classes.school_class_id as id", "school_classes.school_class_name", "school_classes.school_class_type", "school_classes.school_year",
-            "school_classes.situation", "school_classes.shift", "courses.course_name"
-            )
-        ->join("courses", "school_classes.course_id", "=", "courses.course_id")
-        ->where("school_classes.deleted_at", "=", null)
-        ->get();
+            $schoolClasses = DB::table("school_classes")
+                ->select(
+                    "school_classes.school_class_id as id",
+                    "school_classes.school_class_name",
+                    "school_classes.school_class_type",
+                    "school_classes.school_year",
+                    "school_classes.situation",
+                    "school_classes.shift",
+                    "courses.course_name"
+                )
+                ->join("courses", "school_classes.course_id", "=", "courses.course_id")
+                ->where("school_classes.deleted_at", "=", null)
+                ->get();
 
-          return DataTables()->of($schoolClasses)->make(true);
-
+            return DataTables()->of($schoolClasses)->make(true);
         }
 
-        return view("schoolclass");
+        $cursos = Course::all('course_id', 'course_name');
 
+        return view("schoolclass", compact('cursos'));
     }
 
     /**
@@ -49,24 +53,22 @@ class SchoolClassController extends Controller
      */
 
     public function select2Data()
-     {
+    {
 
         $schoolClasses = DB::table("school_classes")
-        ->select("school_classes.school_class_id", "school_classes.school_class_name")
-        ->whereNull("school_classes.deleted_at")
-        ->get();
+            ->select("school_classes.school_class_id", "school_classes.school_class_name")
+            ->whereNull("school_classes.deleted_at")
+            ->get();
 
         $schoolClassesFormated = [];
 
         foreach ($schoolClasses as $schoolClass) {
 
             $schoolClassesFormated[] = ["id" => $schoolClass->school_class_id, "text" => $schoolClass->school_class_name];
-
         }
 
         return response()->json($schoolClassesFormated);
-
-     }
+    }
 
     public function store(SchoolClassRequest $request)
     {
@@ -87,7 +89,6 @@ class SchoolClassController extends Controller
             "error" => false,
             "message" => "School class successfully created."
         ]);
-
     }
 
     /**
@@ -98,8 +99,7 @@ class SchoolClassController extends Controller
      */
     public function show($id, Request $request)
     {
-        if ($request->ajax())
-        {
+        if ($request->ajax()) {
             $schoolClass = DB::table("matriculateds")
                 ->join('students', 'students.student_registration', 'matriculateds.student_registration')
                 ->join('users', 'students.user_id', 'users.user_id')
@@ -140,7 +140,6 @@ class SchoolClassController extends Controller
             "error" => false,
             "message" => "School class successfully updated."
         ]);
-
     }
 
     /**
@@ -157,6 +156,5 @@ class SchoolClassController extends Controller
             "error" => false,
             "School Class successfully deleted."
         ]);
-
     }
 }

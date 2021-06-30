@@ -28,7 +28,7 @@ class SchoolClassRequest extends FormRequest
             "schoolClassType" => ["required", "max:255"],
             "schoolYear" => ["required", "size:4"],
             "situation" => ["required", "max:255"],
-            "shift" => ["required", "size:4"],
+            "shift" => ["required", "max:255"],
             "startDate" => ["required", "date"],
             "endDate" => ["required", "date"],
             "modality" => ["required", "max:255"],

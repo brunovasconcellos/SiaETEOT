@@ -11,6 +11,9 @@ use App\Http\Requests\EmployeeRequest;
 use App\Models\User;
 use App\Models\Employee;
 use App\Models\Exert;
+use App\Models\Sector;
+use App\Models\Position;
+use App\Models\Occupation;
 
 class EmployeeController extends Controller
 {
@@ -21,11 +24,18 @@ class EmployeeController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->ajax())
-        {
+        if ($request->ajax()) {
             $employees = DB::table('employees')
-                ->select("employees.employee_id as id", "exerts.registration","users.name",
-                    "users.last_name", "users.email", "users.gender", "users.cell_phone as contact", "sectors.sector_name")
+                ->select(
+                    "employees.employee_id as id",
+                    "exerts.registration",
+                    "users.name",
+                    "users.last_name",
+                    "users.email",
+                    "users.gender",
+                    "users.cell_phone as contact",
+                    "sectors.sector_name"
+                )
                 ->selectRaw("GROUP_CONCAT(DISTINCT occupations.occupation_name) as occupation_names")
                 ->selectRaw("GROUP_CONCAT(DISTINCT positions.position_name) as position_names")
                 ->join("users", "employees.user_id", "=", "users.user_id")
@@ -42,7 +52,11 @@ class EmployeeController extends Controller
             return DataTables()->of($employees)->make(true);
         }
 
-        return view("employee");
+        $setor = Sector::all('sector_id', 'sector_name');
+        $posicao = Position::all('position_id', 'position_name');
+        $ocupacao = Occupation::all('occupation_id', 'occupation_name');
+
+        return view("employee", compact('setor', 'posicao', 'ocupacao'));
     }
 
     /**

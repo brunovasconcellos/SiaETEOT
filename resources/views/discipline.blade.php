@@ -17,10 +17,8 @@
 @endsection
 
 @section('input')
-
-        <input type="text" class="form-control" name="disciplineName">
-        <input type="text" class="form-control" name="disciplineAbbreviation">
-
+        Nome da Disciplina <input type="text" class="form-control" name="disciplineName">
+        Abreviação <input type="text" class="form-control" name="disciplineAbbreviation">
 @endsection
 
 @section('scripts')

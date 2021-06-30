@@ -249,7 +249,7 @@ return [
         ],
 
         [
-            'text' => 'Funcionarios',
+            'text' => 'Funcionários',
             'url'  => 'dashboard/employee',
             "icon" => 'fas fa-user-tie',
 
@@ -279,13 +279,13 @@ return [
         ],
 
         [
-            'text' => 'Ocupação',
+            'text' => 'Funções',
             'url'  => 'dashboard/occupation',
             "icon" => "fa fa-sign-language",
         ],
 
         [
-            'text' => 'Exerce',
+            'text' => 'Atribuir função',
             'url'  => 'dashboard/exert',
             "icon" => "fa fa-sitemap",
             'can'  => 'diretoria',

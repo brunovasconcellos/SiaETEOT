@@ -1,5 +1,8 @@
 <?
 @extends('layouts.dashboard')
+@section('content2')
+<h3 class="ml-4">Cargo</h3>
+@endsection
 
 @section('th')
 
@@ -19,9 +22,9 @@
 
 @section('input')
 
-        <input type="text" class="form-control" name="positionName">
-        <input type="text" class="form-control" name="workload">
-        <input type="text" class="form-control" name="type">
+        Nome do Cargo <input type="text" class="form-control" name="positionName">
+        Carga Horária <input type="text" class="form-control" name="workload">
+        Tipo do Cargo <input type="text" class="form-control" name="type">
 
 
 @endsection
@@ -50,7 +53,7 @@ as
 
                 workload: {
                     required: true,
-                    number: true,
+                    minlength: 2,
                 },
                 type: {
                     required: true,

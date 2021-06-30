@@ -11,7 +11,7 @@
     <th width="10%">ID</th>
 
      <th width="15%">Nome</th>
-     <th width="10%">Tipo</th>
+     <th width="10%">Modalidade</th>
      <th width="10%">Ano</th>
      <th width="15%">Situação</th>
      <th width="10%">Turno</th>
@@ -24,14 +24,35 @@
 @endsection
 
 @section('input')
-
-        <input type="text" class="form-control" name="schoolClassName">
-        <input type="text" class="form-control" name="schoolClassType">
-        <input type="number" class="form-control" name="schoolYear">
-        <input type="text" class="form-control" name="situation">
-        <input type="text" class="form-control" name="shift">
-        <input type="number" class="form-control" name="course">
-
+        Turma <input type="text" class="form-control" name="schoolClassName">
+        Modalidade <select name="schoolClassType" id="schoolClassType" class="form-control">
+                <option value="" selected>Selecione</option>
+                <option value="Integral">Integral</option>
+                <option value="Subsequente">Subsequente</option>
+            </select>
+        Ano Escolar <input type="number" class="form-control" name="schoolYear">
+        Situação <select name="situation" id="situation" class="form-control">
+                    <option value="" selected>Selecione</option>
+                    <option value="Ativo">Ativo</option>
+                    <option value="Inativo">Inativo</option>
+                </select>
+        Turno <select name="shift" id="shift" class="form-control">
+                <option value="">Selecione</option>
+                <option value="Diurno">Diurno</option>
+                <option value="Noturno">Noturno</option>
+            </select>
+        Curso <select name="course" id="course" class="form-control">
+                <option value="" selected>Selecione</option>
+                @foreach ($cursos as $key => $value)
+                <option value="{{$value->course_id}}">{{$value->course_name}}</option>
+                @endforeach
+            </select>
+            Tipo <select name="modality" id="modality" class="form-control">
+                <option value="" selected>Selecione</option>
+                <option value="Técnico">Técnico</option>
+            </select>
+            Ano de inicio <input type="date" name="startDate" id="startDate" class="form-control">
+            Ano de Término <input type="date" name="endDate" id="endDate" class="form-control">
 @endsection
 
 @section('scripts')
@@ -72,7 +93,16 @@
                 shift: {
                     required: true,
                 },
-
+                modality: {
+                    required: true,
+                    minlength: 1,
+                },
+                startDate: {
+                    required: true,
+                },
+                endDate: {
+                    required: true,
+                },
 }
 
 let messagesSchoolClass = {

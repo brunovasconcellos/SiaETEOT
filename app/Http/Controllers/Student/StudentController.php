@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Exports\StudentExport;
+use App\Models\Course;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\Storage;
@@ -28,12 +29,12 @@ class StudentController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function downloadExcel() {
+    public function downloadExcel()
+    {
 
         $file = Storage::path('public\modelsExcel\student_model.xlsx');
 
         return response()->download($file);
-
     }
 
     public function index(Request $request)
@@ -43,9 +44,15 @@ class StudentController extends Controller
 
             $students = DB::table('students')
                 ->select(
-                    "students.student_registration as id", "users.name", "users.last_name", "users.email",
-                    "users.gender", "students.student_type", "users.cell_phone",
-                    "matriculateds.call_number", "matriculateds.school_year"
+                    "students.student_registration as id",
+                    "users.name",
+                    "users.last_name",
+                    "users.email",
+                    "users.gender",
+                    "students.student_type",
+                    "users.cell_phone",
+                    "matriculateds.call_number",
+                    "matriculateds.school_year"
                 )
                 ->selectRaw("GROUP_CONCAT( school_classes.school_class_name) as school_class")
                 ->join("users", "students.user_id", "=", "users.user_id")
@@ -56,11 +63,12 @@ class StudentController extends Controller
                 ->get();
 
             return DataTables()->of($students)->make(true);
-
         }
 
-        return view("student");
+        $cursos = Course::all('course_id', 'course_name');
 
+
+        return view("student", compact('cursos'));
     }
 
     /**
@@ -70,7 +78,8 @@ class StudentController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function storeExcel (Request $request) {
+    public function storeExcel(Request $request)
+    {
 
         Excel::import(new StudentImport, $request->file("excel-file"));
 
@@ -79,8 +88,7 @@ class StudentController extends Controller
             "response" => "Students successfully created."
 
         ]);
-
-     }
+    }
 
     public function store(StudentRequest $request)
     {
@@ -92,42 +100,38 @@ class StudentController extends Controller
         if ($request->half == 1) {
 
             $fixedNumber .= 10;
-
         }
 
         if ($request->half == 2) {
 
             $fixedNumber .= 20;
-
         }
 
         if ($request->modality == "integral") {
 
             $fixedNumber .= 14;
-
         }
 
         if ($request->modality == "subsequently") {
 
             $fixedNumber .= 15;
-
         }
 
-        switch($request->course) {
+        switch ($request->course) {
 
-            case "computing":
+            case "1":
                 $fixedNumber .= 44;
                 break;
 
-            case "health_management":
+            case "2":
                 $fixedNumber .= 39;
                 break;
 
-            case "administration":
+            case "3":
                 $fixedNumber .= 01;
                 break;
 
-            case "clinical_analysis":
+            case "4":
                 $fixedNumber .= 04;
                 break;
 
@@ -137,7 +141,6 @@ class StudentController extends Controller
                     "message" => "Course not exist."
 
                 ], 400);
-
         }
 
         $lastRegistration = DB::table("students")->select("student_registration")->orderByDesc("created_at")->first();
@@ -146,19 +149,17 @@ class StudentController extends Controller
 
         if ($registrationYear == date("y")) {
 
-            $registrationNumber = Str::substr((string) $lastRegistration->student_registration , 8, 4) + 1;
+            $registrationNumber = Str::substr((string) $lastRegistration->student_registration, 8, 4) + 1;
 
             $sequentialNumber = str_pad($registrationNumber, 4, 0, STR_PAD_LEFT);
-
         }
 
         if ($registrationYear != date("y") || !$registrationYear) {
 
             $sequentialNumber = str_pad(1, 4, 0, STR_PAD_LEFT);
-
         }
 
-        $studentRegistration = $fixedNumber.$sequentialNumber;
+        $studentRegistration = $fixedNumber . $sequentialNumber;
 
         //end generate student registration
 
@@ -199,7 +200,6 @@ class StudentController extends Controller
             "error" => false,
             "message" => "Student is successfully created.",
         ], 201);
-
     }
 
     /**
@@ -217,7 +217,6 @@ class StudentController extends Controller
             "error" => false,
             "response" => $student
         ]);
-
     }
 
     /**
@@ -265,7 +264,6 @@ class StudentController extends Controller
             "error" => false,
             "message" => "Student successfully updated."
         ]);
-
     }
 
     /**
@@ -289,7 +287,5 @@ class StudentController extends Controller
             "error" => false,
             "message" => "Student successfully deleted."
         ]);
-
     }
-
 }

@@ -37,7 +37,7 @@ class EmployeeRequest extends FormRequest
             "identityAuthority"         => ["required", "string", "min:4", "max:20"],
             "cpf"                       => ["required", "string", "size:11"],
             "userName"                  => ["required", "string", "min:2", "max:255"],
-            "level"                     => ["required", "size:1"],
+            "level"                     => ["required"],
             "numResidence"              => ["required", "string", "max:255"],
             "complementResidence"       => ["required", "string", "max:255"],
             "cep"                       => ["required", "size:8"],
