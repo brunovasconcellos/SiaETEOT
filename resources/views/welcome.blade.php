@@ -109,6 +109,31 @@
             <div class="img-banner"><span></span></div>
         </div>
 
+
+        <div class="footer-welcome">
+            <div class="row">
+                <div class="col-4">
+                    <li><a href="">Link</a></li>
+                    <li><a href="">Link</a></li>
+                    <li><a href="">Link</a></li>                    
+                </div>
+                <div class="col-4">
+                    <li><a href="">Link</a></li>
+                    <li><a href="">Link</a></li>
+                    <li><a href="">Link</a></li>
+                </div>
+                <div class="col-4">
+                    <li><a href="">Link</a></li>
+                    <li><a href="">Link</a></li>
+                    <li><a href="">Link</a></li>
+                </div>
+            </div>
+
+            <div class="sub-footer">
+                <p>Todos os direitos reservados a Equipe de Criação Eteot (TCC).</p>
+            </div>
+        </div>
+
         <script src="{{asset("js/app.js")}}"></script>
 
     </body>

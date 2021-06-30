@@ -26986,7 +26986,6 @@ iframe.uk-cover {
 }
 
 .menu-top-welcome-index {
-  border: 1px solid rgba(128, 128, 128, 0.267);
   padding-top: 30px;
   padding-left: 30px;
   padding-right: 30px;
@@ -26996,6 +26995,8 @@ iframe.uk-cover {
   vertical-align: center;
   align-items: center;
   justify-content: space-between;
+  max-width: 90%;
+  margin: 0 auto;
 }
 
 .menu-top-welcome-index img {
@@ -27004,6 +27005,7 @@ iframe.uk-cover {
 
 .menu-top-welcome-index h2 {
   color: #007bff;
+  color: white;
   font-weight: bold;
   text-align: left;
   margin-top: 5px;
@@ -27042,7 +27044,8 @@ iframe.uk-cover {
   background: url("/images/home-banner.jpg");
   background-size: contain;
   background-repeat: no-repeat;
-  background-position: top center;
+  background-position: top left;
+  margin-top: -117px;
 }
 
   /* /////////// */
@@ -27058,4 +27061,38 @@ iframe.uk-cover {
   .modal-dialog{
     max-width: 750px;
   }
+}
+
+.footer-welcome{
+  background: #007bff;
+}
+
+.footer-welcome .row{
+  background: rgb(243, 244, 255);
+  padding-top: 20px;
+}
+
+.footer-welcome .row li{
+  list-style: none;
+  text-align: center;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.footer-welcome .row .col-4 li a{
+  color:#000;
+  text-decoration: none;
+  font-weight: bolder;
+}
+
+
+.footer-welcome .sub-footer{
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.sub-footer p{
+  color: #fff;
+  font-weight: lighter;
+  text-align: center;
 }
