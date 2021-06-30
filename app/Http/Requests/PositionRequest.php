@@ -25,7 +25,7 @@ class PositionRequest extends FormRequest
     {
         return [
             "positionName"  => ["required", "string", "max:255"],
-            "workload"      => ["required", "size:2"],
+            "workload"      => ["required", "size:4"],
             "type"          => ["required", "string", "max:255"]
         ];
     }

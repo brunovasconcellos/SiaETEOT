@@ -18,8 +18,8 @@
 
 @section('input')
 
-        Nome do Curso <input type="text" class="form-control" name="courseName">
-        Carga Horária <input type="number" min="0" max="9999" class="form-control" name="courseWorkload">
+        <input type="text" class="form-control" name="courseName">
+        <input type="number" min="0" max="9999" class="form-control" name="courseWorkload">
 
 @endsection
 

@@ -11,7 +11,7 @@
     <th width="10%">ID</th>
 
      <th width="15%">Nome</th>
-     <th width="10%">Modalidade</th>
+     <th width="10%">Tipo</th>
      <th width="10%">Ano</th>
      <th width="15%">Situação</th>
      <th width="10%">Turno</th>
@@ -24,6 +24,7 @@
 @endsection
 
 @section('input')
+<<<<<<< HEAD
 <div class="row">
     <div class="col-6">
     Turma <input type="text" class="form-control" name="schoolClassName">
@@ -67,6 +68,16 @@
        
         
             
+=======
+
+        <input type="text" class="form-control" name="schoolClassName">
+        <input type="text" class="form-control" name="schoolClassType">
+        <input type="number" class="form-control" name="schoolYear">
+        <input type="text" class="form-control" name="situation">
+        <input type="text" class="form-control" name="shift">
+        <input type="number" class="form-control" name="course">
+
+>>>>>>> parent of af046bd (Mudanças significativas em select e nas funcionalidades)
 @endsection
 
 @section('scripts')
@@ -107,16 +118,7 @@
                 shift: {
                     required: true,
                 },
-                modality: {
-                    required: true,
-                    minlength: 1,
-                },
-                startDate: {
-                    required: true,
-                },
-                endDate: {
-                    required: true,
-                },
+
 }
 
 let messagesSchoolClass = {

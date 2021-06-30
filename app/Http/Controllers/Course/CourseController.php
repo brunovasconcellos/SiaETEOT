@@ -18,44 +18,31 @@ class CourseController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function validator(Request $request)
-    {
+    public function validator(Request $request){
 
         return Validator::make($request->all(), [
 
             'courseName' => ['required', 'string', 'max:255'],
             'courseWorkload' => ['required', 'string', 'size:4']
 
-        ]);
+            ]);
+
     }
 
     public function index(Request $request)
     {
         $course = DB::table('courses')
-            ->select('course_id as id', 'course_name', 'course_workload')
-            ->where('deleted_at', null)
-            ->get();
+        ->select('course_id as id', 'course_name', 'course_workload')
+        ->where('deleted_at', null)
+        ->get();
 
         if ($request->ajax()) // This is what i am needing.
         {
-            return DataTables()->of($course)->make(true);
+          return DataTables()->of($course)->make(true);
         }
-
+        
         return view("course");
-    }
-
-    public function select2Data()
-    {
-        $courses = Course::get();
-
-        $courseFormated = [];
-
-        foreach ($courses as $course) {
-
-            $courseFormated[] = ["id" => $course->course_id, "text" => $course->course_name];
-        }
-
-        return response()->json($courseFormated);
+        
     }
 
     /**
@@ -75,20 +62,22 @@ class CourseController extends Controller
                 "error" => true,
                 "message" => $error->errors()->all()
             ], 400);
-        }
 
-        Course::create([
-
-            "course_name" => $request->courseName,
-            "course_workload" => $request->courseWorkload
-
-        ]);
-
-        return response()->json([
-            "error" => false,
-            "message" => "Course Created"
-        ], 201);
     }
+
+    Course::create([
+
+        "course_name" => $request->courseName,
+        "course_workload" => $request->courseWorkload
+
+    ]);
+
+    return response()->json([
+        "error" => false,
+        "message" => "Course Created"
+    ], 201);
+
+}
 
     /**
      * Display the specified resource.
@@ -102,7 +91,7 @@ class CourseController extends Controller
 
         return response()->json([
             "error" => false,
-            "response" => Course::where('course_id', $id)->select('course_id as id', 'course_name', 'course_workload')->get()
+            "response" => Course::where('course_id', $id)->select('course_id as id','course_name', 'course_workload')->get()
         ], 200);
     }
 
@@ -128,6 +117,7 @@ class CourseController extends Controller
                 "message" => $error->errors()->all()
 
             ], 400);
+
         }
 
         $course->update([
@@ -140,7 +130,7 @@ class CourseController extends Controller
             "error" => false,
             "message" => "Course successfully updated."
         ], 200);
-    }
+    } 
 
     /**
      * Remove the specified resource from storage.
@@ -152,9 +142,11 @@ class CourseController extends Controller
     {
         $course = Course::findOrFail($id)->delete();
 
-        return response()->json([
-            "error" => false,
-            "message" => "Course successfully deleted."
-        ], 200);
+            return response()->json([
+                "error" => false,
+                "message" => "Course successfully deleted."
+            ],200);
+
     }
+
 }

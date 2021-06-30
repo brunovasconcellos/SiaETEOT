@@ -2,7 +2,7 @@
 @extends('layouts.dashboard')
 
 @section('content2')
-    <h3 class="ml-4"><i class="fa fa-caret-left" aria-hidden="true"></i> <a class="text-black-50" href="{{ route('schoolclass.index') }}">Voltar as Turmas</a></h3>
+    <h3 class="ml-4"><a class="text-black-50" href="{{ route('schoolclass.index') }}">Voltar as Turmas</a></h3>
 @endsection
 
 @section('th')
@@ -21,12 +21,7 @@
 @endsection
 
 @section('input')
-Matricula <input type="text" class="form-control" name="studentRegistration">
-Nome <input type="text" class="form-control" name="name">
-Sobrenome <input type="text" class="form-control" name="lastName">
-E-mail <input type="text" class="form-control" name="email">
-CPF <input type="text" class="form-control" name="cpf">
-Número na chamada <input type="text" class="form-control" name="callNumber">
+
 @endsection
 
 @section('scripts')
@@ -44,9 +39,10 @@ Número na chamada <input type="text" class="form-control" name="callNumber">
         {data:"call_number", name:"call_number"},
     ];
 
-        new DataTableController(window.location.pathname, colunnsData, 'Alunos');
+        new DataTableController(window.location.pathname, colunnsData, 'Class');
 
 </script>
+
 
 
 @endsection

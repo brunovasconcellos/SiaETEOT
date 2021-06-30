@@ -2,7 +2,7 @@
 @extends("layouts.dashboard")
 
 @section('content2')
-<h3 class="ml-4">Atribui Função</h3>
+<h3 class="ml-4">Exert</h3>
 @endsection
 
 @section('th')

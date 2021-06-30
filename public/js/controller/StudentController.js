@@ -344,17 +344,11 @@ class StudentController
 
                         title: "Complemento do estudante.",
                         html: `<input id="student_registration" type=hidden value="${response.studentRegistration}">
-                            Tipo de Ingresso
                             <input type="text" id="ingress_type" name="ingress_type" class="swal2-input">
-                            Forma de Ingresso
                             <input type="text" id="ingress_form" name="ingress_form"class="swal2-input">
-                            Ultima Escola
                             <input type="text" id="last_school" name="last_school" class="swal2-input">
-                            Tipo de vaga
                             <input type="text" id="vagacy_type" name="vagacy_type" class="swal2-input">
-                            Identidade Educasenso
                             <input type="number" id="ident_educacenso" name="ident_educacenso" class="swal2-input">
-                            Grade do ano passado
                             <input type="number" id="year_last_grade" name="year_last_grade" class="swal2-input">
                         `,
                         preConfirm: () => {
