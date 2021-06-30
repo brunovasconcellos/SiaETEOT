@@ -24,19 +24,23 @@
 @endsection
 
 @section('input')
-        Turma <input type="text" class="form-control" name="schoolClassName">
-        Modalidade <select name="schoolClassType" id="schoolClassType" class="form-control">
+<div class="row">
+    <div class="col-6">
+    Turma <input type="text" class="form-control" name="schoolClassName">
+    Modalidade <select name="schoolClassType" id="schoolClassType" class="form-control">
+            <option value="" selected>Selecione</option>
+            <option value="Integral">Integral</option>
+            <option value="Subsequente">Subsequente</option>
+        </select>
+    Ano Escolar <input type="number" class="form-control" name="schoolYear">
+    Situação <select name="situation" id="situation" class="form-control">
                 <option value="" selected>Selecione</option>
-                <option value="Integral">Integral</option>
-                <option value="Subsequente">Subsequente</option>
+                <option value="Ativo">Ativo</option>
+                <option value="Inativo">Inativo</option>
             </select>
-        Ano Escolar <input type="number" class="form-control" name="schoolYear">
-        Situação <select name="situation" id="situation" class="form-control">
-                    <option value="" selected>Selecione</option>
-                    <option value="Ativo">Ativo</option>
-                    <option value="Inativo">Inativo</option>
-                </select>
-        Turno <select name="shift" id="shift" class="form-control">
+    </div>
+    <div class="col-6">
+    Turno <select name="shift" id="shift" class="form-control">
                 <option value="">Selecione</option>
                 <option value="Diurno">Diurno</option>
                 <option value="Noturno">Noturno</option>
@@ -51,8 +55,18 @@
                 <option value="" selected>Selecione</option>
                 <option value="Técnico">Técnico</option>
             </select>
-            Ano de inicio <input type="date" name="startDate" id="startDate" class="form-control">
-            Ano de Término <input type="date" name="endDate" id="endDate" class="form-control">
+            <div class="row">
+                <div class="col-6">Ano de inicio <input type="date" name="startDate" id="startDate" class="form-control"></div>
+                <div class="col-6">Ano de Término <input type="date" name="endDate" id="endDate" class="form-control"></div>
+            </div>
+            
+            
+    </div>
+</div>
+
+       
+        
+            
 @endsection
 
 @section('scripts')

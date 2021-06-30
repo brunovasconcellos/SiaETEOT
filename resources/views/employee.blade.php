@@ -25,7 +25,8 @@
 @endsection
 
 @section("input")
-
+<div class="row">
+    <div class="col-6">
     Nome <input name="name" class="form-control" type="text">
     Sobrenome <input name="last_name"  class="form-control" type="text">
     E-mail <input name="email"  class="form-control" type="email">
@@ -44,6 +45,8 @@
 
     Autoridade Identidade <input name="identityAuthority" class="form-control" type="text">
     CPF <input name="cpf" class="form-control" type="number">
+    </div>
+    <div class="col-6">
     Nick <input name="userName" class="form-control">
     Nivel permissão <select name="level" id="level" class="form-control">
                         <option value="" selected>Selecione</option>
@@ -81,6 +84,10 @@
                 @endforeach
             </select>
 
+    </div>
+</div> 
+    
+    
 
 @endsection
 

@@ -21,8 +21,9 @@
 
 
 @section('input')
-
-    Nome <input name="name" class="form-control" type="text">
+<div class="row">
+<div class="col-6">
+Nome <input name="name" class="form-control" type="text">
     Sobrenome <input name="lastName"  class="form-control" type="text">
     E-mail <input name="email"  class="form-control" type="email">
     Senha <input name="password"  class="form-control" type="password">
@@ -36,23 +37,30 @@
 
     Autoridade Identidade <input name="identityAuthority" class="form-control" type="text">
     CPF <input name="cpf" class="form-control" type="number">
-    Nick <input name="userName" class="form-control">
-    Nivel permissão <input name="level" class="form-control" type="number">
-    Número da residência <input name="numResidence" class="form-control" type="number">
+</div>
+<div class="col-6">
+Nick <input name="userName" class="form-control">
+Nivel permissão <input name="level" class="form-control" type="number">
+Número da residência <input name="numResidence" class="form-control" type="number">
 
-    Complemento <input name="complementResidence" class="form-control" type="text">
-    CEP <input name="cep" class="form-control" type="number">
-    Lugar Publico<input name="tpPublicPlace" class="form-control" type="text">
-    Lugar <input name="publicPlace" class="form-control" type="text">
-    Vizinho <input name="neighborhood" class="form-control" type="text">
+Complemento <input name="complementResidence" class="form-control" type="text">
+CEP <input name="cep" class="form-control" type="number">
+Lugar Publico<input name="tpPublicPlace" class="form-control" type="text">
+Lugar <input name="publicPlace" class="form-control" type="text">
+Vizinho <input name="neighborhood" class="form-control" type="text">
 
-    Cidade <input name="city" class="form-control" type="text">
-    Unidade de Federação <input name="federationUnit" class="form-control" type="text">
-    Tipo <input name="type" class="form-control" type="text">
-    Contato <input name="contact" class="form-control" type="text">
+Cidade <input name="city" class="form-control" type="text">
+Unidade de Federação <input name="federationUnit" class="form-control" type="text">
+Tipo <input name="type" class="form-control" type="text">
+Contato <input name="contact" class="form-control" type="text">
 
 
-    ID do Usuário <input type="number" class="form-control" name="userId">
+ID do Usuário <input type="number" class="form-control" name="userId">
+</div>
+
+
+    
+    
 
 
 @endsection

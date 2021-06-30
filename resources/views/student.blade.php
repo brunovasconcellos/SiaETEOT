@@ -28,6 +28,9 @@
 
 @section("input")
 
+<div class="row">
+    <div class="col-6">
+        
 Nome <input name="name" class="form-control" type="text">
 Sobrenome <input class="form-control" name="last_name" type="text">
 E-mail <input name="email" class="form-control" type="text">
@@ -63,34 +66,41 @@ Nivel <select name="level" id="level" class="form-control">
     </select>
 
 Numero da casa <input name="num_residence" type="text" class="form-control" value="1">
-Complemento <input name="complement_residence" type="text" class="form-control" value="1">
-CEP <input name="cep_user" type="text" class="form-control" value="12345678">
-Lugar Publico <input name="tpPublicPlace" type="text" class="form-control" value="1">
-Lugar Publico <input name="publicPlace" type="text" class="form-control" value="1">
-Vizinhança <input name="neighborhood" type="text" class="form-control" value="1">
-Cidade <input name="city" type="text" class="form-control" value="1">
-Federação <input name="federationUnit" type="text" class="form-control" value="1">
+    </div>
 
-Nome do Pai <input name="father_name" type="text" class="form-control" value="1">
-Nome da mãe <input name="mather_name" type="text" class="form-control" value="1">
-Tipo do estudante <input name="student_type" type="text" class="form-control" value="1">
-Situação atual <input name="actual_situation" type="text" class="form-control" value="1">
-Turno <select name="half" id="half" class="form-control">
-        <option value="">Selecione</option>
-        <option value="1">Diurno</option>
-        <option value="2">Noturno</option>
-    </select>
-Modalidade <select name="modality" id="modality" class="form-control">
-                <option value="" selected>Selecione</option>
-                <option value="integral">Integral</option>
-                <option value="subsequently">Subsequente</option>
-            </select>
-Curso <select name="course" id="course" class="form-control">
-        <option value="" selected>Selecione</option>
-        @foreach ($cursos as $key => $value)
-        <option value="{{$value->course_id}}">{{$value->course_name}}</option>
-        @endforeach
-    </select>
+    <div class="col-6">
+    Complemento <input name="complement_residence" type="text" class="form-control" value="1">
+    CEP <input name="cep_user" type="text" class="form-control" value="12345678">
+    Lugar Publico <input name="tpPublicPlace" type="text" class="form-control" value="1">
+    Lugar Publico <input name="publicPlace" type="text" class="form-control" value="1">
+    Vizinhança <input name="neighborhood" type="text" class="form-control" value="1">
+    Cidade <input name="city" type="text" class="form-control" value="1">
+    Federação <input name="federationUnit" type="text" class="form-control" value="1">
+    
+    Nome do Pai <input name="father_name" type="text" class="form-control" value="1">
+    Nome da mãe <input name="mather_name" type="text" class="form-control" value="1">
+    Tipo do estudante <input name="student_type" type="text" class="form-control" value="1">
+    Situação atual <input name="actual_situation" type="text" class="form-control" value="1">
+    Turno <select name="half" id="half" class="form-control">
+            <option value="">Selecione</option>
+            <option value="1">Diurno</option>
+            <option value="2">Noturno</option>
+        </select>
+    Modalidade <select name="modality" id="modality" class="form-control">
+                    <option value="" selected>Selecione</option>
+                    <option value="integral">Integral</option>
+                    <option value="subsequently">Subsequente</option>
+                </select>
+    Curso <select name="course" id="course" class="form-control">
+            <option value="" selected>Selecione</option>
+            @foreach ($cursos as $key => $value)
+            <option value="{{$value->course_id}}">{{$value->course_name}}</option>
+            @endforeach
+        </select>
+    </div>
+</div>
+
+
 @endsection
 
 @section("scripts")
