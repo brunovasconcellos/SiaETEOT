@@ -10,7 +10,7 @@
 
 <tr>
     <th width="5%">ID</th>
-    <th width="10%">Matrícula</th>
+    <th width="10%">ID Funcional</th>
     <th width="10%">Nome</th>
     <th width="10%">Sobrenome</th>
     <th width="10%">E-mail</th>
@@ -27,6 +27,7 @@
 @section("input")
 <div class="row">
     <div class="col-6">
+    ID Funcional <input name="registration" class="form-control" type="text">
     Nome <input name="name" class="form-control" type="text">
     Sobrenome <input name="last_name"  class="form-control" type="text">
     E-mail <input name="email"  class="form-control" type="email">
@@ -43,7 +44,7 @@
     Identidade <input name="identityRg" class="form-control" type="number">
     Data identidade <input name="identityEmDt" class="form-control" type="date">
 
-    Autoridade Identidade <input name="identityAuthority" class="form-control" type="text">
+    Orgão emissor <input name="identityAuthority" class="form-control" type="text">
     CPF <input name="cpf" class="form-control" type="number">
     </div>
     <div class="col-6">
@@ -62,21 +63,20 @@
                         <option value="10">Diretoria</option>
                         <option value="11">Administrador</option>
                     </select>
+    CEP <input name="cep" class="form-control" type="number">
+    Logradouro <input name="tpPublicPlace" class="form-control" type="text">
     Número da residência <input name="numResidence" class="form-control" type="number">
     Complemento <input name="complementResidence" class="form-control" type="text">
-    CEP <input name="cep" class="form-control" type="number">
-    Lugar Publico <input name="tpPublicPlace" type="text" class="form-control">
-    Lugar Publico <input name="publicPlace" type="text" class="form-control">
-    Vizinhança <input name="neighborhood" type="text" class="form-control">
-    Cidade <input name="city" type="text" class="form-control">
-    Federação <input name="federationUnit" type="text" class="form-control">
-    ID da Setor <select name="sectorId" id="sectorId" class="form-control">
+    Bairro <input name="neighborhood" class="form-control" type="text">
+    Ponto de Referência <input name="publicPlace" class="form-control" type="text">
+    Cidade <input name="city" class="form-control" type="text">
+    Unidade de Federação <input name="federationUnit" class="form-control" type="text">
+    Setor <select name="sectorId" id="sectorId" class="form-control">
                     <option value="" selected>Selecione</option>
                     @foreach ($setor as $key => $value)
                     <option value="{{$value->sector_id}}">{{$value->sector_name}}</option>
                     @endforeach
-                </select>
-    Matricula <input name="registration" class="form-control" type="text">
+            </select>
     Cargo <select name="position_id" id="position_id" class="form-control">
                 <option value="" selected>Selecione</option>
                 @foreach ($posicao as $key => $value)
@@ -85,9 +85,9 @@
             </select>
 
     </div>
-</div> 
-    
-    
+</div>
+
+
 
 @endsection
 

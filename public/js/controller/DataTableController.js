@@ -12,21 +12,19 @@ class DataTableController {
         this.deleteData(route);
     }
 
-    
+
     createDataTables(route, columsData, name, aditionalButton) {
         columsData.push(
             {
                 data: null,  orderable: false, searchable: false,
                 render: function (data, type, row,) {
-                    
+
                     return `<a href="${route}/${data.id}" title="Visualizar" class="view btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
                             <button type="button" id="${data.id}" name="edit" title="Editar" class="edit btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
                             <button type="button" id="${data.id}" name="delete" title="Excluir" class="delete btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>`
                 }
             }
         );
-
-            
         let buttonsTable = [
             {
                 extend: 'excel',
@@ -34,24 +32,44 @@ class DataTableController {
                 exportOptions: {columns: 'th:not(:last-child)'},
                 title: `Listar ${name}s`,
                 attr: {
-                    
+
                     id: "excel",
                     class: "btn btn-primary"
 
                 }
             },
             {
-                extend: 'pdf',
+                extend: 'pdfHtml5',
                 text: '<i class="fas fa-file-pdf"></i> PDF',
                 exportOptions: {columns: 'th:not(:last-child)'},
                 title: `Listar ${name}s`,
                 attr: {
-                    
+
                     id: "pdf",
                     class: "btn btn-primary"
 
-                }
-            },
+                },
+
+                customize: function ( doc ) {
+                    doc.content[1].alignment = 'center';
+                    doc['footer']=(function(page, pages) {
+                        return {
+                        columns: [
+                        "Gerado em "+ new Date().getDate()+"/"+ new Date().getMonth()+"/"+ new Date().getFullYear()+ ' ás '+ new Date().getHours()+':'+ new Date().getMinutes()+':'+ new Date().getSeconds(),
+                        {
+                        alignment: 'right',
+                        text: [
+                        { text: page.toString(), italics: true },
+                        ' de ',
+                        { text: pages.toString(), italics: true }
+                        ]
+                        }
+                        ],
+                        margin: [10, 0]
+                        }
+                        });
+                        doc.content[1].margin = [ 100, 0, 100, 0 ];
+             }},
             {
                 extend: 'print',
                 text: '<i class="fas fa-print"></i> Imprimir',
@@ -81,7 +99,7 @@ class DataTableController {
         if (aditionalButton) {
 
             buttonsTable.push(aditionalButton);
-            
+
         }
 
         $(document).ready(function () {
@@ -98,14 +116,14 @@ class DataTableController {
                 pagingType: "full_numbers",
                 responsive: true,
                 columns: columsData,
-    
+
                 dom: "<'row'<'col-sm-12 mb-3'B>>" +
                      "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                      "<'row'<'col-sm-12'tr>>" +
                      "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
 
                 buttons: buttonsTable,
-                    
+
                 language: {
                     "sEmptyTable": "Nenhum registro encontrado",
                     "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros.",
@@ -143,18 +161,18 @@ class DataTableController {
                         }
                     }
                 }
-                
+
             });
-    
+
         });
-    
+
 
     }
 
     createDataExcel (routeExcel, name, routeExcelPost) {
 
        $(document).on("click", "#new-excel", () => {
-        
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -166,14 +184,14 @@ class DataTableController {
                 text: `Insira uma planilha excel para criar um(a) novo(a) ${name}`,
                 html: ` <a href='download/excel/${routeExcel}' download>Baixar modelo.</a>
                 <form id="form-excel" enctype="multipart/form-data">
-                    <input type="file" id="excel-file" name="excel-file"> 
+                    <input type="file" id="excel-file" name="excel-file">
                 </form>`,
                 confirmButtonText: 'Confirmar',
                 showCancelButton: true,
                 cancelButtonText: "Fechar",
             }).then((result) => {
 
-                if (result.value) {   
+                if (result.value) {
 
                     $.ajax({
 
@@ -268,7 +286,7 @@ class DataTableController {
                 success: function (response) {
 
                     helper.alertMessage("success", response.message);
-                    
+
                     $("#modal").modal("hide");
 
                     $("#list").DataTable().ajax.reload();
@@ -295,7 +313,7 @@ class DataTableController {
 
     }
 
-   
+
 
     showModalUpdate() {
 
@@ -314,9 +332,9 @@ class DataTableController {
             $("#form-submit").removeClass("create-data");
 
             helper.cleanInput("#input-box");
-            
+
         });
-        
+
 
     }
 
@@ -331,7 +349,7 @@ class DataTableController {
             btnId = $(this).attr("id");
 
         });
-        
+
 
         $(document).on("submit", ".edit-data", function (event) {
 
@@ -357,7 +375,7 @@ class DataTableController {
                 success: function (response) {
 
                     helper.alertMessage("success", response.message);
-                    
+
                     $("#list").DataTable().ajax.reload();
 
                 },
@@ -389,7 +407,7 @@ class DataTableController {
         $(document).on('click', ".delete", function (e) {
 
             e.preventDefault();
-            
+
             let id = $(this).attr("id");
 
             Swal.fire({
@@ -415,12 +433,12 @@ class DataTableController {
                             helper.alertMessage("success", response.message);
 
                             $("#list").DataTable().ajax.reload();
-        
+
                         },
                         error: function (error) {
 
                             let message;
-                            
+
                             console.log(error)
 
                             $.each(error.responseJSON.response, function (key, value) {
@@ -430,7 +448,7 @@ class DataTableController {
                             });
 
                             helper.alertMessage("error", message);
-                            
+
                         }
                     });
 

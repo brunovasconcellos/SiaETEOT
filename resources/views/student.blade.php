@@ -10,14 +10,14 @@
 
 
 <tr>
-    <th width="10%">ID</th>
+    <th width="10%">Matricula</th>
+    <th width="8%">Numero chamada</th>
     <th width="10%">Nome</th>
     <th width="10%">Sobrenome</th>
     <th width="10%">E-mail</th>
     <th width="5%">Gênero</th>
     <th width="7%">Tipo de Estudante</th>
     <th width="10%">Turma</th>
-    <th width="8%">Numero chamada</th>
     <th width="5%">Ano</th>
     <th width="10%">Celular</th>
     <th width="10%">Ação</th>
@@ -30,7 +30,7 @@
 
 <div class="row">
     <div class="col-6">
-        
+
 Nome <input name="name" class="form-control" type="text">
 Sobrenome <input class="form-control" name="last_name" type="text">
 E-mail <input name="email" class="form-control" type="text">
@@ -47,7 +47,7 @@ Celular <input name="cell_phone" type="text" class="form-control">
 Identidade <input name="identity_rg" type="text" class="form-control">
 Data da identidade <input name="identity_em_dt" type="date" class="form-control">
 
-Autoridade Identidade <input name="identity_authority" type="text" class="form-control">
+Orgão emissor <input name="identity_authority" type="text" class="form-control">
 CPF <input name="cpf" type="text" class="form-control">
 
 Nivel <select name="level" id="level" class="form-control">
@@ -64,19 +64,17 @@ Nivel <select name="level" id="level" class="form-control">
         <option value="10">Diretoria</option>
         <option value="11">Administrador</option>
     </select>
-
-Numero da casa <input name="num_residence" type="text" class="form-control" value="1">
-    </div>
-
+</div>
     <div class="col-6">
-    Complemento <input name="complement_residence" type="text" class="form-control" value="1">
-    CEP <input name="cep_user" type="text" class="form-control" value="12345678">
-    Lugar Publico <input name="tpPublicPlace" type="text" class="form-control" value="1">
-    Lugar Publico <input name="publicPlace" type="text" class="form-control" value="1">
-    Vizinhança <input name="neighborhood" type="text" class="form-control" value="1">
-    Cidade <input name="city" type="text" class="form-control" value="1">
-    Federação <input name="federationUnit" type="text" class="form-control" value="1">
-    
+CEP <input name="cep" class="form-control" type="number">
+Logradouro <input name="tpPublicPlace" class="form-control" type="text">
+Número da residência <input name="numResidence" class="form-control" type="number">
+Complemento <input name="complementResidence" class="form-control" type="text">
+Bairro <input name="neighborhood" class="form-control" type="text">
+Ponto de Referência <input name="publicPlace" class="form-control" type="text">
+Cidade <input name="city" class="form-control" type="text">
+Unidade de Federação <input name="federationUnit" class="form-control" type="text">
+
     Nome do Pai <input name="father_name" type="text" class="form-control" value="1">
     Nome da mãe <input name="mather_name" type="text" class="form-control" value="1">
     Tipo do estudante <input name="student_type" type="text" class="form-control" value="1">

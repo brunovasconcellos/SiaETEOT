@@ -21,6 +21,17 @@ class StudentController
 
         let columsData = [
             {data: "id", name: "id"},
+            {data: "call_number", name: "call_number", render: function (data, type, row) {
+
+                if (data) {
+
+                    return data;
+
+                }
+
+                return `<p>Não registrado.</p>`
+
+            }},
             {data: "name", name: "name"},
             {data: "last_name", name: "last_name"},
             {data: "email", name: "email"},
@@ -55,17 +66,7 @@ class StudentController
                 return `<button class="btn btn-primary matriculate" data-id="${row.id}">Matricular</button>`;
 
             }},
-            {data: "call_number", name: "call_number", render: function (data, type, row) {
 
-                if (data) {
-
-                    return data;
-
-                }
-
-                return `<p>Não registrado.</p>`
-
-            }},
             {data: "school_year", name: "school_year", render: function (data, type, row) {
 
                 if (data) {
@@ -112,12 +113,34 @@ class StudentController
                 text: '<i class="fas fa-file-pdf"></i> PDF',
                 exportOptions: {columns: 'th:not(:last-child)'},
                 title: `Listar Estudantes`,
+                orientation: 'landscape',
                 attr: {
 
                     id: "pdf",
                     class: "btn btn-primary"
 
-                }
+                },
+                customize: function ( doc ) {
+                    doc.content[1].alignment = 'center';
+                    doc['footer']=(function(page, pages) {
+                        return {
+                        columns: [
+                        "Gerado em "+ new Date().getDate()+"/"+ new Date().getMonth()+"/"+ new Date().getFullYear()+ ' ás '+ new Date().getHours()+':'+ new Date().getMinutes()+':'+ new Date().getSeconds(),
+                        {
+                        alignment: 'right',
+                        text: [
+                        { text: page.toString(), italics: true },
+                        ' de ',
+                        { text: pages.toString(), italics: true }
+                        ]
+                        }
+                        ],
+                        margin: [10, 0]
+                        }
+                        });
+                        doc.content[1].margin = [ 100, 0, 100, 0 ];
+
+             },
             },
             {
                 extend: 'print',

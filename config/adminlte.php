@@ -317,7 +317,7 @@ return [
                 ],
 
                 [
-                    'text' => '➥Transferência de unt.',
+                    'text' => '➥Transferência de UE',
                     'url'  => 'dashboard/transfersus',
                     'icon' => 'fa fa-exchange-alt'
                 ]

@@ -30,39 +30,55 @@ Nome <input name="name" class="form-control" type="text">
     Confime a senha <input name="password_confirmation"  class="form-control" type="password">
 
     Aniversário <input name="dateOfBirth" class="form-control" type="date">
-    Gênero <input name="gender" class="form-control" type="text">
-    Número de celular <input name="cellPhone" class="form-control" type="tel">
+    Sexo <select name="gender" id="gender" class="form-control">
+        <option value="" selected>Selecione</option>
+        <option value="M">Masculino</option>
+        <option value="F">Feminino</option>
+     </select>
+    Número de Celular <input name="cellPhone" class="form-control" type="tel">
     Identidade <input name="identityRg" class="form-control" type="number">
-    Data identidade <input name="identityEmDt" class="form-control" type="date">
+    Data da identidade <input name="identityEmDt" class="form-control" type="date">
 
-    Autoridade Identidade <input name="identityAuthority" class="form-control" type="text">
+    Orgão emissor <input name="identityAuthority" class="form-control" type="text">
     CPF <input name="cpf" class="form-control" type="number">
 </div>
 <div class="col-6">
 Nick <input name="userName" class="form-control">
-Nivel permissão <input name="level" class="form-control" type="number">
-Número da residência <input name="numResidence" class="form-control" type="number">
+Nivel <select name="level" id="level" class="form-control">
+        <option value="" selected>Selecione</option>
+        <option value="1">Aluno</option>
+        <option value="2">Responsável</option>
+        <option value="3">Orientação Educacional</option>
+        <option value="4">Setor Pessoal</option>
+        <option value="5">Inspetoria</option>
+        <option value="6">Supervisão</option>
+        <option value="7">Coordenação</option>
+        <option value="8">Corpo Docente</option>
+        <option value="9">Secretaria</option>
+        <option value="10">Diretoria</option>
+        <option value="11">Administrador</option>
+    </select>
 
-Complemento <input name="complementResidence" class="form-control" type="text">
 CEP <input name="cep" class="form-control" type="number">
-Lugar Publico<input name="tpPublicPlace" class="form-control" type="text">
-Lugar <input name="publicPlace" class="form-control" type="text">
-Vizinho <input name="neighborhood" class="form-control" type="text">
-
+Logradouro <input name="tpPublicPlace" class="form-control" type="text">
+Número da residência <input name="numResidence" class="form-control" type="number">
+Complemento <input name="complementResidence" class="form-control" type="text">
+Bairro <input name="neighborhood" class="form-control" type="text">
+Ponto de Referência <input name="publicPlace" class="form-control" type="text">
 Cidade <input name="city" class="form-control" type="text">
 Unidade de Federação <input name="federationUnit" class="form-control" type="text">
+
 Tipo <input name="type" class="form-control" type="text">
 Contato <input name="contact" class="form-control" type="text">
 
 
-ID do Usuário <input type="number" class="form-control" name="userId">
+Estudante   <select name="userId" id="userId" class="form-control">
+                <option value="" selected>Selecione</option>
+                @foreach ($estudante as $key => $value)
+                <option value="">{{$value->name}} {{$value->last_name}}</option>
+                @endforeach
+            </select>
 </div>
-
-
-    
-    
-
-
 @endsection
 
 

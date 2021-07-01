@@ -15,5 +15,5 @@
 
 
 @section('content')
-
+<span class='display-4'>Olá, Seja Bem Vindo {{Auth::user()->name}}</span>
 @stop

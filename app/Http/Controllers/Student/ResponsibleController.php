@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Student;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UserController;
 use App\Models\Responsible;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -42,8 +43,8 @@ class ResponsibleController extends Controller
 
             return DataTables()->of($responsible)->make(true);
         }
-
-        return view('responsible');
+        $estudante = DB::table('users')->where('deleted_at', null)->where('level', '1')->get();
+        return view('responsible', compact('estudante'));
     }
 
     /**

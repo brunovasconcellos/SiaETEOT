@@ -295,11 +295,11 @@ class EmployeeController {
 
                             Swal.fire({
 
-                                title: "Formulário do professor.",
+                                title: "Habilitar Docente em Disciplina.",
                                 html: `
-                                    <input type="date" id="startDate" name="startDate" class="swal2-input">
-                                    <input type="date" id="endDate" name="endDate" class="swal2-input">
-                                    <select id="disciplines" class="form-control"></select>
+                                    Data de Inicio <input type="date" id="startDate" name="startDate" class="swal2-input">
+                                    Data Final <input type="date" id="endDate" name="endDate" class="swal2-input">
+                                    Disciplina <select id="disciplines" class="form-control"></select>
                                 `,
                                 confirmButtonText: 'Confirmar',
                                 didOpen: () => {
