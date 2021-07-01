@@ -8,7 +8,7 @@
       <link rel="stylesheet" href="{{asset('css/app.css')}}">
       <link rel="stylesheet" href="{{asset('css/sia-style.css')}}">
 
-      <title>Sia eteot</title>
+      <title>SIA ETEOT</title>
 </head>
 
 <body>
@@ -21,6 +21,7 @@
 @component("layouts.components.footer")
 @endcomponent
       <script src="{{asset('js/app.js')}}"></script>
+      
 </body>
 
 </html>

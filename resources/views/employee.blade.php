@@ -41,11 +41,11 @@
             <option value="F">Feminino</option>
         </select>
     Número de celular <input name="cellPhone" class="form-control" type="tel">
-    Identidade <input name="identityRg" class="form-control" type="number">
+    Identidade <input name="identityRg" id="identityRg" class="form-control" type="text" data-mask="00.000.000-0" data-mask-clearifnotmatch="true">
     Data identidade <input name="identityEmDt" class="form-control" type="date">
 
     Orgão emissor <input name="identityAuthority" class="form-control" type="text">
-    CPF <input name="cpf" class="form-control" type="number">
+    CPF <input name="cpf" class="form-control" type="text" data-mask="000.000.000-00">
     </div>
     <div class="col-6">
     Nick <input name="userName" class="form-control">
@@ -63,7 +63,7 @@
                         <option value="10">Diretoria</option>
                         <option value="11">Administrador</option>
                     </select>
-    CEP <input name="cep" class="form-control" type="number">
+    CEP <input name="cep" id="cep" class="form-control" type="text" data-mask="00000-000">
     Logradouro <input name="tpPublicPlace" class="form-control" type="text">
     Número da residência <input name="numResidence" class="form-control" type="number">
     Complemento <input name="complementResidence" class="form-control" type="text">
@@ -92,7 +92,7 @@
 @endsection
 
 @section("increaseElements")
-
+    $("#identityRg").cleanVal();
     <div>
 
     @component("layouts.components.modal", ["modalId" => "modal-occupation", "formId" => "form-occupation", "methodId" => "method-occupation", "buttonId" => "button-occupation"])
@@ -120,7 +120,6 @@
     <script src="{{asset('js/controller/EmployeeController.js')}}"></script>
 
     <script>
-
         let rulesOccupation = {
 
             startDate: {
