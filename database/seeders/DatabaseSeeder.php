@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Discipline;
 use App\Models\Position;
+use App\Models\Responsible;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,7 +24,8 @@ class DatabaseSeeder extends Seeder
             SectorSeeder::class,
             UserSeeder::class,
             CourseSeeder::class,
-            SchoolClassSeeder::class
+            SchoolClassSeeder::class,
+            StudentSeeder::class
             
         ]);
     }
