@@ -92,7 +92,7 @@
 @endsection
 
 @section("increaseElements")
-    $("#identityRg").cleanVal();
+
     <div>
 
     @component("layouts.components.modal", ["modalId" => "modal-occupation", "formId" => "form-occupation", "methodId" => "method-occupation", "buttonId" => "button-occupation"])
