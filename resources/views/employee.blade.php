@@ -27,25 +27,26 @@
 @section("input")
 <div class="row">
     <div class="col-6">
-    ID Funcional <input name="registration" class="form-control" type="text">
+    ID Funcional <input name="registration" class="form-control" type="number">
     Nome <input name="name" class="form-control" type="text">
     Sobrenome <input name="last_name"  class="form-control" type="text">
     E-mail <input name="email"  class="form-control" type="email">
     Senha <input name="password"  class="form-control" type="password">
     Confime a senha <input name="password_confirmation"  class="form-control" type="password">
 
-    Aniversário <input name="dateOfBirth" class="form-control" type="date">
+
+    Data de Nascimento <input name="dateOfBirth" class="form-control" type="date">
     Sexo <select name="gender" id="gender" class="form-control">
             <option value="" selected>Selecione</option>
             <option value="M">Masculino</option>
             <option value="F">Feminino</option>
         </select>
-    Número de celular <input name="cellPhone" class="form-control" type="tel">
-    Identidade <input name="identityRg" id="identityRg" class="form-control" type="text" data-mask="00.000.000-0" data-mask-clearifnotmatch="true">
+    Número de celular <input name="cellPhone" id='celular' class="form-control" type="text" data-mask="(00)00000-0000">
+    Identidade <input name="identityRg" id="identityRg" class="form-control" type="text" data-mask="00.000.000-0">
     Data identidade <input name="identityEmDt" class="form-control" type="date">
 
     Orgão emissor <input name="identityAuthority" class="form-control" type="text">
-    CPF <input name="cpf" class="form-control" type="text" data-mask="000.000.000-00">
+    CPF <input name="cpf" class="form-control" id='cpf' type="text" data-mask="000.000.000-00">
     </div>
     <div class="col-6">
     Nick <input name="userName" class="form-control">
@@ -120,6 +121,20 @@
     <script src="{{asset('js/controller/EmployeeController.js')}}"></script>
 
     <script>
+        function hideDot(){
+            cep = document.getElementById('cep').value
+            celular = document.getElementById('celular').value
+            cpf = document.getElementById('cpf').value
+            identidade = document.getElementById('identityRg').value
+
+            document.getElementById('identityRg').value = identidade.replace(/[^\dX]/g,'')
+            document.getElementById('cep').value = cep.replace(/[^\dX]/g,'')
+            document.getElementById('celular').value = celular.replace(/[^\dX]/g,'')
+            document.getElementById('cpf').value = cpf.replace(/[^\dX]/g,'')
+        }
+
+
+
         let rulesOccupation = {
 
             startDate: {

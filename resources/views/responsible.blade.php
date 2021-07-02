@@ -35,15 +35,14 @@ Nome <input name="name" class="form-control" type="text">
         <option value="M">Masculino</option>
         <option value="F">Feminino</option>
      </select>
-    Número de Celular <input name="cellPhone" class="form-control" type="tel">
-    Identidade <input name="identityRg" class="form-control" type="number">
+    Número de Celular <input name="cellPhone" class="form-control" id='celular' type="text" data-mask="(00)00000-0000">
+    Identidade <input name="identityRg" class="form-control" type="text" id='identityRg' data-mask="00.000.000-0">
     Data da identidade <input name="identityEmDt" class="form-control" type="date">
 
     Orgão emissor <input name="identityAuthority" class="form-control" type="text">
-    CPF <input name="cpf" class="form-control" type="number">
+    CPF <input name="cpf" id='cpf' class="form-control" type="text" data-mask="000.000.000-00">
 </div>
 <div class="col-6">
-Nick <input name="userName" class="form-control">
 Nivel <select name="level" id="level" class="form-control">
         <option value="" selected>Selecione</option>
         <option value="1">Aluno</option>
@@ -59,7 +58,7 @@ Nivel <select name="level" id="level" class="form-control">
         <option value="11">Administrador</option>
     </select>
 
-CEP <input name="cep" class="form-control" type="number">
+CEP <input name="cep" class="form-control" type="text" id='cep' data-mask="00000-000">
 Logradouro <input name="tpPublicPlace" class="form-control" type="text">
 Número da residência <input name="numResidence" class="form-control" type="number">
 Complemento <input name="complementResidence" class="form-control" type="text">
@@ -88,6 +87,17 @@ Estudante   <select name="userId" id="userId" class="form-control">
     <script src="{{ asset('js/controller/DataTableController.js') }}"></script>
 
     <script>
+        function hideDot(){
+            cep = document.getElementById('cep').value
+            celular = document.getElementById('celular').value
+            cpf = document.getElementById('cpf').value
+            identidade = document.getElementById('identityRg').value
+
+            document.getElementById('identityRg').value = identidade.replace(/[^\dX]/g,'')
+            document.getElementById('cep').value = cep.replace(/[^\dX]/g,'')
+            document.getElementById('celular').value = celular.replace(/[^\dX]/g,'')
+            document.getElementById('cpf').value = cpf.replace(/[^\dX]/g,'')
+        }
 
         columsData = [
             {data:"id", name:"id"},

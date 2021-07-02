@@ -30,7 +30,7 @@ class DataTableController {
                 extend: 'excel',
                 text: '<i class="fas fa-file-excel"></i> Excel',
                 exportOptions: {columns: 'th:not(:last-child)'},
-                title: `Listar ${name}s`,
+                title: `Relatório de ${name}`,
                 attr: {
 
                     id: "excel",
@@ -42,7 +42,8 @@ class DataTableController {
                 extend: 'pdfHtml5',
                 text: '<i class="fas fa-file-pdf"></i> PDF',
                 exportOptions: {columns: 'th:not(:last-child)'},
-                title: `Listar ${name}s`,
+                title: `Relatório de ${name}`,
+                orientation: 'landscape',
                 attr: {
 
                     id: "pdf",
@@ -55,7 +56,7 @@ class DataTableController {
                     doc['footer']=(function(page, pages) {
                         return {
                         columns: [
-                        "Gerado em "+ new Date().getDate()+"/"+ new Date().getMonth()+"/"+ new Date().getFullYear()+ ' ás '+ new Date().getHours()+':'+ new Date().getMinutes()+':'+ new Date().getSeconds(),
+                        "Gerado em "+ 0+new Date().getDate()+"/"+ 0+(new Date().getMonth()+1)+"/"+ new Date().getFullYear()+ ' ás '+ new Date().getHours()+':'+ new Date().getMinutes()+':'+ new Date().getSeconds(),
                         {
                         alignment: 'right',
                         text: [
@@ -74,7 +75,7 @@ class DataTableController {
                 extend: 'print',
                 text: '<i class="fas fa-print"></i> Imprimir',
                 exportOptions: {columns: 'th:not(:last-child)'},
-                title: `Listar ${name}s`,
+                title: `Relatório de ${name}`,
                 attr: {
 
                     id: "print",

@@ -28,7 +28,7 @@ class PositionSeeder extends Seeder
             ],
             [
                 "position_name" => "Auxiliar administrativo RH",
-                "workload" => "40",
+                "workload" => "30",
                 "type" => "3"
             ],
             [
@@ -38,12 +38,12 @@ class PositionSeeder extends Seeder
             ],
             [
                 "position_name" => "Inspetor",
-                "workload" => "40",
+                "workload" => "30",
                 "type" => "4"
             ],
             [
                 "position_name" => "Supervisor",
-                "workload" => "40",
+                "workload" => "30",
                 "type" => "6"
             ],
         ]);

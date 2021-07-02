@@ -30,7 +30,6 @@
 @endsection
 
 @section('scripts')
-as
 <script src="{{ asset('js/controller/DataTableController.js') }}"></script>
 
 

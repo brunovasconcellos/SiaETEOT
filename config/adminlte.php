@@ -252,6 +252,7 @@ return [
             'text' => 'Funcionários',
             'url'  => 'dashboard/employee',
             "icon" => 'fas fa-user-tie',
+            'can'  => 'diretoria',
 
         ],
 
@@ -264,24 +265,28 @@ return [
             'text' => 'Cursos',
             'url'  => 'dashboard/course',
             "icon" => "fa fa-book-open",
+            'can'  => 'diretoria',
         ],
 
         [
             'text' => 'Turmas',
             'url'  => 'dashboard/schoolclass',
             "icon" => "fas fa-chalkboard-teacher",
+            'can'  => 'diretoria',
         ],
 
         [
             'text' => 'Disciplinas',
             'url'  => 'dashboard/discipline',
             "icon" => "fa fa-graduation-cap",
+            'can'  => 'diretoria',
         ],
 
         [
             'text' => 'Funções',
             'url'  => 'dashboard/occupation',
             "icon" => "fa fa-sign-language",
+            'can'  => 'diretoria',
         ],
 
         [
@@ -298,31 +303,13 @@ return [
             'can'  => 'diretoria',
         ],
 
+
         [
-            'text' => 'Aluno',
-            'icon' => 'fa fa-users',
-            'submenu' => [
-
-                [
-                    'text' => '➥Alunos',
-                    'url'  => 'dashboard/student',
-                    'icon' => "fa fa-user-graduate",
-
-                ],
-
-                [
-                    'text' => '➥Responsável',
-                    'url'  => 'dashboard/responsible',
-                    'icon' => 'fa fa-user-alt'
-                ],
-
-                [
-                    'text' => '➥Transferência de UE',
-                    'url'  => 'dashboard/transfersus',
-                    'icon' => 'fa fa-exchange-alt'
-                ]
-            ]
-        ],
+            'text' => '➥Alunos',
+            'url'  => 'dashboard/student',
+            'icon' => "fa fa-user-graduate",
+            'can' => 'diretoria',
+        ]
     ],
 
     /*

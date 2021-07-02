@@ -15,11 +15,9 @@
     <th width="10%">Nome</th>
     <th width="10%">Sobrenome</th>
     <th width="10%">E-mail</th>
-    <th width="5%">Gênero</th>
-    <th width="7%">Tipo de Estudante</th>
+    <th width="12%">Gênero</th>
     <th width="10%">Turma</th>
-    <th width="5%">Ano</th>
-    <th width="10%">Celular</th>
+    <th width="15%">Celular</th>
     <th width="10%">Ação</th>
 
 </tr>
@@ -37,18 +35,18 @@ E-mail <input name="email" class="form-control" type="text">
 Senha <input name="password" type="password" class="form-control">
 Confirmação da Senha <input name="password_confirmation" type="password" class="form-control">
 
-Data de nascimento <input name="date_of_birth" type="date" class="form-control">
+Data de Nascimento <input name="date_of_birth" type="date" class="form-control">
 Sexo <select name="gender" id="gender" class="form-control">
         <option value="" selected>Selecione</option>
         <option value="M">Masculino</option>
         <option value="F">Feminino</option>
      </select>
-Celular <input name="cell_phone" type="text" class="form-control">
-Identidade <input name="identity_rg" type="text" class="form-control">
+Celular <input name="cell_phone" id='celular' type="text" class="form-control" data-mask="(00)00000-0000">
+Identidade <input name="identity_rg" id='identityRg' type="text" class="form-control" data-mask="00.000.000-0">
 Data da identidade <input name="identity_em_dt" type="date" class="form-control">
 
 Orgão emissor <input name="identity_authority" type="text" class="form-control">
-CPF <input name="cpf" type="text" class="form-control">
+CPF <input name="cpf" id='cpf' type="text" class="form-control" data-mask="000.000.000-00">
 
 Nivel <select name="level" id="level" class="form-control">
         <option value="" selected>Selecione</option>
@@ -66,19 +64,23 @@ Nivel <select name="level" id="level" class="form-control">
     </select>
 </div>
     <div class="col-6">
-CEP <input name="cep" class="form-control" type="number">
+CEP <input name="cep_user" id='cep' class="form-control" type="text" data-mask="00000-000">
 Logradouro <input name="tpPublicPlace" class="form-control" type="text">
-Número da residência <input name="numResidence" class="form-control" type="number">
-Complemento <input name="complementResidence" class="form-control" type="text">
+Número da residência <input name="num_residence" class="form-control" type="number">
+Complemento <input name="complement_residence" class="form-control" type="text">
 Bairro <input name="neighborhood" class="form-control" type="text">
 Ponto de Referência <input name="publicPlace" class="form-control" type="text">
 Cidade <input name="city" class="form-control" type="text">
 Unidade de Federação <input name="federationUnit" class="form-control" type="text">
 
-    Nome do Pai <input name="father_name" type="text" class="form-control" value="1">
-    Nome da mãe <input name="mather_name" type="text" class="form-control" value="1">
-    Tipo do estudante <input name="student_type" type="text" class="form-control" value="1">
-    Situação atual <input name="actual_situation" type="text" class="form-control" value="1">
+    Nome do Pai <input name="father_name" type="text" class="form-control">
+    Nome da mãe <input name="mather_name" type="text" class="form-control">
+    Tipo do estudante <input name="student_type" type="text" class="form-control">
+    Situação atual <select name="actual_situation" id="situation" class="form-control">
+                <option value="" selected>Selecione</option>
+                <option value="Ativo">Ativo</option>
+                <option value="Inativo">Inativo</option>
+            </select>
     Turno <select name="half" id="half" class="form-control">
             <option value="">Selecione</option>
             <option value="1">Diurno</option>
@@ -107,7 +109,17 @@ Unidade de Federação <input name="federationUnit" class="form-control" type="t
     <script src="{{asset('js/controller/StudentController.js')}}"></script>
 
     <script>
+        function hideDot(){
+            cep = document.getElementById('cep').value
+            celular = document.getElementById('celular').value
+            cpf = document.getElementById('cpf').value
+            identidade = document.getElementById('identityRg').value
 
+            document.getElementById('identityRg').value = identidade.replace(/[^\dX]/g,'')
+            document.getElementById('cep').value = cep.replace(/[^\dX]/g,'')
+            document.getElementById('celular').value = celular.replace(/[^\dX]/g,'')
+            document.getElementById('cpf').value = cpf.replace(/[^\dX]/g,'')
+        }
 
         let dataTable = new StudentController("", "");
 

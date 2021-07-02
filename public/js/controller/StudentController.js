@@ -50,7 +50,6 @@ class StudentController
                 }
 
             }},
-            {data: "student_type", name: "student_type"},
             {data: "school_class", name: "school_class", render: function (data, type, row) {
 
                 console.log(data);
@@ -64,18 +63,6 @@ class StudentController
                 }
 
                 return `<button class="btn btn-primary matriculate" data-id="${row.id}">Matricular</button>`;
-
-            }},
-
-            {data: "school_year", name: "school_year", render: function (data, type, row) {
-
-                if (data) {
-
-                    return data;
-
-                }
-
-                return `<p>Não registrado.</p>`
 
             }},
             {data: "cell_phone", name: "cell_phone"}

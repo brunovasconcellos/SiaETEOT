@@ -35,7 +35,7 @@
       <div class="card card-scss">
         <div class="card-body">
           <h5 class="card-header">Adicionar Aluno</h5>
-          <p class="card-text">ingresse um novo aluno na grade escolar.</p>
+          <p class="card-text">Ingresse um novo aluno na grade escolar.</p>
           <a href="{{url('dashboard/student')}}" class="btn btn-primary">Adicionar</a>
         </div>
       </div>
@@ -44,8 +44,37 @@
         <div class="card card-scss">
           <div class="card-body">
             <h5 class="card-header">Adicionar Responsável</h5>
-            <p class="card-text">Adicione um novo responsável legítimo de um aluno ao sistema.</p>
-            <a href="{{url('dashboard/responsible')}}" class="btn btn-primary">dicionar</a>
+            <p class="card-text">Ingresse um novo responsável legítimo de um aluno ao sistema.</p>
+            <a href="{{url('dashboard/responsible')}}" class="btn btn-primary">Adicionar</a>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+        <div class="card card-scss">
+          <div class="card-body">
+            <h5 class="card-header">Visualizar Turmas</h5>
+            <p class="card-text">Visualize todas as turmas da ETEOT.</p>
+            <a href="{{url('dashboard/schoolclass')}}" class="btn btn-primary">Visualizar</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card card-scss">
+          <div class="card-body">
+            <h5 class="card-header">Visualizar Disciplinas</h5>
+            <p class="card-text">Visualize todas as disciplinas da ETEOT.</p>
+            <a href="{{url('dashboard/discipline')}}" class="btn btn-primary">Visualizar</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card card-scss">
+          <div class="card-body">
+            <h5 class="card-header">Visualizar Cargos</h5>
+            <p class="card-text">Visualize todos os cargos da ETEOT.</p>
+            <a href="{{url('dashboard/position')}}" class="btn btn-primary">Visualizar</a>
           </div>
         </div>
       </div>

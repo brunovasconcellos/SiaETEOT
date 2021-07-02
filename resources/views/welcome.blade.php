@@ -79,8 +79,8 @@
             }
         </style>
     </head>
-    <body> 
-    
+    <body>
+
         <div class="menu-top-welcome-index">
             <div class="left-menu">
                 <img src="/storage/imagesAuth/sia-gradient.png" alt="login-logo">
@@ -100,7 +100,7 @@
                     @endauth
                 </div>
 
-                
+
             @endif
 
         </div>
@@ -109,29 +109,9 @@
             <div class="img-banner"><span></span></div>
         </div>
 
-
-        <div class="footer-welcome">
-            <div class="row">
-                <div class="col-4">
-                    <li><a href="">Link</a></li>
-                    <li><a href="">Link</a></li>
-                    <li><a href="">Link</a></li>                    
-                </div>
-                <div class="col-4">
-                    <li><a href="">Link</a></li>
-                    <li><a href="">Link</a></li>
-                    <li><a href="">Link</a></li>
-                </div>
-                <div class="col-4">
-                    <li><a href="">Link</a></li>
-                    <li><a href="">Link</a></li>
-                    <li><a href="">Link</a></li>
-                </div>
-            </div>
-
-            <div class="sub-footer">
+            <div class="footer-welcome sub-footer">
                 <p>Todos os direitos reservados a Equipe de Criação Eteot (TCC).</p>
-            </div>
+            </>
         </div>
 
         <script src="{{asset("js/app.js")}}"></script>
