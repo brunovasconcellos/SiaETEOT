@@ -19,7 +19,7 @@ class SchoolClassSeeder extends Seeder
             [
                 "school_class_name" => "1151",
                 "school_class_type" => "Integrada",
-                "school_year" => 1,
+                "school_year" => 2021,
                 "situation" => "Ativa", 
                 "shift" => "Diurno", 
                 "start_date" => Carbon::now(),
@@ -30,7 +30,7 @@ class SchoolClassSeeder extends Seeder
             [
                 "school_class_name" => "2151",
                 "school_class_type" => "Integrada",
-                "school_year" => 2,
+                "school_year" => 2021,
                 "situation" => "Ativa", 
                 "shift" => "Diurno", 
                 "start_date" => Carbon::now(),
@@ -41,7 +41,7 @@ class SchoolClassSeeder extends Seeder
             [
                 "school_class_name" => "3151",
                 "school_class_type" => "Integrada",
-                "school_year" => 3,
+                "school_year" => 2021,
                 "situation" => "Ativa", 
                 "shift" => "Diurno", 
                 "start_date" => Carbon::now(),
@@ -53,7 +53,7 @@ class SchoolClassSeeder extends Seeder
             [
                 "school_class_name" => "1231",
                 "school_class_type" => "Integrada",
-                "school_year" => 1,
+                "school_year" => 2021,
                 "situation" => "Ativa", 
                 "shift" => "Diurno", 
                 "start_date" => Carbon::now(),
@@ -64,7 +64,7 @@ class SchoolClassSeeder extends Seeder
             [
                 "school_class_name" => "2131",
                 "school_class_type" => "Integrada",
-                "school_year" => 2,
+                "school_year" => 2021,
                 "situation" => "Ativa", 
                 "shift" => "Diurno", 
                 "start_date" => Carbon::now(),
@@ -75,7 +75,7 @@ class SchoolClassSeeder extends Seeder
             [
                 "school_class_name" => "3231",
                 "school_class_type" => "Integrada",
-                "school_year" => 3,
+                "school_year" => 2021,
                 "situation" => "Ativa", 
                 "shift" => "Diurno", 
                 "start_date" => Carbon::now(),
@@ -87,7 +87,7 @@ class SchoolClassSeeder extends Seeder
             [
                 "school_class_name" => "1201",
                 "school_class_type" => "Integrada",
-                "school_year" => 1,
+                "school_year" => 2021,
                 "situation" => "Ativa", 
                 "shift" => "Diurno", 
                 "start_date" => Carbon::now(),
@@ -98,7 +98,7 @@ class SchoolClassSeeder extends Seeder
             [
                 "school_class_name" => "2101",
                 "school_class_type" => "Integrada",
-                "school_year" => 2,
+                "school_year" => 2021,
                 "situation" => "Ativa", 
                 "shift" => "Diurno", 
                 "start_date" => Carbon::now(),
@@ -109,7 +109,7 @@ class SchoolClassSeeder extends Seeder
             [
                 "school_class_name" => "3101",
                 "school_class_type" => "Integrada",
-                "school_year" => 3,
+                "school_year" => 2021,
                 "situation" => "Ativa", 
                 "shift" => "Diurno", 
                 "start_date" => Carbon::now(),
@@ -121,7 +121,7 @@ class SchoolClassSeeder extends Seeder
             [
                 "school_class_name" => "1241",
                 "school_class_type" => "Integrada",
-                "school_year" => 1,
+                "school_year" => 2021,
                 "situation" => "Ativa", 
                 "shift" => "Diurno", 
                 "start_date" => Carbon::now(),
@@ -132,7 +132,7 @@ class SchoolClassSeeder extends Seeder
             [
                 "school_class_name" => "2141",
                 "school_class_type" => "Integrada",
-                "school_year" => 2,
+                "school_year" => 2021,
                 "situation" => "Ativa", 
                 "shift" => "Diurno", 
                 "start_date" => Carbon::now(),
@@ -143,7 +143,7 @@ class SchoolClassSeeder extends Seeder
             [
                 "school_class_name" => "3241",
                 "school_class_type" => "Integrada",
-                "school_year" => 3,
+                "school_year" => 2021,
                 "situation" => "Ativa", 
                 "shift" => "Diurno", 
                 "start_date" => Carbon::now(),

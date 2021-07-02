@@ -18,32 +18,32 @@ class PositionSeeder extends Seeder
         Position::insert([
             [
                 "position_name" => "Professor",
-                "workload" => "1000",
+                "workload" => "40",
                 "type" => "2"
             ],
             [
                 "position_name" => "Auxiliar de limpeza",
-                "workload" => "2000",
+                "workload" => "40",
                 "type" => "1"
             ],
             [
                 "position_name" => "Auxiliar administrativo RH",
-                "workload" => "3000",
+                "workload" => "40",
                 "type" => "3"
             ],
             [
                 "position_name" => "Diretor",
-                "workload" => "3000",
+                "workload" => "40",
                 "type" => "3"
             ],
             [
                 "position_name" => "Inspetor",
-                "workload" => "3000",
+                "workload" => "40",
                 "type" => "4"
             ],
             [
                 "position_name" => "Supervisor",
-                "workload" => "3000",
+                "workload" => "40",
                 "type" => "6"
             ],
         ]);
