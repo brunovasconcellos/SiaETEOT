@@ -17,7 +17,10 @@ class OccupationSeeder extends Seeder
     {
         Occupation::insert([
             [
-                "occupation_name" => "Corpo Docente"
+                "occupation_name" => "Limpeza"
+            ],
+            [
+                "occupation_name" => "Professor"
             ],
             [
                 "occupation_name" => "Direção"
@@ -27,6 +30,9 @@ class OccupationSeeder extends Seeder
             ],
             [
                 "occupation_name" => "Orientação"
+            ],
+            [
+                "occupation_name" => "Supervisão"
             ]
         ]);
     }
