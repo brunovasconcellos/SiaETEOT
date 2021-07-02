@@ -15,7 +15,7 @@
 
 
 @section('content')
-<span class='display-4'>Olá, Seja Bem Vindo {{Auth::user()->name}}</span>
+<span class='text-welcome-home display-4'>Olá, Seja Bem Vindo {{Auth::user()->name}}</span>
 
 <br>
 <br>
@@ -23,7 +23,7 @@
 <div class="container-fluid">
     <div class="row">
     <div class="col-sm-4">
-      <div class="card">
+      <div class="card card-scss">
         <div class="card-body">
           <h5 class="card-header">Adicionar Funcionário</h5>
           <p class="card-text">Ingresse um novo funcionário como uma nova função.</p>
@@ -32,7 +32,7 @@
       </div>
     </div>
     <div class="col-sm-4">
-      <div class="card">
+      <div class="card card-scss">
         <div class="card-body">
           <h5 class="card-header">Adicionar Aluno</h5>
           <p class="card-text">ingresse um novo aluno na grade escolar.</p>
@@ -41,7 +41,7 @@
       </div>
     </div>
     <div class="col-sm-4">
-        <div class="card">
+        <div class="card card-scss">
           <div class="card-body">
             <h5 class="card-header">Adicionar Responsável</h5>
             <p class="card-text">Adicione um novo responsável legítimo de um aluno ao sistema.</p>
