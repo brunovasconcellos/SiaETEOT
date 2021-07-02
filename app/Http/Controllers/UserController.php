@@ -18,7 +18,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function validator (Request $request)
+    public function validator(Request $request)
     {
         return Validator::make($request->all(), [
 
@@ -33,7 +33,6 @@ class UserController extends Controller
             "identityEmDt" => ["required", "date"],
             "identityAuthority" => ["required", "string", "min:4", "max:20"],
             "cpf" => ["required", "string", "size:11"],
-            "userName" => ["required", "string", "min:2", "max:255"],
             "level" => ["required", "size:1"],
             "numResidence" => ["required", "string", "max:255"],
             "complementResidence" => ["required", "string", "max:255"],
@@ -80,7 +79,6 @@ class UserController extends Controller
             "identity_em_dt" => $request->identityEmDt,
             "identity_issuing_authority" => $request->identityAuthority,
             "cpf" => $request->cpf,
-            "user_name" => $request->userName,
             "level" => $request->level,
             "num_residence" => $request->numResidence,
             "complement_residence" => $request->complementResidence,
@@ -95,7 +93,6 @@ class UserController extends Controller
             "message" => "User created successfully",
             "userId" => $user->user_id
         ];
-
     }
 
     /**
@@ -133,7 +130,6 @@ class UserController extends Controller
             "identity_em_dt" => $request->identityEmDt,
             "identity_authority" => $request->identityAuthority,
             "cpf" => $request->cpf,
-            "user_name" => $request->userName,
             "level" => $request->level,
             "num_residence" => $request->numResidence,
             "complement_residence" => $request->complementResidence,
@@ -164,7 +160,5 @@ class UserController extends Controller
         return [
             "error" => false
         ];
-
     }
-
 }

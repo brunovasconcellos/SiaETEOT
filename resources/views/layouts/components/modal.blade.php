@@ -22,7 +22,7 @@
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-          <button type="submit" id="{{$modalId}}" class="btn btn-primary">Salvar</button>
+          <button type="submit" id="{{$modalId}}" class="btn btn-primary" onclick="hideDot()">Salvar</button>
         </div>
       </form>
     </div>

@@ -25,7 +25,7 @@ class StudentSeeder extends Seeder
                 'mather_name'                   => 'joão',
                 'student_type'                  => 8,
                 'student_registration'          => 20010102312,
-                'user_id'                       => 1
+                'user_id'                       => 56
             ],
             [
                 'actual_situation'              => 'ativo',
@@ -33,7 +33,7 @@ class StudentSeeder extends Seeder
                 'mather_name'                   => 'marco',
                 'student_type'                  => 2,
                 'student_registration'          => 87643918246,
-                'user_id'                       => 2
+                'user_id'                       => 57
             ],
             [
                 'actual_situation'              => 'ativo',
@@ -41,7 +41,7 @@ class StudentSeeder extends Seeder
                 'mather_name'                   => 'tom',
                 'student_type'                  => 1,
                 'student_registration'          => 736248232,
-                'user_id'                       => 3
+                'user_id'                       => 58
             ],
             [
                 'actual_situation'              => 'ativo',
@@ -49,7 +49,7 @@ class StudentSeeder extends Seeder
                 'mather_name'                   => 'carlos',
                 'student_type'                  => 5,
                 'student_registration'          => 2008374232,
-                'user_id'                       => 4
+                'user_id'                       => 59
             ],
             [
                 'actual_situation'              => 'ativo',
@@ -61,11 +61,11 @@ class StudentSeeder extends Seeder
             ],
             [
                 'actual_situation'              => 'ativo',
-                'father_name'                   => 'lorena',
+                'father_name'                   => 'orena',
                 'mather_name'                   => 'tiziu',
                 'student_type'                  => 15,
                 'student_registration'          => 2423102312,
-                'user_id'                       => 6
+                'user_id'                       => 60
             ],
             [
                 'actual_situation'              => 'ativo',
@@ -73,7 +73,7 @@ class StudentSeeder extends Seeder
                 'mather_name'                   => 'paulo',
                 'student_type'                  => 8,
                 'student_registration'          => 20110102312,
-                'user_id'                       => 1
+                'user_id'                       => 61
             ],
             [
                 'actual_situation'              => 'ativo',
@@ -81,7 +81,7 @@ class StudentSeeder extends Seeder
                 'mather_name'                   => 'jão',
                 'student_type'                  => 8,
                 'student_registration'          => 21110102312,
-                'user_id'                       => 9
+                'user_id'                       => 62
             ]
         ]);
     }

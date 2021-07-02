@@ -17,11 +17,11 @@
                     <div class="tot-col-2">
                         <div class="topo-login">
                             <div class="row">
-                            <div class="col-2"><img src="/storage/imagesAuth/Sia-Gradient.png" alt="login-logo" class="img-fluid"></div>                            
+                            <div class="col-2"><img src="/storage/imagesAuth/sia-gradient.png" alt="login-logo" class="img-fluid"></div>
                             <div class="col-6"><h3><strong>Sia</strong> eteot <i class="fas fa-user-circle"></i></h3></div>
                             </div>
-                            
-                            
+
+
                             <hr>
                         </div>
                         <div class="login-form">
@@ -61,9 +61,9 @@
 
                         </div>
                         <hr>
-                        
+
                         <div class="rodape-login">
-                            <p>Caso não tenha login, Contate a direção para fazer seu cadastro na plataforma</p>
+                            <p>Caso não tenha login, contate a secretaria para fazer seu cadastro na plataforma</p>
                         </div>
                     </div>
                 </div>
