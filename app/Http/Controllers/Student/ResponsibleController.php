@@ -80,7 +80,7 @@ class ResponsibleController extends Controller
         }
 
         Responsible::create([
-            "user_id" => $userId["userId"]
+            "user_id" => $user->user_id
         ]);
 
         return response()->json([

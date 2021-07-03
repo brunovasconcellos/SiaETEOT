@@ -42,8 +42,8 @@ class DataTableController {
                 extend: 'pdfHtml5',
                 text: '<i class="fas fa-file-pdf"></i> PDF',
                 exportOptions: {columns: 'th:not(:last-child)'},
-                title: `Relatório de ${name}`,
                 orientation: 'landscape',
+                title: " ",
                 attr: {
 
                     id: "pdf",
@@ -52,24 +52,45 @@ class DataTableController {
                 },
 
                 customize: function ( doc ) {
+
+                    doc['header']=(function(){
+                        return{
+                            columns: [
+                                {
+                                    alignment: 'center',
+                                    fontSize: 20,
+                                    text: `Relatório de ${name}`
+
+                                }
+
+                            ],
+                            margin: 10
+                        }
+                    })
+                    doc.content[1].margin = [ 100, 0, 100, 0 ];
+
                     doc.content[1].alignment = 'center';
                     doc['footer']=(function(page, pages) {
                         return {
-                        columns: [
-                        "Gerado em "+ 0+new Date().getDate()+"/"+ 0+(new Date().getMonth()+1)+"/"+ new Date().getFullYear()+ ' ás '+ new Date().getHours()+':'+ new Date().getMinutes()+':'+ new Date().getSeconds(),
-                        {
-                        alignment: 'right',
-                        text: [
-                        { text: page.toString(), italics: true },
-                        ' de ',
-                        { text: pages.toString(), italics: true }
-                        ]
-                        }
-                        ],
-                        margin: [10, 0]
-                        }
-                        });
-                        doc.content[1].margin = [ 100, 0, 100, 0 ];
+                            columns: [
+                            "Gerado em "+ 0+new Date().getDate()+"/"+ 0+(new Date().getMonth()+1)+"/"+ new Date().getFullYear()+ ' ás '+ new Date().getHours()+':'+ new Date().getMinutes()+':'+ new Date().getSeconds(),
+                                    {
+                                        alignment: 'right',
+                                        text: [
+                                            {
+                                                text: page.toString(), italics: true
+                                            },
+                                        ' de ',
+                                            {
+                                                text: pages.toString(), italics: true
+                                            }
+                                        ]
+                                    }
+                                    ],
+                                        margin: [10, 0]
+                                    }
+                            });
+
              }},
             {
                 extend: 'print',

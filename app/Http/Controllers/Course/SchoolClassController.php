@@ -109,7 +109,10 @@ class SchoolClassController extends Controller
 
             return DataTables()->of($schoolClass)->make(true);
         }
-        return view("class");
+
+
+        $turmas = DB::table('school_classes')->where('school_class_id', $id)->get();
+        return view("class", compact('turmas'));
     }
 
     /**

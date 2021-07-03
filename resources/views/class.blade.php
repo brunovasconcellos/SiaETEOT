@@ -7,14 +7,14 @@
 
 @section('th')
 <tr>
-    <th width="15%">Número na Chamada</th>    
+    <th width="15%">Número na Chamada</th>
     <th width="10%">Matrícula</th>
 
      <th width="10%">Nome</th>
      <th width="10%">Sobrenome</th>
      <th width="10%">E-mail</th>
      <th width="15%">CPF</th>
-    
+
     <th width="10%">Ação</th>
 </tr>
 
@@ -45,7 +45,9 @@ CPF <input type="text" class="form-control" name="cpf">
         {data:"cpf", name:"cpf"},
     ];
 
-        new DataTableController(window.location.pathname, colunnsData, 'Alunos');
+        @foreach ($turmas as $key => $value)
+            new DataTableController(window.location.pathname, colunnsData, 'alunos da turma '+ {{$value->school_class_name}}+ " do ano de "+{{$value->school_year}});
+        @endforeach
 
 </script>
 
