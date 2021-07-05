@@ -533,9 +533,9 @@ class StudentController
                 formData.append("school_year", data.value[1]);
                 formData.append("situation", data.value[2]);
                 formData.append("call_number", data.value[3]);
-                formData.append("school_class_id", data.value[4]);
                 formData.append("discipline_id", data.value[4]);
-                formData.append("matriculation_type", data.value[4]);
+                formData.append("matriculation_type", data.value[5]);
+                formData.append("school_class_id", data.value[6]);
                 formData.append("student_registration", btnId);
 
                 $.ajax({

@@ -290,13 +290,6 @@ return [
         ],
 
         [
-            'text' => 'Atribuir função',
-            'url'  => 'dashboard/exert',
-            "icon" => "fa fa-sitemap",
-            'can'  => 'diretoria',
-        ],
-
-        [
             'text' => 'Cargo',
             'url'  => 'dashboard/position',
             "icon" => "fa fa-wrench",
